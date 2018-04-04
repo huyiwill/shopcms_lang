@@ -1,0 +1,213 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+			<div class="content">
+			<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+				
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">处理意见</div>
+							<div class="tab_option">退货退款信息</div>
+						<div class="tab_option">完成信息</div>
+					</div>
+					<div class="edit_content">
+							 <form class="group-form"  action="{:url('')}" method="post">
+							 <div class="edit_content_tab">
+						     <div class="input_title">退款方式<span>(退款方式)</span></div>
+										 <select name="style" >
+                              {foreach name="style" item="vo" }  
+								<option value="{$key}">{$vo}</option>
+								{/foreach}
+								</select>
+								  <div class="input_title">退款原因<span>(退款原因)</span></div>
+										 <select name="status" >
+                               {foreach name="type" item="vo" }  
+								<option value="{$key}">{$vo}</option>
+								{/foreach}
+  	 
+</select>
+          <div class="input_title">描述<span>(留言)</span></div>
+						  <textarea   name="description" >{$info.description|default=""}</textarea>
+	<div class="upload_div">
+								<div class="input_title">凭证<span>(图片)</span></div>
+								<div class="upload_btn_group">
+									<div class="upload_btn">上传图片</div>
+									<input type="file" class="upload_file" id="uploads"/>
+								</div>
+								<div class="upload_imgs">
+									<input type="hidden" name="cover_id" id="cover_id" value="{$info.cover_id|default=""}"	>
+								 {notempty name="info['cover_id']"}
+						 {php}$list=explode(",",$info['cover_id']);	{/php}
+							{foreach name="list" item="vo" }  
+							<span class="upload_imgs_wrap"> 
+								
+								<img src="{$vo|get_cover_path}" data-id="{$vo}"/>
+						        
+								
+								<span class="close_img"  onclick='delPic(this);'></span>
+							
+							</span>
+						     {/foreach}	
+							{/notempty} 
+						
+									
+									
+									
+								</div>
+							</div>
+					<script type="text/javascript" src="__COMMON__/uploadify/jquery.uploadify.min.js"></script>											
+								<script type="text/javascript">
+				    /* 初始化上传插件 */
+					$(".upload_file").uploadify({
+				        "height"          : 30,
+				        "swf"             : "__COMMON__/uploadify/uploadify.swf",
+				        "fileObjName"     : "download",
+				        "buttonText"      : "上传图片",
+				        "uploader"        : "{:url('File/uploadpicture',array('session_id'=>session_id()))}",
+				        "width"           : 150,
+				        'removeTimeout'	  : 10,
+				        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+				        "onUploadSuccess" : uploadPicture,
+				        'onFallback' : function() {
+				            alert('未检测到兼容版本的Flash.');
+				        }
+				    });
+			function uploadPicture(file, data){
+				    	var data = $.parseJSON(data);
+				    	var src = '';
+				         if(data.status){
+				            src = data.url || data.path;
+							var upload_img = "<div class='upload_imgs_wrap'><img src=" + src +" title='点击显示大图' data-id="+data.id+"> <span class='close' onclick='delPic(this);'></span></div>";
+                            picsbox = $(".upload_imgs_wrap");
+							  picsbox.append(upload_img);
+                                 setVal()
+				        } 
+				    }
+		 function delPic(obj){ //删除
+            $(obj).parents(".upload_imgs_wrap").remove();
+		    setVal();
+	    }
+	    function setVal(){ //取值
+		    var option = $(".upload_imgs_wrap img");
+		    var result=new Array();
+		    option.each(function(i){
+		 	     result.push($(this).attr('data-id'));
+		   });
+           ids= result.join(',');
+           $('#cover_id').val(ids);
+	  }			
+	 				
+					</script>		
+			
+							 <div class="input_title">sku_id<span>(sku编号)</span></div>
+							<input type="text" name="sku_id" class="input_box" value="{$info_sku_id|default=""}"/>
+							 <div class="input_title">goods_id<span>(商品编号)</span></div>
+							<input type="text" name="sku_id" class="input_box" value="{$info_sku_id|default=""}"/>
+							
+							<div class="input_title">总金额<span>(总金额)</span></div>
+						  <input type="text" id="user-weibo" class="input_box" name="money" value="{$info.money|default=""}">
+		
+									  <div class="input_title">创建时间<span>(创建时间)</span></div>
+							<input type="text" name="create_time" id="create_time" class="laydate-icon input_box"
+							value="{notempty name='info.id'}{$info.create_time|time_format}{/notempty}"/>
+				 <script type="text/javascript" src="__COMMON__/laydate/laydate.js"></script>		
+				 	<script>
+laydate({
+  elem: '#create_time',
+  format: 'YYYY-MM-DD hh:mm:ss', 
+  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+});
+</script>	
+							
+							
+							
+				     
+						</div>
+							<div class="edit_content_tab none">
+				  <div class="input_title">设置状态<span>(状态)</span></div>
+							 <select name="status" >
+      	<option value="0">取消</option>	
+		<option value="1">申请中</option>		
+		 <option value="2">同意</option>   
+	 <option value="3">拒绝</option>   
+	 <option value="4">买家已发快递</option> 
+       <option value="5">快递信息错误</option> 
+	   <option value="6">完成</option>	 
+</select>
+			
+					
+						
+						   <div class="input_title">设置当前状态原因<span>(备注同意退款或拒绝的原因)</span></div>
+							 <textarea   name="reason" >{$info.reason|default=""}</textarea>
+							
+                        </div>	
+						
+						
+                       <div class="edit_content_tab none">
+								<div class="input_title">快递单号<span>快递单号)</span></div>
+							<input type="text" name="express_code" class="input_box" value="{$info.express_code|default=""}"/>
+					 
+						    <div class="input_title">快递名称<span>(快递名称)</span></div>
+							<input type="text" name="express" class="input_box" value="{$info.express|default=""}"/>
+							 <div class="input_title">描述<span>(留言)</span></div>
+						  <textarea   name="description" >{$info.description|default=""}</textarea>
+						  
+							 <div class="input_title">更新时间<span>(更新时间)</span></div>
+<input type="text" name="update_time" id="update_time" class="laydate-icon input_box"
+ value="{notempty name='info.id'}{$info.update_time|time_format}{/notempty}"/>
+				 	
+	<script>
+laydate({
+  elem: '#update_time', 
+  format: 'YYYY-MM-DD hh:mm:ss', 
+  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+});
+</script>	
+									
+						
+</div>
+						
+						<div class="edit_content_tab none">
+							 <div class="input_title">完成时间<span>(完成时间)</span></div>
+<input type="text" name="complete_time" id="complete_time" class="laydate-icon input_box" 
+value="{notempty name='info.id'}{$info.complete_time|time_format}{/notempty}"/>
+				 	
+	<script>
+laydate({
+  elem: '#complete_time', 
+  format: 'YYYY-MM-DD hh:mm:ss', 
+  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+});
+</script>
+</div>
+						
+</div>
+					
+				
+						<div class="btn_group">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div></form> 
+					</div>
+				</div>
+			</div>
+		</div>
+	 <script type="text/javascript">
+  
+	$("select[name='status']").val("{$info.status|default='1'}");
+
+	$("select[name='style']").val("{$info.style|default='0'}");
+	$("select[name='type']").val("{$info.type|default='0'}");	
+    </script>
+
+ <script src="__JS__/edit.js"></script>
+
+<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

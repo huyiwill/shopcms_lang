@@ -1,0 +1,156 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+<div class="content none">
+				<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+					</div>
+					<div class="edit_content">
+						 <form class="group-form"  action="{:url('')}" method="post">
+						       <div class="edit_content_tab">
+					              
+								  <div class="form-group w100">
+									<label>内容<span>(详细内容)</span></label>
+									<div class="form-input">
+										<textarea class="am-validate" id="content" name="content" required>{$info.content|default=""}</textarea>	
+										<link rel="stylesheet" href="__COMMON__/kindeditor/default/default.css" />
+										<script charset="utf-8" src="__COMMON__/kindeditor/kindeditor-min.js"></script>
+										<script charset="utf-8" src="__COMMON__/kindeditor/zh_CN.js"></script>
+										<script type="text/javascript">
+											var editor_content;
+											KindEditor.ready(function(K) {
+												editor_content = K.create('textarea[name="content"]', {
+													allowFileManager : false,
+													themesPath: K.basePath,
+													width: '90%',
+													height: '350',
+													resizeType:1,
+													pasteType : 2,
+													urlType : 'absolute',
+													fileManagerJson : '{:url('fileManagerJson')}',
+													uploadJson : '{:url("Uploads/ke_upimg")}'
+												});
+											});
+
+											$(function(){
+												$('textarea[name="content"]').closest('form').submit(function(){
+													editor_content.sync();
+												});
+											})
+										</script>
+								   </div>
+                               </div>
+
+						</div>
+				       <div class="edit_content_tab none">
+
+					            <div class="form-group">
+									<label>排序<span>(越小越靠前)</span></label>
+									<div class="form-input">
+									      <input type="text" name="sort" value="{$info.sort|default=""}"/>
+									 </div>
+							   </div>
+						   
+						</div>
+						<div class="btn_group">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+
+     
+ 
+   	<script>
+			
+			$(function(){
+				initPage();
+				window.onresize=function(){
+					initPage();
+				}
+				bindEvent();
+			});
+			
+			function initPage(){
+				var contentWidth = $(window).width() -261;
+				$(".content").width(contentWidth);
+				$(".nav_tree").css("min-height",($(window).height() - 86) + 'px');
+				$(".content").css("min-height",($(window).height() - 86) + 'px');
+				$(".nav_tree").attr("min-height",$(window).height() - 86);
+				$(".content").attr("min-height",$(window).height() - 86);
+				
+				$(".edit_box").css("width",($(window).width() - 271) + 'px');
+				$(".content").removeClass("none");
+				var currentRightHeight = $(".content").height();
+				var currentNavHeight = $(".nav_tree").height();
+				if(currentRightHeight < currentNavHeight){
+					if($(".tips_msg:hidden").length > 0){
+						$(".edit_box").css("height",$(".content").height() + (currentNavHeight - currentRightHeight));
+					}else{
+						$(".edit_box").css("height",$(".edit_box").height() + (currentNavHeight - currentRightHeight));
+					}
+				}else{
+					$(".nav_tree").css("min-height",$(".nav_tree").height() + (currentRightHeight - currentNavHeight));
+				}
+			}
+			
+			function bindEvent(){
+				$(".p_menue").on('click',function(){
+					if($(this).parent(".menue").hasClass("down")){
+						$(this).parent(".menue").removeClass("down").addClass("up");
+					}else{
+						$(this).parent(".menue").removeClass("up").addClass("down");
+					}
+					calculateHeight();
+				});
+				$(".c_menue_item").on("click",function(){
+					if(!$(this).hasClass("checked")){
+						$(".nav_tree_list .c_menue_item").removeClass("checked");
+						$(this).addClass("checked");
+					}
+				})
+					$(".close_tips").click(function(){
+					$(".tips_msg").hide();
+					calculateHeight();
+				});
+				$(".tab_option").click(function(){
+					if(!$(this).hasClass("on")){
+						var index = $(".tab_option").index($(this));
+						$($(".edit_content_tab").get(index)).removeClass("none").siblings(".edit_content_tab").addClass("none");
+						$(this).addClass("on").siblings().removeClass("on");
+					}
+					calculateHeight();
+				});
+			}
+			
+			function calculateHeight(){
+				var currentRightHeight = $(".content").height();
+				var currentNavHeight = $(".nav_tree").height();
+				if(currentRightHeight < currentNavHeight){
+					if($(".tips_msg:hidden").length > 0){
+						$(".edit_box").css("height",$(".content").height() + (currentNavHeight - currentRightHeight));
+					}else{
+						$(".edit_box").css("height",$(".edit_box").height() + (currentNavHeight - currentRightHeight));
+					}
+				}else{
+					if(currentNavHeight > $(".nav_tree").attr("min-height")){
+						$(".edit_box").css("height",$(".edit_box").height() + (currentNavHeight - currentRightHeight));
+					}else{
+						$(".edit_box").css("height",$(".edit_box").height() + ( $(".nav_tree").attr("min-height") - currentRightHeight));
+					}
+				}
+			}
+			
+		</script>
+	 <!-- 头部 -->
+	{include file='public/footer'}
+<!-- 头部 --> 

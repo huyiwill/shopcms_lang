@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>用户登录</title>
+	<link href="__CSS__/base.css" rel="stylesheet" type="text/css"/>
+	<link href="__CSS__/style.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>
+	 {include file='public/color'}
+</head>
+
+<body>
+	<!--logo start-->
+	<div class="logo w100 register_logo">
+		<div class="logo_in in_width">
+			<h1 class="logo_pic fl"><a href="{:url('index/index')}"><img title="YERSHOP" src="__IMG__/logo_pic.gif" width="201" height="59" /></a></h1>			
+			
+		</div>
+	</div>
+	<!--/logo end--> 
+	<!--main start-->
+	<div class="main w100 register_main login_main">
+		<div class="main_in in_width register_main_in login_main_in">
+			<div class="con">
+				<div class="login_div fr wjmm_div" style="display:block;">
+					<div class="top_div wjmm_top_div">
+						<h3 class="f18 wjmm">忘记密码</h3>
+					</div>
+					<div class="info wjmm_info f14">
+						<form id="wjmm_form" >             
+							<dl class="sjh">
+								<dt>手机号：</dt>
+								<dd>
+									<input type="text" id="phone" name="mobile"  class="ti33" value="可填写已注册的手机号接受短信" onfocus="if (value =='可填写已注册的手机号接受短信'){value =''}" onblur="if (value ==''){value='可填写已注册的手机号接受短信'}" >
+								</dd>
+							</dl>
+							<dl class="yzm">
+								<dt>验证码：</dt>
+								<dd class="dd_01">
+									<input class="ipt fl ti33" id="verify"  class="" name="verify" type="text" >
+									<div class="pic fl"><img class="verifyimg reloadverify" width="143"  src="{:U('verify')}"></div>									
+								</dd>
+							</dl>
+							<dl class="tip_dl"><p class="f12">正确输入上方验证码后，点击<a onclick="sendsms(this)">发送手机动态码</a>，查收短信将系统发送的“6位手机动态码”输入到下方验证。</p></dl>
+							<dl class="fresh"><a class="verifyimg reloadverify"  ><img src="__IMG__/wjmm_pic_02.gif"/></a></dl>
+							<dl class="dtm">
+								<dt>动态码：</dt>
+								<dd>
+									<input type="text" class="ti33" id="send_code" value="输入6位手机动态码" onfocus="if (value =='输入6位手机动态码'){value =''}" onblur="if (value ==''){value='输入6位手机动态码'}" >
+								</dd>
+							</dl>
+						 </form>						
+					</div>
+					<button id="login_btn" onclick="confirm()"  class="next_btn f18" type="button">下&nbsp;一&nbsp;步</button>
+																		
+				</div>
+				<div class="login_div fr wjmm_div_02"  style="display:none;">
+					<div class="top_div wjmm_top_div">
+						<h3 class="f18 wjmm">忘记密码</h3>
+					</div>
+					<div class="info wjmm_info f14">
+						<form id="wjmm_form" action="{:U('update')}" >             
+							<dl id="phone_num">
+								18602732453
+							</dl>
+							<dl class="srmm">
+								<dt>输入密码：</dt>
+								<dd>
+									<input type="text" name="password" value="请设置新的登录密码" onfocus="if (value =='请设置新的登录密码'){value =''}" onblur="if (value ==''){value='请设置新的登录密码'}" >
+								</dd>
+							</dl>
+							<dl class="again">
+								<dt>再次输入：</dt>
+								<dd>
+									<input type="text" name="repassword" value="请再次输入密码" onfocus="if (value =='请再次输入密码'){value =''}" onblur="if (value ==''){value='请再次输入密码'}" >
+								</dd>
+							</dl>
+						 </form>						
+					</div>
+					<button id="login_btn"  onclick="update()" class="sure_btn f18" type="button">确&nbsp;&nbsp;定</button>
+					<script type="text/javascript">
+	 function sendsms(obj) {
+	 var s="{$code}";
+   if(checkPhone($('#phone').val())){
+			$.post('{:U("User/sendSms")}',{mobile:$('#phone').val(),send_code:s,verify:$('#verify').val()},function(data){
+				  if (data.status == "1") {
+					alert(data.ret);
+					RemainTime(obj);           
+				  }
+				  else {
+					  alert(data.msg);
+				  }
+            });
+    }
+    else{
+       alert("手机号码不正确"); return false;
+    }
+}
+    // 手机号验证
+function checkPhone(phone) {
+            var res = !!phone.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+            return res;
+ }
+var wait=60;
+function RemainTime(obj) {
+        if (wait == 0) {     
+            obj.innerHTML="获取";
+            wait = 60;
+            $(obj).attr('onclick','sendSms(this);return false;');
+        } else {  
+			$(obj).attr('onclick','');
+					 obj.innerHTML= wait +"秒" ;
+					 wait--;
+					 setTimeout(function() {
+						RemainTime(obj)
+					 },
+					 1000)
+		   	
+        }
+    }
+
+
+function confirm(){	
+	 var c_url="{:U('user/confirm')}";var m=$('#phone').val();
+	 $.post(c_url,{mobile:m,send_code:$('#send_code').val()},function(data){
+					 if(data.status){  
+					    $(".wjmm_div_02").show();
+						$("#phone_num").val(m);
+					 }
+					 else{
+					     alert(data.msg);
+					 }
+              });
+	  
+	}
+function update(){	
+	 var self=$("#wjmm_form");
+	 $.post(self.attr("action"),self.serialize(),function(data){
+  
+					 if(data.status){  
+					    $(".wjmm_div_02").show();
+					 }
+					 else{
+					     alert(data.msg);
+					 }
+              });
+	  
+	}
+
+
+		var verifyimg = $(".verifyimg").attr("src");
+            $(".reloadverify,.verifyimg").click(function(){
+               if( verifyimg.indexOf('?')>0){
+                    $(".verifyimg").attr("src", verifyimg+'&random='+Math.random());
+                }else{
+                    $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+                }
+            });
+
+	$(function(){
+
+			//tip
+			$('.login_main .login_main_in .con .login_div .mima .jz .icon').click(function(){
+				if($(this).hasClass('current')){
+					$(this).removeClass('current');
+					$("input[name='remember']").val(0);					
+				}else{
+					$(this).addClass('current');
+					$("input[name='remember']").val(1);		
+				}
+			});
+			//input
+		})
+	
+	</script>													
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<!--/main end-->	
+		{include file='Public/footer'}
+	
+	<script type="text/javascript">
+		$(function(){
+
+			
+			
+		})
+	</script>
+</body>
+</html>

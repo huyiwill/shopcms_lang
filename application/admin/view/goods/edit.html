@@ -1,0 +1,328 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+
+			<div class="content">
+			<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+					<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					
+					<div class="edit_tab">
+						<div class="tab_option on">基本信息</div>
+						<div class="tab_option">商品规格</div>
+						<div class="tab_option">商品属性</div>
+						<div class="tab_option">其他信息</div>
+						<div class="tab_option">相册</div>
+					</div>
+					<div class="edit_content">
+						 <form class="group-form"  action="{:url('')}" method="post">
+ <!-------------------------------- 基本信息 ---------------------------------------------------------------------------> 
+							 <div class="edit_content_tab">
+
+						           <div class="form-group">
+									  <label>名称<span>(标题)</span></label>
+									  <div class="form-input">
+									   <input type="text" name="title" value="{$info.title|default=""}">
+									   </div>
+								    </div>
+
+								     <div class="form-group">
+												<label>图片<span>(图片名称)</span></label> 
+												<div id="cover_id" class="container">
+													<div id="file_cover_id">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+													<input type="hidden" name="cover_id"  value="{$info.cover_id|default=''}">
+													<a id="select_cover_id" href="javascript:void(0);" class='btn'>选择文件</a>
+													<a id="post_cover_id" href="javascript:void(0);" class='btn'>开始上传</a>
+												</div>
+		
+											    <div class="uploader_preview">
+													  {notempty name="info['cover_id']"}
+															  <div class="uploader-pre-item"> <img src="{$info.cover_id|get_cover_path}"/>
+															 </div>
+														{/notempty}
+												</div>
+
+												<script type="text/javascript">  
+													var field="cover_id";
+													upload(field);
+												</script>	
+                                      </div>
+						        	
+                               
+                                    <div class="form-group">
+									    <label>内容<span>(详细内容)</span></label>
+										<div class="form-input w100">
+												<textarea class="am-validate" id="content" name="content" required>{$info.content|default=""}</textarea>	
+												<link rel="stylesheet" href="__COMMON__/kindeditor/default/default.css" />
+												<script charset="utf-8" src="__COMMON__/kindeditor/kindeditor-min.js"></script>
+												<script charset="utf-8" src="__COMMON__/kindeditor/zh_CN.js"></script>
+												<script type="text/javascript">
+													var editor_content;
+													KindEditor.ready(function(K) {
+														editor_content = K.create('textarea[name="content"]', {
+															allowFileManager : false,
+															themesPath: K.basePath,
+															width: '90%',
+															height: '350',
+															resizeType:1,
+															pasteType : 2,
+															urlType : 'absolute',
+															fileManagerJson : '{:url('fileManagerJson')}',
+															uploadJson : '{:url("Uploads/ke_upimg")}'
+														});
+													});
+
+													$(function(){
+														$('textarea[name="content"]').closest('form').submit(function(){
+															editor_content.sync();
+														});
+													})
+											    </script> 
+										</div>
+                                   </div>
+
+                                    <div class="form-group">
+										 <label>价格<span>(商品价格)</span></label>
+										 <div class="form-input">
+										      <input type="text" name="price" value="{$info.price|default=''}">
+										 </div>
+									 </div>
+
+						            <div class="form-group">
+										<label>库存数量<span>(库存)</span></label>
+										<div class="form-input">
+											 <input type="text" name="num" value="{$info.num|default=''}">
+										</div>
+							        </div>
+							
+							    <div class="form-group">
+									<label>品牌<span>(商品品牌)</span></label>
+									<div class="form-input">
+										 <select name="brand_id" class="input_box types" > 
+										   <option value="0">无</option> 
+										   {volist name="brandlist" id="vo" empty=""}  
+										   <option value="{$vo.id}">{$vo.title}</option>
+										   {/volist}
+										  </select>
+									</div>
+							    </div>  
+
+							    <div class="form-group">
+									<label>包邮<span>(是否包邮)</span></label>
+									<div class="form-input">
+									    <select name="sec" class="input_box types"  onchange="show(this)">
+								           <option value="0">否</option>    
+									        <option value="1">是</option>
+									     </select>
+							        </div>      
+                                </div>
+	  
+						</div>
+ <!-------------------------------- 扩展信息 --------------------------------------------------------------------------->
+						<div class="edit_content_tab none">
+								  <div id="navtab1" style="width: 100%;">
+									<div title="扩展信息" tabid="tabItem3">
+										<div id="Div1">
+											<div position="center">
+												<div style="padding: 5px 8px;" class="div_content">
+													<div class="div_title"><span>产品规格</span></div>
+													<div class="div_contentlist">
+													  {volist name="specslist" id="vo" key="k"}
+													   <ul class="Father_Title"><li>{$vo.title}</li></ul>
+														<ul class="Father_Item{$k-1}">
+															{volist name="vo['data']" id="vo1"}
+															<li><label><input id="{$vo1.title}" attr-id="{$vo1.id}" type="checkbox" class="specs" name="specs[]" value="{$vo1.title}">{$vo1.title}<span class="li_empty" contenteditable="true"></span></label></li>
+															  {/volist}
+														</ul> <br>
+													 {/volist}
+													   
+														<br>
+													</div>
+													<div class="div_contentlist2">
+														<ul>
+															<li><div id="createTable"></div></li>
+														</ul>
+													   
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<script>var json={$sku|default=""};</script>
+							    <script type="text/javascript" src="__JS__/guige.js"></script>          
+						</div>
+
+ <!-------------------------------- 属性信息 --------------------------------------------------------------------------->
+						 <div class="edit_content_tab none">
+						 	{volist name="list" id="vo" key="k"}
+							   <h5><input   class="attrs" type="checkbox" name="attrs[]"  value="{$vo.id|default=""}"/>
+					            {$k}-{$vo.title}</h5>
+							       {volist name="vo['list']" id="vo1"}
+							        <span class="cid">
+							             <input class="attributes" type="radio" name="attributes[{$vo.id}]"  value="{$vo1.id|default=""}"/>{$vo1.title} 
+						            </span>
+				
+							       {/volist}
+							{/volist}
+				       </div>
+ <!-----------------------------------------------其他信息 --------------------------------------------------------------------------->
+
+						 <div class="edit_content_tab none">
+
+						    <div class="form-group">
+									<label>排序<span>(越小越靠前)</span></label>
+									<div class="form-input">
+									    <input type="text" name="sort" class="input_box" value="{$info.sort|default=""}"/>
+									</div>
+							 </div>
+
+							<div class="form-group">
+									<label>开始时间<span>(秒杀或抢购开始时间)</span></label>
+									<div class="form-input">
+										<input type="text" name="sort"name="start_time" id="start_time" class="laydate-icon"
+									    value="{notempty name='info.id'}{$info.start_time|time_format}{/notempty}"/>
+									    <script type="text/javascript" src="__COMMON__/laydate/laydate.js"></script>		
+										<script>
+											laydate({
+											  elem: '#start_time',
+											  format: 'YYYY-MM-DD hh:mm:ss', 
+											  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+											  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+											});
+										</script>
+									</div>
+							   </div>
+
+						       <div class="form-group">
+									<label>结束时间<span>(秒杀或抢购结束时间)</span></label>
+									<div class="form-input">
+										<input type="text" name="sort" name="end_time" id="end_time" class="laydate-icon" value="{notempty name='info.end_time'}{$info.end_time|time_format}{/notempty}"/>				
+											<script>
+											laydate({
+											  elem: '#end_time', 
+											  format: 'YYYY-MM-DD hh:mm:ss', 
+											  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+											  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+											});
+											</script>
+									</div>
+							  </div>
+
+                             <div class="form-group">
+									<label>创建时间<span>(创建时间)</span></label>
+									<div class="form-input">
+										<input type="text" name="create_time" id="create_time" class="laydate-icon"
+									   value="{notempty name='info.id'}{$info.create_time|time_format}{/notempty}"/>
+										<script>
+										laydate({
+										  elem: '#create_time',
+										  format: 'YYYY-MM-DD hh:mm:ss', 
+										  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+										  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+										});
+										</script>
+									</div>
+							  </div>
+
+						     <div class="form-group">
+									<label>更新时间<span>(更新时间)</span></label>
+									<div class="form-input">
+									    <input type="text" name="update_time" id="update_time" class="laydate-icon" value="{notempty name='info.update_time'}{$info.update_time|time_format}{/notempty}"/>
+												
+									    <script>
+										laydate({
+										  elem: '#update_time', 
+										  format: 'YYYY-MM-DD hh:mm:ss', 
+										  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+										  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+										});
+									    </script>
+								    </div>
+							</div>
+
+							
+                  </div>
+ <!-----------------------------------------------相册 --------------------------------------------------------------------------->	
+			     <div class="edit_content_tab none">
+                              
+							  <div class="form-group">
+									<label>相册<span>(图片)</span></label>
+									<input type="hidden" name="covers"  value="{$info.covers|default=""}"	>
+									<div id="covers" class="container">
+													<div id="file_covers">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+													<input type="hidden" name="covers"  value="{$info.covers|default=''}">
+													<a id="select_covers" href="javascript:void(0);" class='btn'>选择文件</a>
+													<a id="post_covers" href="javascript:void(0);" class='btn'>开始上传</a>
+									</div>
+									  <div class="uploader_preview">
+											    {notempty name="info['covers']"}
+											     {php}$list=explode(",",$info['covers']);{/php}
+												{foreach name="list" item="vo" }  
+												<div class="upload-pre-item"> <img src="{$vo|get_cover_path}" data-id="{$vo}"/>
+												   <span class="close"  onclick='delimage(this,covers);'></span>
+											 	</div>
+												 {/foreach}	
+												{/notempty} 
+									   </div>
+									 <script type="text/javascript">  
+								             var field="covers";
+						     	             uploads(field);
+                                       </script>
+							</div>
+
+				    </div>	
+						<div class="btn_group"> 
+						    <input type="hidden" name="category_id" value="{$info.category_id|default=""}">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	   <script type="text/javascript">
+		 $("select[name='brand_id']").val("{$info.brand_id|default=''}");
+		 $("select[name='has']").val("{$info.has|default=''}");
+		 $("select[name='baoyou']").val("{$info.baoyou|default=''}");
+		 $("select[name='position']").val("{$info.position|default='0'}");
+		 var group = [{$info.attrs|default=''}];
+			$('.attrs').each(function(){
+				if( $.inArray( parseInt(this.value,10),group )>-1 ){
+					$(this).prop('checked',true);
+				}
+		});
+		 var attributes = [{$info.attributes|default=''}];
+		$('.attributes').each(function(){
+				if( $.inArray( parseInt(this.value,10),attributes )>-1 ){
+					$(this).prop('checked',true);
+				}
+		});
+		$(function(){
+			var specs ="{$info.specs|default=''}";
+			$('.specs').each(function(){
+				if( specs.indexOf(this.value)>=0){
+				   $(this).prop('checked',true);
+				}
+			});
+			if(specs){
+			 $(".div_contentlist label").change();
+		   }
+		});
+		$(".tab_option").click(function(){
+					if(!$(this).hasClass("on")){
+						var index = $(".tab_option").index($(this));
+						$($(".edit_content_tab").get(index)).removeClass("none").siblings(".edit_content_tab").addClass("none");
+						$(this).addClass("on").siblings().removeClass("on");
+					}
+					
+		});
+				
+	</script>	
+ <!-- 头部 -->
+	{include file='public/footer'}
+<!-- 头部 --> 

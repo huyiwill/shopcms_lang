@@ -1,0 +1,30 @@
+<script>
+	var dialog_style ="{:C('DIALOG_STYLE')}";
+	var index_url="{:url('index/index')}";
+	$(".logo").click(function(){
+	   location.href=index_url;
+	});
+</script>
+  <!--引入改进型easydialog弹窗 -->	
+{if condition="C('DIALOG_STYLE') eq '1'"}	
+	<link rel="stylesheet" href="__CSS__/global.css">
+	<link rel="stylesheet" href="__CSS__/animate.css">
+	<link rel="stylesheet" href="__CSS__/dialog.css">
+	<style>
+		.div-testDialog{
+			width: 500px;
+			height: auto;
+			margin: 50px auto;
+		}
+
+		.div-testDialog button{
+			margin:  10px;
+		}
+		@media screen and ( max-width: 460px){
+			.div-testDialog{
+				width: 90%;
+			}
+		}
+   </style>
+<script src="__JS__/dialog.js"></script>	
+{/if}

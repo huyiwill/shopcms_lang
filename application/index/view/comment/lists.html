@@ -1,0 +1,119 @@
+<!-- 头部 -->
+	{include file='Public/header'}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="javascript:;" class="index_a">个人中心</a> ><span>商品评价</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			<div class="main_top">
+				{include file='Public/left'}
+				<div class="fr sppj_right_pan">
+					<div class="top_tab">
+						<ul class="fl f16">
+							<li>
+								<a href="{:U('comment/index')}">已评价<span>{$res.num}</span></a>
+							</li>
+							<li  class="current">
+								<a href="javascript:;">待评价<span>{$res.count}</span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="tab_con">						
+						
+						
+						
+					</div>
+					<div class="tab_con">						
+						<table class="bought_table f12">
+							<tbody>
+								<tr>
+									<th class="th_01">宝贝</th>
+									<th class="th_02">单价</th>
+									<th class="th_03">数量</th>
+									<th class="th_04">商品操作</th>
+									<th class="th_05">实付款</th>
+									<th class="th_06">
+										<div class="field_select">
+											<div class="zt"><span class="txt">交易状态</span></div>
+											
+										</div>
+									</th>
+									<th class="th_07">交易操作</th>
+								</tr>
+							</tbody>
+						</table>
+	                  {notempty name="res.list"}
+						{volist name="res.list" id="vo"}
+						<div class="bought_list f12">
+							<table class="del_table">
+								<tbody>
+									<tr>
+										<td class="td_01">
+											<div class="con">
+												<div class="div_01 fl">
+													<a href="{:U('Goods/detail?id='.$vo['goods_id'])}" class="pic fl"><img src="{$vo.goods_id|get_goods_cover}"  width="80" height="80"></a>
+													<div class="info fl">
+														<a href="javascript:;" class="name">{$vo.title}</a>
+														<p class="color">{$vo.specifications}</p>
+														<span class="icon"></span>
+													</div>
+												</div>
+												<div class="div_02 fl">
+													<p class="old">￥{$vo.price}</p>
+													<p class="new">￥32.90</p>
+												</div>
+												<div class="div_03 fl">
+													<span>1</span>
+												</div>
+												<div class="div_04 fl">
+													<a href="javascript:;" class="sh">无</a>
+													
+												</div>
+											</div>											
+										</td>										
+										<td class="td_02">
+											<p class="total">￥{$vo.total}</p>
+											<p class="yf">(运费：￥{$vo.spress})</p>
+											
+										</td>
+										<td class="td_03">
+											<a href="" class="jycg">交易成功</a>
+										
+										</td>
+										<td class="td_04">
+											<a style="margin-left:42px;"href="{:U('comment/write?id='.$vo['id'])}" class="zjpj">评价</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>		
+						{/volist}
+						
+						{else/}
+						    <span style="text-align:center;width:100%;display:block;">无数据！</span>
+						{/notempty}
+					
+						<div class="page_div_03 f12">
+							{$res.page}
+						</div>
+						
+						
+					</div>
+
+				</div>	
+			</div>			
+		</div>
+	</div>
+	<!--/main end-->	
+{include file='Public/footer'}
+	
+	
+
+</body>
+</html>

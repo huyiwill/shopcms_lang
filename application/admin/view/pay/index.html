@@ -1,0 +1,73 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+	
+			<div class="content">
+				<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="table">
+					<div class="edit">
+						<div class="edit_left ">
+						
+							<a href="{:U('add')}" class="add cur">新增</a>
+							<a data-url="{:U('del')}" class="delete cur">删除</a>	
+							<a href="{:U('out')}" class="add blue cur">导出</a>
+						</div>
+						<div class="search_right">
+							<input type="text" value="{:input('title')}"/>
+							<div class="search_btn"></div>
+						</div>
+					</div>
+					<table class="list_table">
+					    <tr>
+							<th> <input class="checkbox check-all" type="checkbox"></th>	
+							<th>ID</th>
+							<th>订单号</th>
+							<th>金额</th>
+							<th>付款方式</th>
+							<th>状态</th> 
+							<th>用户昵称</th>
+							<th>创建时间</th>
+							<th>操作</th>
+                         </tr>
+				         {volist name="res.list" id="vo"}
+
+                          <tr class="even gradeC">
+								<td> <input class="ids row-selected" type="checkbox" name="id[]" value="{$vo.id}"></td>
+								<td>{$vo.id}</td>
+								<td>  <a title="编辑" href="{:U('edit?id='.$vo['id'])}">{$vo.out_trade_no}</a></td>
+
+								<td>{$vo.total_money}</td>
+								<td>
+									{if condition="$vo['paytype'] eq 1"}余额支付{/if}
+									{if condition="$vo['paytype'] eq 2"}余额+支付宝在线支付{/if}
+									{if condition="$vo['paytype'] eq 3"}余额+货到付款{/if}
+									{if condition="$vo['paytype'] eq 4"}支付宝在线支付{/if}
+									{if condition="$vo['paytype'] eq 5"}货到付款{/if}
+								</td>
+								<td>   {eq name="vo['status']" value="1"}支付成功{/eq}
+								       {eq name="vo['status']" value="2"}提交成功{/eq}
+								</td>
+								<td>{$vo.uid|get_username}</td>
+								<td>{$vo.create_time|date='Y-m-d H:i:s',###}</td>
+								<td class="list_opr">
+									<span class="opr_box">
+										<a href="{:url('edit?id='.$vo['id'])}" class="edit_btn cur">编辑</a>
+										<a data-url="{:url('del?id='.$vo['id'])}" class="del_btn cur">删除</a>
+									</span>          
+								</td>
+                            </tr>			
+						{/volist}
+					</table>
+					<!--分页-->
+					<ul class="pagination">
+						  {$res.page}
+					</ul>
+				</div>
+			
+			</div>
+		</div>
+	   <script src="__JS__/style.js"></script> 
+	<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

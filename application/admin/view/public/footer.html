@@ -1,0 +1,11 @@
+
+<script src="__JS__/common.js"></script>  
+
+<script>
+var html='<footer style=""><p> Powered by <a href="http://www.yershop.com/" target="_blank">yershop V3.0</a> </p></footer>';
+$(".nav_tree").css({"height":"100%"});
+$(".content").append(html);
+var sid="{:input('module_id')?input('module_id'):$now['id']}";var obj=$("span#"+sid);$(obj).parents("li").eq(0).addClass("active");
+</script>
+</body>
+</html>

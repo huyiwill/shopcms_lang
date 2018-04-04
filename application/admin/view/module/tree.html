@@ -1,0 +1,270 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+
+        <!-- 侧边导航栏 -->
+	{include file='Public/sidebar'}
+ <!-- 侧边导航栏 -->
+
+
+        <!-- 内容区域 -->
+        <div class="tpl-content-wrapper">
+            <div class="row-content am-cf">
+                <div class="row">
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                        <div class="widget am-cf">
+                            <div class="widget-head am-cf">
+                                <div class="widget-title  am-cf">文章列表</div>
+
+
+                            </div>
+                             <div class="widget-body  am-fr search-form">
+        
+                
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                                    <div class="am-form-group">
+                                        <div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs">
+                                              
+											  <a href="{:U('add')}"  class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
+                                       <a type="button" url="{:U('del')}" class="ajax-post am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                         <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                                    <div class="am-form-group tpl-table-list-select">
+                 
+                                    </div>
+                                </div>
+                               <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                                    <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                        <input type="text" class="am-form-field search-input"  name="title" value="{:input('title')}">
+                                        <span class="am-input-group-btn">
+                  <button  url="{:url('index')}" class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+          </span>
+                                    </div>
+                                </div>
+    
+    <link rel="stylesheet" href="__CSS__/metroStyle/metroStyle.css" type="text/css">
+<style type="text/css"> 
+#treeDemo{
+clear:both;width:100%;overflow:auto;height:auto;
+}
+
+
+</style>
+
+                      
+
+							<div class="am-u-sm-12">
+                                    
+		<div class="category">	
+		         <div class="hd cf">  
+					<div class="opt-btn">操作</div>
+					<div class="fold">折叠</div>
+			
+				<div class="name">节点名称</div>
+				<div class="group">链接</div>
+				<div class="group">排序</div>
+				<div class="group">分组</div>
+			</div>
+ {volist name="list" id="vo"}
+	<dl class="cate-item">
+		<dt class="cf">
+			<form action="/new/admin.php?s=/Category/edit.html" method="post">
+				<div class="btn-toolbar opt-btn cf">
+                                                        <a href="{:url('edit?id='.$vo['id'])}">
+                                                            编辑
+                                                        </a>
+                                                        <a data-id="{$vo.id}" class="ajax-get tpl-table-black-operation-del">
+                                                           删除
+                                                        </a>
+                                                 
+				</div>
+				
+				<div class="fold"><i ></i></div>
+				
+				
+			
+				<div class="name">
+					<span class="tab-sign"></span>
+					<input type="hidden" name="id" value="90">
+					<span class="text_title">{$vo.title}</span>
+				
+					<span class="help-inline msg"></span>
+				</div>
+				<div class="group">{$vo.url}</div>
+				<div class="group">{$vo.sort}</div>
+				<div class="group">{$vo.group_id|get_group="title"}</div>
+			</form>
+		</dt>
+			
+		<dd>
+				 {volist name="vo['child']" id="vo1"}
+				<dl class="cate-item">
+		<dt class="cf">
+			<form action="/new/admin.php?s=/Category/edit.html" method="post">
+					<div class="btn-toolbar opt-btn cf ">
+                                                        <a href="{:url('edit?id='.$vo['id'])}">
+                                                            编辑
+                                                        </a>
+                                                        <a data-id="{$vo.id}" class="ajax-get tpl-table-black-operation-del">
+                                                           删除
+                                                        </a>
+                                                 
+				</div>
+				<div class="fold"><i></i></div>
+			
+				<div class="name">
+					<span class="tab-sign"></span>
+				
+					<span class="text_title">{$vo1.title}</span>
+					
+					<span class="help-inline msg"></span>
+				</div>
+				<div class="group">{$vo1.url}</div>
+				<div class="group">{$vo1.sort}</div>
+				<div class="group">{$vo1.group_id|get_group="title"}</div>
+			</form>
+		</dt>
+		{notempty name="vo1['child']"}
+		 <dd>
+				 {volist name="vo1['child']" id="vo2"}
+				<dl class="cate-item">
+		<dt class="cf">
+			<form action="/new/admin.php?s=/Category/edit.html" method="post">
+					<div class="btn-toolbar opt-btn cf">
+                                                        <a href="{:url('edit?id='.$vo2['id'])}">
+                                                            编辑
+                                                        </a>
+                                                        <a data-id="{$vo.id}" class="ajax-get tpl-table-black-operation-del">
+                                                           删除
+                                                        </a>
+                                                 
+				</div>
+				<div class="fold"><i></i></div>
+			
+				<div class="name">
+					<span class="tab-sign"></span>
+					<input type="hidden" name="id" value="108">
+					<span class="text_title">{$vo2.title}——{$vo2.url}</span>
+					
+					<span class="help-inline msg"></span>
+				</div>
+				<div class="group">{$vo2.url}</div>
+				<div class="group">{$vo2.sort}</div>
+				<div class="group">{$vo2.group_id|get_group="title"}</div>
+			</form>
+		</dt>
+			</dl>	{/volist}
+			
+			</dd>	
+			{/notempty}
+			</dl>{/volist}
+			
+			</dd>	
+			
+					
+			</dl>	
+		
+	{/volist}	
+	
+			</div>
+			
+			<script type="text/javascript">
+		(function($){
+			/* 分类展开收起 */
+			$(".category dd").prev().find(".fold i").addClass("icon-unfold")
+				.click(function(){
+					var self = $(this);
+					if(self.hasClass("icon-unfold")){
+						    self.closest("dt").next().slideUp("fast", function(){
+							self.removeClass("icon-unfold").addClass("icon-fold");
+						});
+					} else {
+						self.closest("dt").next().slideDown("fast", function(){
+							self.removeClass("icon-fold").addClass("icon-unfold");
+						});
+					}
+				});
+
+			/* 三级分类删除新增按钮 */
+			$(".category dd dd .add-sub").remove();
+
+			/* 实时更新分类信息 */
+			$(".category")
+				.on("submit", "form", function(){
+					var self = $(this);
+					$.post(
+						self.attr("action"),
+						self.serialize(),
+						function(data){
+							/* 提示信息 */
+							var name = data.status ? "success" : "error", msg;
+							msg = self.find(".msg").addClass(name).text(data.info)
+									  .css("display", "inline-block");
+							setTimeout(function(){
+								msg.fadeOut(function(){
+									msg.text("").removeClass(name);
+								});
+							}, 1000);
+						},
+						"json"
+					);
+					return false;
+				})
+                .on("focus","input",function(){
+                    $(this).data('param',$(this).closest("form").serialize());
+
+                })
+                .on("blur", "input", function(){
+                    if($(this).data('param')!=$(this).closest("form").serialize()){
+                        $(this).closest("form").submit();
+                    }
+                });
+		})(jQuery);
+	</script>
+								
+                                </div>
+                                <div class="am-u-lg-12 am-cf">
+
+                                    <div class="am-fr">
+                                        <ul class="am-pagination tpl-pagination">
+                                        
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd"yershop</div>
+    <div class="am-modal-bd">
+      你，确定要删除这条记录吗？
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+      <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+    </div>
+  </div>
+</div>
+     <script>var del_url="{:url('del')}";</script>
+    <script src="__JS__/amazeui.min.js"></script>
+    <script src="__JS__/amazeui.datatables.min.js"></script>
+    <script src="__JS__/dataTables.responsive.min.js"></script>
+    <script src="__JS__/app.js"></script>
+  <script src="__JS__/common.js"></script>
+<script>
+	
+
+</script>
+</body>
+
+</html>

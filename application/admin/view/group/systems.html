@@ -1,0 +1,146 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+
+        <!-- 侧边导航栏 -->
+	{include file='Public/sidebar'}
+ <!-- 侧边导航栏 -->
+
+        <!-- 内容区域 -->
+        <div class="tpl-content-wrapper">
+
+        
+
+            <div class="row-content am-cf">
+
+
+             
+
+                <div class="row">
+
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                        <div class="widget am-cf">
+                            <div class="widget-head am-cf">
+                                <div class="widget-title am-fl">网站设置</div>
+                                <div class="widget-function am-fr">
+                                    <a href="javascript:;" class="am-icon-cog"></a>
+                                </div>
+                            </div>
+                            <div class="widget-body am-fr">
+
+                <form class="am-form tpl-form-border-form"  action="{:url('save')}" method="post">
+                            <volist name="list" id="config">
+
+			<switch name="config.type">
+			<case value="0">
+			   <div class="am-form-group">
+                                       <label for="user-name" class="am-u-sm-12 am-form-label am-text-left">{$config.title} <span class="tpl-form-line-small-title">{$config.name}</span></label>
+                                        <div class="am-u-sm-12">
+                                            <input type="text"  class="tpl-form-input am-margin-top-xs" id="user-name" name="config[{$config.name}]" value="{$config.value}">
+                                            <small>{$config.remark}</small>
+                                        </div>
+                       </div>
+			
+			
+			
+			</case>
+			<case value="1">
+			  <div class="am-form-group">
+                                       <label for="user-name" class="am-u-sm-12 am-form-label am-text-left">{$config.title} <span class="tpl-form-line-small-title">{$config.name}</span></label>
+                                        <div class="am-u-sm-12">
+                                            <input type="text"  class="tpl-form-input am-margin-top-xs" id="user-name" name="config[{$config.name}]" value="{$config.value}">
+                                            <small>{$config.remark}</small>
+                                        </div>
+                       </div>
+			
+			</case>
+			<case value="2">
+			
+			 <div class="am-form-group">
+                                        <label for="user-intro" class="am-u-sm-12 am-form-label  am-text-left">{$config.title}</label>
+                                          <div class="am-u-sm-12 am-margin-top-xs">
+                                            <textarea class="" rows="10" name="config[{$config.name}]" id="user-intro">{$config.value}</textarea>
+                                        </div>
+                                    </div>
+			</case>
+			<case value="3">
+			<div class="am-form-group">
+                                        <label for="user-intro" class="am-u-sm-12 am-form-label  am-text-left">{$config.title}</label>
+                                          <div class="am-u-sm-12 am-margin-top-xs">
+                                            <textarea class="" rows="10" name="config[{$config.name}]" id="user-intro">{$config.value}</textarea>
+                                        </div>
+                                    </div>
+			</case>
+			<case value="4">
+		
+			
+			   <div class="am-form-group">
+                                       <label for="user-phone" class="am-u-sm-12 am-form-label am-text-left">{$config.title} <span class="tpl-form-line-small-title">Author</span></label>
+                                      <div class="am-u-sm-12  am-margin-top-xs">
+                                            <select name="config[{$config.name}]" data-am-selected="{searchBox: 1}" style="display: none;">
+<volist name=":parse_config_attr($config['extra'])" id="vo">
+					<option value="{$key}" <eq name="config.value" value="$key">selected</eq>>{$vo}</option>
+				</volist>
+</select>
+
+                                        </div>
+                                    </div>
+			</case>
+			</switch>
+				
+			
+		</volist>
+                                
+<input type="hidden" name="id" value="{$info.id|default=""}">
+                                    <div class="am-form-group">
+                                        <div class="am-u-sm-12 am-u-sm-push-12">
+                                            <button type="button"  ONCLICK="$('form').submit();"class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="__JS__/amazeui.min.js"></script>
+    <script src="__JS__/amazeui.datatables.min.js"></script>
+    <script src="__JS__/dataTables.responsive.min.js"></script>
+    <script src="__JS__/app.js"></script>
+<script type="text/javascript">
+    $("select[name='pid']").val("{$info.pid|default=2}");
+	
+	
+    </script>
+    
+
+	<script>
+	
+	
+$(function() {
+  $('#doc-modal-list').find('.am-icon-close').add('#doc-confirm-toggle').
+    on('click', function() {
+      $('#my-confirm').modal({
+        relatedTarget: this,
+        onConfirm: function(options) {
+          var $link = $(this.relatedTarget).prev('a');
+          var msg = $link.length ? '你要删除的链接 ID 为 ' + $link.data('id') :
+            '确定了，但不知道要整哪样';
+          alert(msg);
+        },
+        // closeOnConfirm: false,
+        onCancel: function() {
+          alert('算求，不弄了');
+        }
+      });
+    });
+});
+</body>
+
+</html>

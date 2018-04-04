@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>用户注册</title>
+	<link href="__CSS__/base.css" rel="stylesheet" type="text/css"/>
+	<link href="__CSS__/style.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>
+	<script src="__COMMON__/layer/layer.js"></script>
+</head>
+	  {include file='public/color'}
+<body>
+	<!--logo start-->
+	<div class="logo w100 register_logo">
+		<div class="logo_in in_width">
+			<h1 class="logo_pic fl"><a href="{:url('index/index')}"><img title="YERSHOP" src="__IMG__/logo_pic.gif" width="201" height="59" /></a></h1>			
+			
+		</div>
+	</div>
+	<!--/logo end--> 
+	<!--main start-->
+	<div class="main w100 register_main">
+		<div class="main_in in_width register_main_in">
+			<div class="con">
+				<div class="reg_div fr">
+					<ul class="reg_tab f18">
+						<li class="current">用户名注册</li>
+						<li>手机号注册</li>
+					</ul>
+					<div class="warn f14" style="display:none">
+						<div >
+							<span class="icon"></span>
+							<span class="msg">注册账号失败，请重新注册</span>
+						</div>						
+					</div>
+					<div class="tab_con">
+						<div class="tab_div f14 current">							
+							<div class="info">
+								   <form id="register_form" class="register_form" action="{:U('')}" >          
+									<dl class="yx">
+										<dt></dt>
+										<dd>
+											<input type="text"name="username" value="请输入用户名"value="" onfocus="if (value =='请输入用户名'){value =''}" 
+											onblur="if (value ==''){value='请输入用户名'}"  >
+										</dd>
+									</dl>
+									<!--dl class="yxm">
+										<dt><div></div></dt>
+										<dd>
+											<div><input type="text"  name="verify" value="请输入验证码" onfocus="if (value =='请输入邮箱里的验证码'){value =''}" onblur="if (value ==''){value='请输入邮箱里的验证码'}" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" ></div>
+											<div id="getCode" class="btn_code f16 fr" ><img width="50" height="50" src="{:U('verify')}"/></div>
+										</dd>
+									</dl-->
+									<dl class="pss">
+										<dt></dt>
+										<dd>
+											<input type="text"  name="password"value="设置密码" onfocus="if (value =='设置密码'){value =''}" onblur="if (value ==''){value='设置密码'}" >
+										</dd>
+									</dl>
+									<dl class="qr">
+										<dt></dt>
+										<dd>
+											<input type="text"  name="repassword" value="确认密码" onfocus="if (value =='确认密码'){value =''}" onblur="if (value ==''){value='确认密码'}" >
+										</dd>
+									</dl>
+								     <input name="remname"  type="hidden">
+								 </form>
+								
+							</div>
+							<div class="agree f12">
+								<span></span>
+								点击表示您同意商城《服务协议》
+							</div>
+							<button id="reg_btn" onclick="regname()" class="reg_btn f18" type="button">注&nbsp;&nbsp;册</button>
+							
+						</div></form>
+						<div class="tab_div f14 ">							
+							<div class="info">
+								<form id="register_form mobile" action="{:U('register_mobile')}" >           
+									<dl class="phone">
+										<dt></dt>
+										<dd>											
+											<input type="text" name="mobile" id="phone" class="ind_cont_input ind_cont_inputioce2 ind_cont_inputboder1" value="请输入手机号" onfocus="if (value =='请输入手机号'){value =''}" onblur="if (value ==''){value='请输入手机号'}"onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" >  
+										</dd>
+									</dl>
+									<dl class="yxm">
+										<dt><div></div></dt>
+										<dd>
+											<div><input type="text" name="verify" value="请输入邮箱里的验证码" onfocus="if (value =='请输入邮箱里的验证码'){value =''}" onblur="if (value ==''){value='请输入邮箱里的验证码'}" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" ></div>
+											<button id="getCode" onclick="sendsms(this)" class="btn_code f16 fr" type="button">获取</button>
+										</dd>
+									</dl>
+									<dl class="pss">
+										<dt></dt>
+										<dd>
+											<input type="text"  name="password" value="设置密码" onfocus="if (value =='设置密码'){value =''}" onblur="if (value ==''){value='设置密码'}" >
+										</dd>
+									</dl>
+									<dl class="qr">
+										<dt></dt>
+										<dd>
+											<input type="text" name="password" value="确认密码" onfocus="if (value =='确认密码'){value =''}" onblur="if (value ==''){value='确认密码'}">
+										</dd>
+									</dl>
+								 </form>
+								
+							</div>
+							<div class="agree f12">
+								<span class="current"></span>
+								点击表示您同意商城《服务协议》
+							</div>
+							<button id="reg_btn"  onclick="domobile()" class="reg_btn f18" type="button">注&nbsp;&nbsp;册</button>
+							
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<!--/main end-->	
+	{include file='public/footer'}
+	
+	<script type="text/javascript">
+				 function sendsms(obj) {
+	 var s="{$code}";
+   if(checkPhone($('#phone').val())){
+			$.post('{:U("User/sendSms")}',{mobile:$('#phone').val(),send_code:s,verify:$('#verify').val()},function(data){
+				  if (data.status == "1") {
+					alert(data.ret);
+					RemainTime(obj);           
+				  }
+				  else {
+					  alert(data.msg);
+				  }
+            });
+    }
+    else{
+       alert("手机号码不正确!"); return false;
+    }
+}
+    // 手机号验证
+function checkPhone(phone) {
+            var res = !!phone.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+            return res;
+ }
+var wait=60;
+function RemainTime(obj) {
+        if (wait == 0) {     
+            obj.innerHTML="获取";
+            wait = 60;
+            $(obj).attr('onclick','sendSms(this);return false;');
+        } else {  
+			$(obj).attr('onclick','');
+					 obj.innerHTML= wait +"秒" ;
+					 wait--;
+					 setTimeout(function() {
+						RemainTime(obj)
+					 },
+					 1000)
+		   	
+        }
+    }
+		
+		$(function(){
+			
+			//tab
+			$('.register_main .register_main_in .con .reg_div .reg_tab li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var this_index = $(this).index();
+				$(this).closest('.reg_tab').siblings('.tab_con').children('.tab_div').eq(this_index).addClass('current');
+				$(this).closest('.reg_tab').siblings('.tab_con').children('.tab_div').eq(this_index).siblings('.tab_div').removeClass('current');
+			});
+			
+			//tip
+			$('.register_main .register_main_in .con .reg_div .tab_con .tab_div .agree span').click(function(){
+				if($(this).hasClass('current')){
+					$(this).removeClass('current');	
+					$("input[name='remember']").val(0);				
+				}else{
+					$(this).addClass('current');
+					$("input[name='remember']").val(0);		
+				}
+			});
+			//input
+		})    
+		function regname(){
+		       var self = $(".register_form");
+		       $.post(self.attr("action"),self.serialize(),function(data){
+                     
+					 if(data.code){
+    				     location.href =data.url;
+    			     } else {
+    				     $(".warn .msg").text(data.msg); 
+						 $(".warn").show();
+    				//刷新验证码
+    				//$(".reloadverify").click();
+    			    }
+                });
+		   
+		}  	
+		function domobile(){
+		       var self = $("#mobile");
+		       $.post(self.attr("action"),self.serialize(),function(data){
+                     
+					 if(data.code){
+    				     location.href =data.url;
+    			     } else {
+    				       alert(data.msg);
+    				//刷新验证码
+    				//$(".reloadverify").click();
+    			    }
+                });
+		   
+		}    
+	</script>
+</body>
+</html>

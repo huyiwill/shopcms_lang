@@ -1,0 +1,90 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 -->  
+
+			<div class="content">
+			  <div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				 <div class="edit_box">
+				
+					<div class="edit_content">
+						<form class="form-horizontal" action="{:url('')}" method="post" enctype="multipart/form-data">
+							 <div class="edit_content_tab">
+
+
+								 
+
+								  <div class="form-group">
+									<label>模型英文名称<span>(英文，不含前缀数据表名或自定义模型名，首字母必须大写，例如Ad)</span></label>
+									   <div class="form-input">
+									      <input type="text" name="model" value="{$info.title|default=""}">
+									   </div>
+								  </div>  
+								  
+								  <div class="form-group">
+									<label>模型名称<span>(模型中文名称,用于注释)</span></label> 
+									 <div class="form-input">
+									     <input type="text"  name="title" value="{$info.title|default=""}">
+									  </div>
+								  </div>
+								   
+								   <div class="form-group">
+									<label>命名空间<span>(命名空间)</span></label> 
+									 <div class="form-input"> 
+									         <select name="space" >
+												  <option value="admin">admin</option> 
+												  <option value="index">index</option>  
+												  <option value="common">common</option> 
+												  <option value="common">wap</option> 
+												  <option value="common">mobile</option>
+											   </select>
+									   
+									  </div>
+								  </div>
+
+								 <div class="form-group">
+									<label>生成文件<span>(生成的文件)</span></label> 
+									 <div class="form-input w100">
+									    <input type="checkbox" class="checkbox" name="arr[]" value="1" checked="checked" />控制器
+										<input type="checkbox" name="arr[]" value="2" class="checkbox" checked="checked" /> 模型
+										<input type="checkbox" class="checkbox" name="arr[]" value="3" checked="checked" />验证器
+										<input type="checkbox" name="arr[]" value="4" class="checkbox" checked="checked" /> index.html
+										<input type="checkbox" name="arr[]" value="5" class="checkbox" checked="checked" /> edit.html
+									  </div>
+								  </div>
+								
+
+						   </div>  
+						    <div class="edit_content_tab none">
+						       
+							   <div class="form-group">
+									<label>状态<span>(0-禁用，1-正常)</span></label>
+									<div class="form-input">
+									   <input type="text" name="status" value="{$info.status|default="1"}"/>
+									</div>
+							   </div>
+		
+						  </div>
+
+
+						<div class="btn_group">
+						   
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div>
+						
+						</form> 
+
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	 <script type="text/javascript">
+	  $("select[name='category_id']").val("{$info.category_id|default='0'}"); 
+	</script>
+	 <script src="__JS__/edit.js"></script>
+
+<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

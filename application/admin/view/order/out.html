@@ -1,0 +1,142 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+	
+			<div class="content">
+				
+				<div class="edit_title">{$meta_title|default=""}</div>
+					 <script type="text/javascript" src="__COMMON__/laydate/laydate.js"></script>	
+					 <div class="search-wrap">
+					   <form class="search-form"  action="{:url()}" method="post">
+						  <div class="group">
+							 <span> 收件人：</span><input type="text" name="username" class="search_ipt" value="{:input('username')}"/>
+						  </div> 
+						  <div class="group">
+							 <span> 手机：</span><input type="text" name="mobile" class="search_ipt" value="{:input('mobile')}"/>
+						  </div>
+						  <div class="group">
+							 <span> 用户id：</span><input type="text" name="uid" class="search_ipt" value="{:input('uid')}"/>
+						  </div>
+
+						 <div class="group">
+							<span>订单号：</span><input type="text" name="order_sn"  class="search_ipt" value=""/>
+						  </div>
+						
+						  <div class="group">
+							 <span>订单创建时间：</span><input type="text"  name="start_time" id="start_time" class="input_box search_ipt laydate-icon" value=""/> 
+						  </div>
+						
+						 <div class="group">
+							 <span>订单创建截止时间：</span><input type="text"  name="end_time" id="end_time" class="laydate-icon input_box search_ipt" value=""/>
+						  </div>
+						  <div class="group">
+							 <span>订单发货时间：</span><input type="text"  name="send_time1" id="send_time1" class="input_box search_ipt laydate-icon" value=""/> 
+						  </div>
+						
+						 <div class="group">
+							 <span>订单发货截止时间：</span><input type="text"  name="send_time2" id="send_time2" class="laydate-icon input_box search_ipt" value=""/>
+						  </div>  
+						  
+						  <div class="group">
+							 <span>订单确认时间：</span><input type="text"  name="confirm_time1" id="confirm_time1" class="input_box search_ipt laydate-icon" value=""/> 
+						  </div>
+						
+						 <div class="group">
+							 <span>订单确认截止时间：</span><input type="text"  name="confirm_time2" id="confirm_time2" class="laydate-icon input_box search_ipt" value=""/>
+						  </div>
+						
+						  <div class="group">
+							   <span>收货地址：</span><input type="text" name="address" class="search_ipt" value="{:input('address')}"/>
+						  </div> 
+						  
+						  <div class="group">
+							<span>商品名称：</span><input type="text" name="saleslist"  class="search_ipt" value=""/>
+						  </div>  
+						  
+						  <div class="group">
+							<span>快递名称：</span><input type="text" name="express"  class="search_ipt" value=""/>
+						  </div>  
+						  
+						  <div class="group">
+							<span>快递单号：</span><input type="text" name="express_code"  class="search_ipt" value=""/>
+						  </div> 
+						  <div class="group">
+							<span>留言：</span><input type="text" name="message"  class="search_ipt" value=""/>
+						  </div>
+
+
+
+						  <div class="group">
+						   <span>订单状态:</span>
+								<select name="status"  class=" input_box search_ipt" >
+								<option value="">全部</option>  
+								<option value="0">待支付</option>   
+								<option value="1">待发货</option>   
+								<option value="2">已发货</option> 
+								<option value="3">已确认</option>   	 
+								</select>
+						  </div>
+						  
+							<div class="group center"> 
+							  <input type="button" class="btn_excel" value="导出到excel" onclick="submitfrm(0)"> 
+							 <input type="button" class="btn_word" value="导出到word" onclick="submitfrm(1)"> </div>
+					</form>
+				</div>
+				
+					
+			
+			</div>
+		</div>
+	 
+       <script>
+	    function submitfrm(num){
+			if(num>0){
+    	        $(".search-form").attr("action","{:url('word')}");
+			}
+            $(".search-form").submit();
+       }
+	       $("select[name='status']").val("{:input('status')}");
+	       $("select[name='isdao']").val("{:input('isdao')}");
+				laydate({
+					  elem: '#end_time',
+					  format: 'YYYY-MM-DD hh:mm:ss', 
+					 //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+				});
+   
+				laydate({
+					elem: '#start_time',
+					format: 'YYYY-MM-DD hh:mm:ss', 
+					 //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+				});
+				laydate({
+					  elem: '#send_time1',
+					  format: 'YYYY-MM-DD hh:mm:ss', 
+					   //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+				});
+   
+				laydate({
+					elem: '#send_time2',
+					format: 'YYYY-MM-DD hh:mm:ss', 
+					 //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+				});
+				laydate({
+					  elem: '#confirm_time1',
+					  format: 'YYYY-MM-DD hh:mm:ss', 
+					   //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+				});
+   
+				laydate({
+					elem: '#confirm_time2',
+					format: 'YYYY-MM-DD hh:mm:ss', 
+					 //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+				});
+		</script>
+	<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

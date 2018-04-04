@@ -1,0 +1,170 @@
+<!-- 头部 -->
+	{include file='Public/header'}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="javascript:;" class="index_a">个人中心</a> ><span>密码修改</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			<div class="main_top">
+				{include file='Public/left'}
+				<div class="mmxg_right_pan fl">
+					<form class="search-form adr_form_update" id="profile" method="post" action="{:U('')}">
+					<div class="con f14">
+						<div class="old">
+							<div class="l_txt fl">旧密码:</div>
+							<input type="text" name="old" class="fl"/>
+						</div>
+						<div class="new">
+							<div class="l_txt fl">新密码:</div>
+							<div class="r_div fl">
+								<div class="t_div">
+									<input type="text" name="password" class="fl" />
+									<p class="fl" style="display:none">（您的密码输入有误，请看提示输入）</p>
+								</div>
+								<p class="tip" >6-20位字符，可由大小写英文、数字或符号组成</p>
+							</div>
+						</div>
+						<div class="re_set">
+							<div class="l_txt fl">重置密码:</div>
+							<div class="r_div fl">
+								<input type="text" name="repassword"/>
+								<p class="tip">6-20位字符，可由大小写英文、数字或符号组成</p>
+							</div>
+						</div>
+						<a class="done">完成</a>
+					</div>
+				</div></form>	
+			</div>
+			
+		</div>
+
+	</div>
+	<!--/main end-->	
+	
+<!--/main end-->	
+{include file='Public/footer'}
+	<div class="mask none">
+			<div class="alert_success alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i>操作成功</div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+		<div class="mask none">
+			<div class="alert_error alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i>操作失败</div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+	
+	<script>
+			$(".done").click(function(){
+    		var self = $("#profile");
+    		$.post(self.attr("action"),self.serialize(),success,"json");
+    		return false;
+
+    		function success(data){
+    			if(data.code){
+    				opensuccess(data);
+    			} else {
+				     openerror(data)
+    			}
+    		}
+    	});
+			$(".mask .alert_div .alert_close").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			$(".mask .alert_div .alert_btn").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			
+			function opensuccess(data){ 
+			    $(".alert_success alert_content").html("<i></i>"+data.msg);
+				$(".alert_success").parents(".mask").removeClass("none");
+			}
+			function openerror(data){
+			    $(".alert_error alert_content").html("<i></i>"+data.msg);
+				$(".alert_error").parents(".mask").removeClass("none");
+			}
+		</script>
+	<script type="text/javascript">
+		$(function(){
+			
+			
+			//轮播	
+			var myFn = function(){
+				olKey++;
+				if(olKey >4){
+					olKey = 0;
+				}
+				$('.grzx_main_in .cnxh .tab_div ol li').eq(olKey).addClass('current').siblings().removeClass('current');
+				imgKey++;
+				if(imgKey >4){
+					imgKey =1;
+					$('.grzx_main_in .cnxh .tab_div .con ul').css('left','0px');	
+				}
+				var move = imgKey * -1198;
+				$('.grzx_main_in .cnxh .tab_div .con ul').stop().animate({'left':move +'px'},1000);			
+			}
+			
+					
+			//自动轮播
+			var timer01 = null;
+			timer01 = setInterval(myFn,6000);
+			$('.grzx_main_in .cnxh .tab_div .con').hover(function(e) {
+				clearInterval(timer01);
+			},function(){
+				clearInterval(timer01);	
+				timer01 = setInterval(myFn,6000);
+			});
+			
+			
+			var myLi = $('.grzx_main_in .cnxh .tab_div .con ul li:eq(0),.grzx_main_in .cnxh .tab_div .con ul li:eq(1),.grzx_main_in .cnxh .tab_div .con ul li:eq(2),.grzx_main_in .cnxh .tab_div .con ul li:eq(3),.grzx_main_in .cnxh .tab_div .con ul li:eq(4)').clone(true);
+			var myTag = $(myLi);
+			$('.grzx_main_in .cnxh .tab_div .con ul').append(myTag);
+			
+			var olKey = 0;
+			var imgKey = 0;
+			$('.grzx_main_in .cnxh .tab_div .btn_div .next').click(function(e) {
+				myFn();			
+			});
+			
+			$('.grzx_main_in .cnxh .tab_div .btn_div .prev').click(function(e) {
+				olKey--;
+				if(olKey <0){
+					olKey = 4;	
+				}
+				$('.con ol li').eq(olKey).addClass('current').siblings().removeClass('current');
+				imgKey--;
+				if(imgKey < 0){
+					imgKey = 4;	
+					$('.grzx_main_in .cnxh .tab_div .con ul').css('left','-5990px');
+				}
+				var move = imgKey * -1198;
+				$('.grzx_main_in .cnxh .tab_div .con ul').stop().animate({'left':move + 'px'},1000);
+			});
+			
+			// ol点击
+			$('.grzx_main_in .cnxh .tab_div ol li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var move = $(this).index() * -1198;
+				$('.grzx_main_in .cnxh .tab_div .con ul').stop().animate({'left':move + 'px'},1000);
+				olKey = $(this).index();
+				imgKey = $(this).index();
+			});
+
+				
+				
+		})
+	</script>
+</body>
+</html>

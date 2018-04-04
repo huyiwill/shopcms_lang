@@ -1,0 +1,175 @@
+<!-- 头部 -->
+	{include file='Public/header'}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="javascript:;" class="index_a">个人中心 </a> ><span>我的收藏</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			<div class="main_top">
+					{include file='Public/left'}
+				<div class="wdcs_right_pan fr">
+					<div class="top_tab">
+						<ul>
+							<li class="current"><a href="javascript:;">宝贝收藏</a></li>
+						
+						</ul>
+					</div>
+					<div class="tab_con">
+						<div class="bb_list">
+							<ul>
+								{volist name="res.list" id="vo"}
+								<li>
+				
+									<a href="{:U('Goods/detail?id='.$vo['goods_id'])}" class="pic"><img src="{$vo.goods_id|get_goods_cover}"/></a>
+									<a href="{:U('Goods/detail?id='.$vo['goods_id'])}" class="name">{$vo.goods_id|get_goods="title"}</a>
+									<p class="price f12">¥{$vo.goods_id|get_goods="price"}</p>
+								</li>	
+								{/volist}	
+							</ul>
+						</div>
+						<div class="page_div page">
+							<div class="con">
+									{$res.page}
+							</div>
+							
+						</div>	
+					</div>
+				   </div>
+					<div class="btn_div">
+						<a href="javascript:;" class="prev"><div></div></a>
+						<a href="javascript:;" class="next"><div></div></a>
+					</div>					
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!--/main end-->	
+	<!--footer  start-->
+	<div class="footer w100">
+		<div class="footer_in in_width f14">
+			<div class="footer_top">
+				<ul class="fl">
+					<li>
+						<span>优</span>品质保障
+					</li>
+					<li>
+						<span>七</span>七天无理由退换货
+					</li>
+					<li>
+						<span>特</span>特色服务体验
+					</li>
+					<li>
+						<span>帮</span>帮助中心
+					</li>
+				</ul>
+				<p class="kfdh fr">客服电话：0539-2872999 08:00-17:30(周一至周日)</p>
+			</div>
+			<div class="site_info">
+				<div class="info_list fl">
+					<ul>
+						<li><a href="javascript:;">新手指南</a></li>
+						<li><a href="javascript:;">如何注册成为会员</a></li>
+						<li><a href="javascript:;">忘记密码</a></li>
+						<li><a href="javascript:;">个人资料修改</a></li>
+						<li><a href="javascript:;">账户安全</a></li>
+					</ul>
+				</div>
+				<div class="info_list fl">
+					<ul>
+						<li><a href="javascript:;">购物指南</a></li>
+						<li><a href="javascript:;">购物流程</a></li>
+						<li><a href="javascript:;">收货地址管理</a></li>
+						<li><a href="javascript:;">订单管理</a></li>
+						<li><a href="javascript:;">宝贝/店铺收藏</a></li>
+					</ul>
+				</div>
+				<div class="info_list fl">
+					<ul>
+						<li><a href="javascript:;">常见问题</a></li>
+						<li><a href="javascript:;">售后申请与交易投诉</a></li>
+						<li><a href="javascript:;">退款/退货</a></li>
+					</ul>
+				</div>
+				<div class="info_list fl">
+					<ul>
+						<li><a href="javascript:;">会员与联盟商家</a></li>
+						<li><a href="javascript:;">会员计划及会员权益</a></li>
+						<li><a href="javascript:;">联盟商家、企业进驻</a></li>
+					</ul>
+				</div>
+				<div class="info_list fl">
+					<ul>
+						<li><a href="javascript:;">关于我们</a></li>
+						<li><a href="javascript:;">商业大系统</a></li>
+						<li><a href="javascript:;">运营机制</a></li>
+						<li><a href="javascript:;">联系我们</a></li>
+					</ul>
+				</div>
+				<div class="rz fr">
+					<div class="icon"><img src="__IMG__/footer_pic_01.gif"/></div>
+					<p>商家合作</p>
+					<p>错过天猫？别再错过我们！</p>
+					<p>开启消费商新纪元！</p>
+					<a href="javascript:;" class="msrz f18">马上入驻</a>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<!--/footer  end-->
+	<!--copy  start-->
+	<div class="copy w100">
+		<div class="copy_in in_width">
+			<div class="pic_01 fl"><img src="__IMG__/copy_pic_01.png"/></div>
+			<div class="pic_02 fl"><img src="__IMG__/copy_pic_02.png"/></div>
+			<div class="info fl f12">
+				<p class="list">
+					<a href="javascript:;">返回首页</a>|
+					<a href="javascript:;">招聘英才</a>|
+					<a href="javascript:;">合作及洽谈</a>|
+					<a href="javascript:;">联系我们</a>|
+					<a href="javascript:;">关于我们</a>|
+					<a href="javascript:;">友情链接</a>
+				</p>
+				<p class="p_01">CopyRight © 2007-2016  网店运维交流中心 鲁ICP备16018100号-1 NewPower Co.版权所有  客户服务中心(7x24):QQ8988354 Q群：111731672</p>
+				<div class="pic_03"><img src="__IMG__/copy_pic_03.png"/></div>
+			</div>
+		</div>
+	</div>
+	<!--/copy  end-->
+	
+	<script type="text/javascript">
+		$(function(){
+			//top_tab
+			$('.grzx_main_in .main_top .wdcs_right_pan .top_tab ul li').click(function(){
+				$(this).addClass('current').siblings().removeClass('current');
+			});
+			
+			$('.grzx_main_in .main_top .wdcs_right_pan .tab_con').eq(0).show();
+			$('.grzx_main_in .main_top .wdcs_right_pan .top_tab ul li').click(function(){
+				$(this).addClass('current').siblings().removeClass('current');
+				var this_index =$(this).index();				
+				$('.grzx_main_in .main_top .wdcs_right_pan .tab_con').eq(this_index).show().siblings('.tab_con').hide();
+			});
+			
+			//page
+			$('.grzx_main_in .main_top .wdcs_right_pan .tab_con .page_div .con .page_ul li').click(function(){
+				$(this).addClass('current').siblings().removeClass('current');
+			});
+			
+			//店铺tab
+			$('.grzx_main_in .main_top .wdcs_right_pan .tab_con .list_div .list .rgt .tab_ul li').click(function(){
+				$(this).addClass('current').siblings().removeClass('current');
+			});			
+				
+		})
+	</script>
+</body>
+</html>

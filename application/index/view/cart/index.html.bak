@@ -1,0 +1,500 @@
+<!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="javascript:;" class="index_a">个人中心</a> ><span>我的购物车</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			
+			<div class="wdgwc_main_top">
+				 {empty name="cart['total_num']"}
+			 <div class="hide">
+					<div class="pic fl"><img src="__IMG__/wdgwc_pic_01.gif"/></div>
+					<div class="none_txt fl">
+						<p class="p_01">您的购物车还是空的，赶紧行动吧！您可以：</p>
+						<p class="p_02">看看 <a href="{:url('collect/index')}">我的收藏</a></p>
+						<p class="p_03">看看 <a href="{:url('order/index')}">已买到的宝贝</a></p>
+					</div>
+				</div>
+			  {else/}
+			  <div class="top_tab">
+					<ul class="fl f16">
+						<li class="current li_01">
+							<a href="javascript:;">全部商品<span>{$cart.total_num}</span></a>
+						</li>
+						
+					</ul>
+					<div class="hsz fr f14">
+						<p class="txt fl">已选商品（不含运费）<span class="tSum">{$cart.total_money}</span></p>
+						<a onclick="orderSubmit()" class="js fl current">结算</a>
+					</div>
+				</div>
+				<div class="tab_con">
+					<table class="sle_all f12">
+						<tbody>
+							<tr>
+								<th class="th_01">
+									<input type="checkbox" checked class="fl"/>
+									<span class="date fl">全选</span>
+								</th>
+								<th class="th_02">商品信息</th>
+								<th class="th_03">单价</th>
+								<th class="th_04">数量</th>
+								<th class="th_05">金额</th>
+								<th class="th_06">操作</th>
+							</tr>
+						</tbody>
+					</table>
+				
+					<div class="bought_list">
+					
+						<div class="del_list">
+							{foreach name="cartlist" item="vo"} 
+							<table class="del_table" class="item{$vo.id}"  id="item{$vo.id}">
+								<tbody>
+									<tr>
+										<td class="td_01">
+											<input type="checkbox" checked class="fl" attr-id="{$vo.id}"/>
+											<a href="{:U('Goods/detail?id='.$vo['goodsid'])}" class="pic fl"><img width="80" height="80" src="{$vo.goodsid|get_goods_cover}"></a>
+										</td>
+										
+										<td class="td_02">
+											<a href="{:U('Goods/detail?id='.$vo['goodsid'])}"class="name">{$vo.goodsid|get_goods="title"}</a>
+						
+										</td>
+										<td class="td_03">
+											<div class="color">
+												<p>{$vo.specifications}</p>
+												<span class="xg">修改</span>
+											</div>	
+										</td>
+										<td class="td_04">
+											<p class="total">¥{$vo.goodsid|get_mprice}</p>
+											<p class="yf">¥{$vo.price}</p>
+											<div class="phone">
+												<div class="top">
+													<span class="txt fl f12">卖家促销</span>
+													<span class="icon fl"><img src="__IMG__/wdgwc_icon_01.gif"></span>
+												</div>
+												<div class="down f12">卖家促销</div>
+											</div>
+										</td>
+										<td class="td_05">
+											<div class="count f12">
+												<a  class="jian fl f14" onclick="decNum(this,{$vo.id})">-</a>
+												<input type="text" value="{$vo.num}" id="ipt" class="ipt fl" maxlength="2"/>
+												<a  class="jia fl f14" onclick="incNum(this,{$vo.id})">+</a>
+											</div>
+										</td>
+										<td class="td_06">
+											¥{php}echo $vo["num"]*$vo["price"];{/php}
+										</td>
+										<td class="td_07 f12">
+											<a onclick="removeToCollect(this,{$vo.id})" class="same">移到收藏夹</a>
+											<a onclick="cancelCart(this,{$vo.id})" class="del">删除</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						{/foreach}
+						</div>
+						
+					</div>
+					<div class="bot_all f12">
+						<div class="sel_all fl">
+							<input type="checkbox" checked  class="fl"/>
+							<span class="txt fl">全选</span>
+						</div>
+						<div class="a_all fl">
+							<a onclick="delCart()" class="del fl">删除</a>
+							<a onclick="clearCart()" class="none fl">清空购物车</a>
+						</div>
+						<div class="total_div fr">
+							<div class="yx fl">已选商品<span class="cart_num" >{$cart.total_num}</span>件</div>
+							<div class="yf fl">合计（不含运费）：<span class="tSum">¥{$cart.total_money}</span></div>
+							<a onclick="orderSubmit()" class="js_btn fl current">结算</a>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>{/empty}
+			<div class="cnxh">
+				<div class="tit"><h3 class="f16">猜你喜欢的</h3></div>
+				<div class="tab_div">
+					<div class="con">
+						<ul>
+							{volist name="lists" id="vo"}
+							 <li>
+								<a href="{:U('Goods/detail?id='.$vo['id'])}" class="pic"><img src="{$vo.id|get_goods_cover}" width="220" height="220"/></a>
+								<div class="price">
+									<span class="line_l"></span>
+									<div class="num">
+										<span class="new fl f18">¥{$vo.price}</span>
+										<span class="old fl f12"></span>
+									</div>
+									<span class="line_r"></span>
+								</div>
+								<a href="{:U('Goods/detail?id='.$vo['id'])}" class="name f14">{$vo.title}</a>
+								<p class="xl f12">总销量 {$vo.sales}</p>
+							 </li>
+				           {/volist}
+						</ul>
+						
+					</div>
+					<ol>
+						<li></li>
+						
+						<li class="current"></li>
+						<li></li>
+						
+					</ol>
+					<div class="btn_div">
+						<a href="javascript:;" class="prev"><div></div></a>
+						<a href="javascript:;" class="next"><div></div></a>
+					</div>					
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!--/main end-->	
+
+	
+	<script type="text/javascript">
+	var ele= $('.grzx_main_in .wdgwc_main_top .tab_con .bought_list .del_list .del_table .td_01 input');
+		$(function(){
+			//tab
+			$('.grzx_main_in .wdgwc_main_top .top_tab ul li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+			});
+			
+			//轮播	
+			var myFn = function(){
+				olKey++;
+				if(olKey >2){
+					olKey = 0;
+				}
+				$('.grzx_main_in .cnxh .tab_div ol li').eq(olKey).addClass('current').siblings().removeClass('current');
+				imgKey++;
+				if(imgKey >2){
+					imgKey =1;
+					$('.grzx_main_in .cnxh .tab_div .con ul').css('left','0px');	
+				}
+				var move = imgKey * -1198;
+				$('.grzx_main_in .cnxh .tab_div .con ul').stop().animate({'left':move +'px'},1000);			
+			}
+			
+					
+			//自动轮播
+			var timer01 = null;
+			timer01 = setInterval(myFn,3000);
+			$('.grzx_main_in .cnxh .tab_div .con').hover(function(e) {
+				clearInterval(timer01);
+			},function(){
+				clearInterval(timer01);	
+				timer01 = setInterval(myFn,3000);
+			});
+			
+			
+			var myLi = $('.grzx_main_in .cnxh .tab_div .con ul li:eq(0),.grzx_main_in .cnxh .tab_div .con ul li:eq(1),.grzx_main_in .cnxh .tab_div .con ul li:eq(2),.grzx_main_in .cnxh .tab_div .con ul li:eq(3),.grzx_main_in .cnxh .tab_div .con ul li:eq(4)').clone(true);
+			var myTag = $(myLi);
+			$('.grzx_main_in .cnxh .tab_div .con ul').append(myTag);
+			
+			var olKey = 0;
+			var imgKey = 0;
+			$('.grzx_main_in .cnxh .tab_div .btn_div .next').click(function(e) {
+				myFn();			
+			});
+			
+			$('.grzx_main_in .cnxh .tab_div .btn_div .prev').click(function(e) {
+				olKey--;
+				if(olKey <0){
+					olKey = 3;	
+				}
+				$('.con ol li').eq(olKey).addClass('current').siblings().removeClass('current');
+				imgKey--;
+				if(imgKey < 0){
+					imgKey = 3;	
+					$('.grzx_main_in .cnxh .tab_div .con ul').css('left','-5990px');
+				}
+				var move = imgKey * -1198;
+				$('.grzx_main_in .cnxh .tab_div .con ul').stop().animate({'left':move + 'px'},3000);
+			});
+			
+			// ol点击
+			$('.grzx_main_in .cnxh .tab_div ol li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var move = $(this).index() * -1198;
+				$('.grzx_main_in .cnxh .tab_div .con ul').stop().animate({'left':move + 'px'},3000);
+				olKey = $(this).index();
+				imgKey = $(this).index();
+			});
+
+			//table_list
+			$('.grzx_main_in .shdz_right_pan .table_div .addr_table .table_list').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+			});
+			//修改hover
+			$('.grzx_main_in .wdgwc_main_top .tab_con .bought_list .del_list .del_table .td_03').hover(function(e) {
+				$(this).css('bordes','1px dashed #e53344');
+				$(this).children('.color').children('.xgs').show();
+			},function(){
+				$(this).css('borders','1px dashed #fcfcfc');
+				$(this).children('.color').children('.xgs').hide();
+			});
+			//卖家促销hover
+			$('.grzx_main_in .wdgwc_main_top .tab_con .bought_list .del_list .del_table .td_04 .phone .top').hover(function(e) {
+				$(this).find('.icon').children('img').attr('src','__IMG__/wdgwc_icon_02.gif');
+				$(this).siblings('.down').show();
+			},function(){
+				$(this).find('.icon').children('img').attr('src','__IMG__/wdgwc_icon_01.gif');
+				$(this).siblings('.down').hide();
+			});
+			
+			//表格全选和反选
+				//sle_all
+			$('.grzx_main_in .wdgwc_main_top .tab_con .sle_all .th_01 input').click(function(){	
+				var aInp = $(this).closest('.sle_all').siblings('.bought_list').find('.dp_all').children('input');
+				var bInp = $(this).closest('.sle_all').siblings('.bought_list').find('.del_list').find('.td_01').children('input');
+				if($(this).attr('checked') == 'checked'){
+					for(var i = 0; i < aInp.length; i++){					
+						aInp.eq(i).attr('checked','checked');						
+					}
+					for(var j = 0; j < bInp.length; j++){					
+						bInp.eq(j).attr('checked','checked');						
+					}
+					$(this).closest('.sle_all').siblings('.bot_all').children('.sel_all').children('input').attr('checked','checked');					
+					$(this).closest('.sle_all').siblings('.bot_all').find('.js_btn').addClass('current');
+					$(this).closest('.sle_all').parent('.tab_con').siblings('.top_tab').find('.js').addClass('current');
+				}else{
+					for(var i = 0; i < aInp.length; i++){					
+						aInp.eq(i).removeAttr("checked");						
+					}
+					for(var j = 0; j < bInp.length; j++){					
+						bInp.eq(j).removeAttr("checked");						
+					}
+					$(this).closest('.sle_all').siblings('.bot_all').children('.sel_all').children('input').removeAttr("checked");
+					$(this).closest('.sle_all').siblings('.bot_all').find('.js_btn').removeClass('current');
+					$(this).closest('.sle_all').parent('.tab_con').siblings('.top_tab').find('.js').removeClass('current');
+				}
+				checkcart()	;					   
+			})	
+				//bought_list
+			$('.grzx_main_in .wdgwc_main_top .tab_con .bought_list .list_div .dp_all input').click(function(){	
+				var cInp = $(this).parent('.dp_all').parent('.list_div').siblings('.del_list').find('.td_01').children('input');
+				if($(this).attr('checked') == 'checked'){
+					for(var k = 0; k < cInp.length; k++){					
+						cInp.eq(k).attr('checked','checked');						
+					}
+					$(this).closest('.bought_list').siblings('.bot_all').find('.js_btn').addClass('current');
+					$(this).closest('.bought_list').parent('.tab_con').siblings('.top_tab').find('.js').addClass('current');
+				}else{
+					for(var k = 0; k < cInp.length; k++){					
+						cInp.eq(k).removeAttr("checked");						
+					}
+					$(this).parent('.dp_all').parent('.list_div').siblings('.del_list').find('.td_01').children('input').removeAttr("checked");
+					$(this).closest('.bought_list').siblings('.sle_all').find('.th_01').children('input').removeAttr("checked");
+					$(this).closest('.bought_list').siblings('.bot_all').find('.sel_all').children('input').removeAttr("checked");
+					$(this).closest('.bought_list').siblings('.bot_all').find('.js_btn').removeClass('current');
+					$(this).closest('.bought_list').parent('.tab_con').siblings('.top_tab').find('.js').removeClass('current');
+				}				   
+			})
+		
+          
+				//td_01
+			$('.grzx_main_in .wdgwc_main_top .tab_con .bought_list .del_list .del_table .td_01 input').click(function(){	
+			  var ale=new Array();
+			  ele.each(function () {
+                    if($(this).attr('checked') == 'checked'){
+				          ale.push($(this).attr('attr-id')); 
+				     }
+                });
+				//alert(ele.length+"$"+ale.length);
+				if(ele.length==ale.length){
+				    $('.sle_all').find('input').attr("checked","checked");
+					$('.bot_all').find('input').attr("checked","checked");
+				}else{  
+					
+				    $('.sle_all').find('input').removeAttr("checked");
+					$('.bot_all').find('input').removeAttr("checked");
+				}
+				
+
+				if(ale.length>0){
+				    $(this).closest('.bought_list').siblings('.bot_all').find('.js_btn').addClass('current');
+					$(this).closest('.bought_list').parent('.tab_con').siblings('.top_tab').find('.js').addClass('current');
+				}
+				else{
+				   $(this).closest('.bought_list').siblings('.bot_all').find('.js_btn').removeClass('current');
+					$(this).closest('.bought_list').parent('.tab_con').siblings('.top_tab').find('.js').removeClass('current');
+				}
+				checkcart()	;		   
+			})
+		
+				//bot_all
+			$('.grzx_main_in .wdgwc_main_top .tab_con .bot_all .sel_all input').click(function(){	
+				var aInp = $(this).closest('.bot_all').siblings('.bought_list').find('.dp_all').children('input');
+				var bInp = $(this).closest('.bot_all').siblings('.bought_list').find('.del_list').find('.td_01').children('input');
+				if($(this).attr('checked') == 'checked'){
+					for(var i = 0; i < aInp.length; i++){					
+						aInp.eq(i).attr('checked','checked');						
+					}
+					for(var j = 0; j < bInp.length; j++){					
+						bInp.eq(j).attr('checked','checked');						
+					}
+					$(this).closest('.bot_all').siblings('.sle_all').find('.th_01').children('input').attr('checked','checked');
+					$(this).closest('.bot_all').find('.js_btn').addClass('current');
+					$(this).closest('.bot_all').siblings('.bought_list').parent('.tab_con').siblings('.top_tab').find('.js').addClass('current');
+				}else{
+					for(var i = 0; i < aInp.length; i++){					
+						aInp.eq(i).removeAttr("checked");						
+					}
+					for(var j = 0; j < bInp.length; j++){					
+						bInp.eq(j).removeAttr("checked");						
+					}
+					$(this).closest('.bot_all').siblings('.sle_all').find('.th_01').children('input').removeAttr("checked");
+					$(this).closest('.bot_all').find('.js_btn').removeClass('current');
+					$(this).closest('.bot_all').siblings('.bought_list').parent('.tab_con').siblings('.top_tab').find('.js').removeClass('current');
+				}
+				checkcart();
+			})
+			
+	
+	
+})	
+	function getIds() {     
+		   //全选遍历
+		    var result=new Array();
+			 ele.each(function () {
+                    if(this.checked){
+				          result.push($(this).attr('attr-id')); 
+				     }
+
+                });
+			return result.join(",");		
+	}
+	function  checkcart(){
+  
+        r=getIds();
+	    $.post('{:U("cart/checkcart")}',{id:r},function(data){
+				  $('.tNum').text(data.count);
+				  $('.tSum').text("¥"+data.total);
+				  $('.cart_num').text(data.sum);	
+	   });
+		
+     }
+
+//购物车删除
+ function delCart(){ 
+		     if(confirm("确认删除吗？")){  
+				  r=getIds();
+	             $.post(del_cart_url,{id:r},function(data){
+                   if(data.status){ 
+					 var strArray = r.split(',');
+					 if(strArray.length>1){
+						  for(var i =0 ;i<strArray.length;i++){
+							var  sku_id= strArray[i];
+							$('.item'+sku_id).remove();
+							$('#item'+sku_id).remove();
+						 }
+					}else{
+						r=getIds();
+					    $('.item'+r).remove();
+					    $('#item'+r).remove();
+					}
+					if(!data.sum){
+						    var html='<div class="hide"><div class="pic fl"><img src="'+img_path+'/wdgwc_pic_01.gif"/></div><div class="none_txt fl"><p class="p_01">您的购物车还是空的，赶紧行动吧！您可以：</p><p class="p_02">看看 <a href="javascript:;">我的收藏</a></p><p class="p_03">看看 <a href="javascript:;">已买到的宝贝</a></p></div></div>';
+					        $(" .wdgwc_main_top").html(html);
+							var html='<p class="none_tips" style="margin:50px 0;text-align:center;"><i> </i>购物车中没有商品，赶紧去选购！</p>';
+						    $(".checkout_box").hide(); 
+						    $(".minicart_list .list_detail ul").empty();
+						    $(".minicart_list .list_detail ul").append(html);
+							
+					}
+				   $('.tNum').text(data.count);
+				   $('.tSum').text("¥"+data.total);
+				   $('.cart_num').text(data.sum);
+				  }
+	           });  
+		   }
+	}
+//购物车清空
+ function clearCart(){ 
+		     if(confirm("确认执行操作吗？")){  
+				  r=getIds();
+	             $.post(clear_cart_url,{id:r},function(data){
+					if(!data.sum){
+						    var html='<div class="hide"><div class="pic fl"><img src="'+img_path+'/wdgwc_pic_01.gif"/></div><div class="none_txt fl"><p class="p_01">您的购物车还是空的，赶紧行动吧！您可以：</p><p class="p_02">看看 <a href="javascript:;">我的收藏</a></p><p class="p_03">看看 <a href="javascript:;">已买到的宝贝</a></p></div></div>';
+					        $(" .wdgwc_main_top").html(html);
+							var html='<p class="none_tips" style="margin:50px 0;text-align:center;"><i> </i>购物车中没有商品，赶紧去选购！</p>';
+						    $(".checkout_box").hide(); 
+						    $(".minicart_list .list_detail ul").empty();
+						    $(".minicart_list .list_detail ul").append(html);
+							
+					}
+				   $('.tNum').text(0);
+				   $('.tSum').text("¥0");
+				   $('.cart_num').text(0);
+				 
+	           });  
+		   }
+	}
+	function  removeToCollect(obj,sku_id){
+        
+	    $.post(collect_url,{id:sku_id},function(data){
+					$.post(del_url,{id:sku_id},function(data){   
+					 if(data.status){ 
+						  $('.item'+sku_id).remove();$('#item'+sku_id).remove();
+						  if(!data.sum){
+						    var html='<div class="hide"><div class="pic fl"><img src="'+img_path+'/wdgwc_pic_01.gif"/></div><div class="none_txt fl"><p class="p_01">您的购物车还是空的，赶紧行动吧！您可以：</p><p class="p_02">看看 <a href="javascript:;">我的收藏</a></p><p class="p_03">看看 <a href="javascript:;">已买到的宝贝</a></p></div></div>';
+					        $(" .wdgwc_main_top").html(html);
+							var html='<p class="none_tips" style="margin:50px 0;text-align:center;"><i> </i>购物车中没有商品，赶紧去选购！</p>';
+						    $(".checkout_box").hide(); 
+						    $(".minicart_list .list_detail ul").empty();
+						    $(".minicart_list .list_detail ul").append(html);
+						  }
+						 
+						  $('.tNum').text(data.count);
+				          $('.tSum').text("¥"+data.total);
+				          $('.cart_num').text(data.sum);
+					}
+					 else{
+					    alert(data.msg);
+					 }
+                });
+	   });
+		
+     }
+	 function orderSubmit(){  
+	           var login_url = "{:U('user/login')}";
+			   var  is_login="{:is_login()}";
+			   if(is_login<1){
+      			   window.location.href =login_url;
+				   return false;
+			   }
+			  
+		        var ids=getIds();
+
+				$.post(order_url,{id:ids},function(data){   
+					 if(data.status=="1"){ 
+						 var url = "{:U('order/orderPay')}"+'?id='+data.id;
+						  window.location.href =data.url;
+					}
+					 else{
+					    alert(data.msg);
+					 }
+                });
+	       
+	}	
+	</script><!-- 头部 -->
+	{include file='public/footer'}
+<!-- 头部 --> 
+</body>
+</html>

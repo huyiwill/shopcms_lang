@@ -1,0 +1,65 @@
+	{include file='public/header'}
+	<!--main start-->
+	<div class="main w100 tjdd_main">
+		<div class="main_in in_width tjdd_main_in">
+			<div class="tjzf_con">
+			<form class="search-form" id="fp_form" action="{:U('alipay/add')}" method="post">
+				<h3 class="f24 top_title">支付提交</h3>
+				<p class="tip f12">充值订单详情内容可通过查看<a href="{:U('pay/lists')}">我的充值记录</a>进行核对处理。</p>
+				<div class="del">
+					<div class="div_top">
+						
+					</div>				
+					<div class="ye_zf">
+						<p class="fs f16">充值金额</p>
+						<div class="bot_div f12">
+							<div class="div_l fl">
+								<input type="text" class="fl" name="account" style="height:30px;line-height:30px;"/>
+								
+							</div>
+							
+						</div>
+					</div>
+					<div class="zx_zf">
+						<p class="fs f16">选择在线支付</p>
+						<div class="bot_div">
+							<ul>
+								<li class="current"><a attr-id="1"><img src="__IMG__/zxzf_pic_01.jpg"/></a></li>
+							
+							</ul>
+							<div class="sure_div"><a onclick="paySubmit();" class="wrzf f20">确认支付</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+	<input type="hidden" name="paytype" value="1"/>
+	<input type="hidden" name="id" value="{$info.id|default=''}"/>
+	</form>
+	<!--/main end-->	
+	
+	<script type="text/javascript">
+	
+		function paySubmit(){ 
+		     var paytype=$("li.current").find("a").attr("attr-id");
+             $("input[name='paytype']").val(paytype);
+			 $("#fp_form").submit();
+			
+	       
+	}
+	</script>
+	
+	<script type="text/javascript">
+		$(function(){		
+			$('.tjdd_main .tjdd_main_in .tjzf_con .del .zx_zf .bot_div ul li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var id=$(this).find("a").attr("attr-id")
+				 $("input[name='paytype']").val(id);
+			});
+			
+		})
+	</script>
+{include file='public/footer'}

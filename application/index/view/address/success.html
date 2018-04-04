@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>提交订单--支付成功</title>
+		<link href="__CSS__/base.css" rel="stylesheet" type="text/css"/>
+	<link href="__CSS__/style.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>
+<!-- 	<script type="text/javascript" src="js/base.js"></script> -->
+	
+</head>
+
+<body>
+<!--header start-->
+	<div class="header w100">
+		<div class="header_in in_width f12">
+			<if condition="is_login()">
+			<div class="header_lef fl">
+				<p>
+					您好 {$UcenterMember.username}
+					<span class="span_01">{$UcenterMember.level|default='vo'}普通会员</span>
+					，欢迎来到
+					<a href="javascript:;" class="sc_a">yershop商城</a>
+					<a href="{:U('UcenterMember/index')}" class="tc_a">［退出］</a>
+				</p>
+			</div><else/><div class="header_lef fl header_lef_wdl">
+				<div class="wzc">
+					<span class="fl">嗨，欢迎光临yershop商城</span>
+					
+					<a href="javascript:;" class="login_a fl">［登录］</a>
+					<a href="javascript:;" class="zc_a fl">［免费注册］</a>
+				</div>
+			</div></if>
+			<div class="header_rgt fr">
+				<dl class="down_app">
+					<dt><em class="ico_tel"></em><a href="/wap">移动端</a><i></i></dt>
+					<dd>
+						<div class="qrcode"><img src="__IMG__/code_pic.gif"></div>
+						<div class="hint">
+							<h4>手机APP开发中</h4>
+							敬请期待
+							<div class="addurl">
+								<a href="javascript:;" ><i class="icon-android fl"><img src="__IMG__/android_icon.gif"></i><span class="fl"></span>Android</a>
+								<a href="javascript:;"><i class="icon-apple fl"><img src="__IMG__/phone_icon.gif"></i><span class="fl">iPhone</span></a>
+							</div>
+						</div>
+						
+					</dd>      
+				</dl>
+				<dl class="">
+					<dt><em class="ico_shop"></em><a href="javascript:;">商家管理</a><i></i></dt>
+					<dd>
+						<ul>
+							<li><a href="javascript:;">招商入驻</a></li>
+							<li><a href="javascript:;">商家登录</a></li>
+						</ul>
+					</dd>
+				</dl>
+				<dl class="">
+					<dt><em class="ico_order"></em><a href="javascript:;">我的订单</a><i></i></dt>
+					<dd>
+						<ul>
+							<li><a href="javascript:;">待付款订单</a></li>
+							<li><a href="javascript:;">待确认收货</a></li>
+							<li><a href="javascript:;">待评价交易</a></li>
+						</ul>
+				    </dd>
+				</dl>
+				<dl class="">
+					<dt><em class="ico_store"></em><a href="javascript:;">我的收藏</a><i></i></dt>
+					<dd>
+					    <ul>
+							<li><a href="javascript:;">商品收藏</a></li>
+							<li><a href="javascript:;">店铺收藏</a></li>
+						</ul>
+					</dd>
+				</dl>
+				<dl class="">
+					<dt><em class="ico_service"></em>客户服务<i></i></dt>
+					<dd>
+					    <ul>
+							<li><a href="javascript:;">新手指南</a></li>
+							<li><a href="javascript:;">购物指南</a></li>
+							<li><a href="javascript:;">常见问题</a></li>
+					    </ul>
+					</dd>
+				</dl>
+			    <dl class="weixin">
+					<dt><em class="weixin"></em>关注我们<i></i></dt>
+					<dd>
+					    <h4>扫描二维码<br>
+						关注商城微信号</h4>
+					    <img src="__IMG__/code_pic.gif"> 
+					</dd>
+				</dl>								
+			</div>
+		</div>	
+	</div>
+	<!--/header end-->
+	<!--logo start-->
+	<div class="logo w100">
+		<div class="logo_in in_width tjdd_in_width">
+			<h1 class="logo_pic fl"><a href="javascript:;"><img title="YERSHOP" src="__IMG__/logo_pic.gif" width="201" height="59" />YERSHOP</a></h1>			
+			<div class="jd_div fr">
+				<ul>
+					<li class="li_01">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">我的购物车</p>
+					</li>
+					<li class="li_02">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">确认订单</p>
+					</li>
+					<li class="li_03">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">支付提交</p>
+					</li>
+					<li class="li_04 current">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">订单完成</p>
+					</li>
+				</ul>
+			</div>			
+		</div>
+	</div>
+	<!--/logo end--> 
+	<!--main start-->
+	<div class="main w100 tjdd_main">
+		<div class="main_in in_width tjdd_main_in">
+			<div class="tjcg_con">
+				<img src="__IMG__/tjcg_pic_01.gif" class="icon_l fl"/>
+				<div class="txt_r fl f14">
+					<p class="txt_01 f16">您已成功付款<span>{$info['total_money']}</span>元！</p>
+					<p class="txt_02">货物寄送至：湖北 武汉市 洪山区 南湖大道财经政法大学<a href="javascript:;">设置为默认收货地址</a></p>
+					<p class="txt_03">
+						<a href="javascript:;" class="fl">已买到宝贝列表</a>
+						<span class="line fl">|</span>
+						<a href="javascript:;" class="fl">订单详情</a>
+						<span class="line fl">|</span>
+						<span class="span_01 fl">联系卖家：</span>
+						<a href="javascript:;" class="fl mj"><span class="span_02 fl">麦好食</span><span class="icon fl"></span></a>
+					</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!--/main end-->	
+	<include file='public/footer'/>
+	
+	<script type="text/javascript">
+		$(function(){		
+			
+		})
+	</script>
+</body>
+</html>

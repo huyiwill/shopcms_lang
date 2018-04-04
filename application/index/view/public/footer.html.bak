@@ -1,0 +1,60 @@
+	<ul id="side-bar" class="side-pannel side-bar">
+<a href="javascript:;" class="gotop" style="display: block;"><s class="g-icon-top"></s></a><a data-link="1f2a3e5c25d331128cefba431f390884" class="text weibo btn-meiqia"><s class="g-icon-weibo1"></s><span>售前客服</span></a><a data-link="5afc4bfcafa564c350bcc6bf0a1aaa77" class="text weibo btn-meiqia"><s class="g-icon-weibo1"></s><span>售后客服</span></a>
+<a href="javascript:;" class="rx-phone"><s class="g-icon-rx-phone"></s><i></i></a>
+<a href="javascript:;" class="rx-phone"><img src="http://static-zazhi.zazhi.com/data/upload/other/fushijiang.png"></a>
+</ul>
+	
+	<script type="text/javascript" src="__JS__/common.js"></script>
+
+		<!--footer  start-->
+	<div class="footer w100">
+		<div class="footer_in in_width f14">
+			<div class="footer_title">
+				<ul>
+					<li class="qa">
+						<span class="left_icon">优</span>
+						<div class="right_div">
+							<div class="right_div_t_cn">品质保障</div>
+							<div class="right_div_t_en">Quality Assurance</div>
+						</div>
+					</li>
+					<li class="wr">
+						<span class="left_icon">七</span>
+						<div class="right_div">
+							<div class="right_div_t_cn">七天无理由退换货</div>
+							<div class="right_div_t_en">Without Reason</div>
+						</div>
+					</li>
+					<li class="csr">
+						<span class="left_icon">特</span>
+						<div class="right_div">
+							<div class="right_div_t_cn">特色服务体验</div>
+							<div class="right_div_t_en">Characteristic Service Experience</div>
+						</div>
+					</li>
+					<li class="hc">
+						<span class="left_icon">帮</span>
+						<div class="right_div">
+							<div class="right_div_t_cn">帮助中心</div>
+							<div class="right_div_t_en">Help Center</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="footer_site_info">
+				 {volist name="footer" id="vo"}
+				 <ul class="footer_site_info_ul">
+					<li><a href="{:U('help/index?id='.$vo['id'])}">{$vo.title}</a></li>
+					 {volist name="vo['ids']" id="vo1"} 
+					<li><a href="{:U('help/index?id='.$vo['id'])}">{$vo1.title}</a></li>
+					{/volist}
+				</ul>
+               {/volist} 
+			
+				
+			</div>
+		</div>
+	</div>
+	<!--/footer  end-->
+	<span class="copyright" style="">@2014-2017
+	   <a href="http://yershop.com">yershop</a> 版权所有</span>

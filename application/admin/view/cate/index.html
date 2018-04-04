@@ -1,0 +1,217 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+			<div class="content">
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="articlelist">
+					<div class="edit">
+						<div class="edit_left ">
+								<a href="{:U('add')}" class="add cur">新增</a>
+								<a  data-url="{:U('del')}" class="delete cur">删除</a>
+						</div>
+						<div class="search_right">
+							
+						</div>
+					</div>
+					<div class="article_table">
+						<div class="article_table_header article_table_tr">
+							<!--加class往后面加，不要加在已有class前面-->
+							<div class="article_folder article_table_th" w_percent="18">折叠</div>
+								<div class="article_id article_table_th" w_percent="18">id</div>
+							<div class="article_name article_table_th" w_percent="50">名称</div>
+							<div class="article_sort article_table_th" w_percent="10">排序</div>
+							<div class="article_deploy article_table_th" w_percent="10">状态</div>
+							<div class="list_opr article_table_th" w_percent="22">操作</div>
+						</div>
+						 {volist name="list" id="vo"}
+						<div class="first_level_group opened">
+							<div class="first_level article_table_tr">
+								<div class="article_folder">
+										<span class="folder_icon"></span>
+								</div>
+								<div class="article_id">
+									{$vo.id}
+								</div>
+								<div class="article_name">
+								<span>{$vo.title}</span>
+									 <a href="{:url('add?pid='.$vo['id'])}" class="add_article"></a>
+								</div>
+								<div class="article_sort">
+									{$vo.sort}
+								</div>
+								<div class="article_deploy">{$vo.status}</div>
+								<div class="list_opr">
+									<span class="opr_box">
+										 <a href="{:url('edit?id='.$vo['id'])}" class="edit_btn cur">编辑</a>
+									 <a data-url="{:url('del?id='.$vo['id'])}" class="del_btn cur">删除</a>
+									</span>
+								</div>
+							</div> 
+							 {volist name="vo['child']" id="vo1"}
+							<div class="second_level_group opened">
+								<div class="second_level article_table_tr">
+									<div class="article_folder">
+										<span class="folder_icon"></span>
+									</div>
+									<div class="article_id">
+									{$vo1.id}
+								   </div>
+									<div class="article_name">
+									<span>{$vo1.title}</span>
+									 	 <a href="{:url('add?pid='.$vo1['id'])}" class="add_article"></a>
+								   </div>
+								   <div class="article_sort">
+									{$vo1.sort}
+								   </div>
+								   <div class="article_deploy">{$vo1.status}</div>
+									<div class="list_opr">
+										<span class="opr_box">
+										 <a href="{:url('edit?id='.$vo1['id'])}" class="edit_btn cur">编辑</a>
+									      <a data-url="{:url('del?id='.$vo1['id'])}" class="del_btn cur">删除</a>
+										</span>
+									</div>
+								</div>
+								{notempty name="vo1['child']"}
+										 {volist name="vo1['child']" id="vo2"}
+								<div class="third_level article_table_tr">
+									<div class="article_folder">
+									    <span class="folder_icon"></span>
+									</div>
+									<div class="article_id">
+									 {$vo2.id}
+								   </div>
+									<div class="article_name">
+									  <span>{$vo2.title}</span>
+									   	 <a href="{:url('add?pid='.$vo2['id'])}" class="add_article"></a>
+								    </div>
+								    <div class="article_sort">
+									    {$vo2.sort}
+								    </div>
+								    <div class="article_deploy">{$vo2.status}</div>
+									<div class="list_opr">
+										<span class="opr_box">
+										 <a href="{:url('edit?id='.$vo2['id'])}" class="edit_btn cur">编辑</a>
+									 <a data-url="{:url('del?id='.$vo2['id'])}" class="del_btn cur">删除</a>
+										</span>
+									</div>
+								</div>
+								
+							{/volist}	{/notempty}
+								</div>{/volist}
+							</div>
+							{/volist}
+				</div>	</div>	</div>	</div>	</div>
+		</div>
+		<script>
+			$(function(){
+				initPage();
+				window.onresize=function(){
+					initPage();
+				}
+				bindEvent();
+			});
+			
+			function initPage(){
+				
+				$(".nav_tree").css("min-height",($(window).height() - 86) + 'px');
+				$(".content").css("min-height",($(window).height() - 86) + 'px');
+				$(".nav_tree").attr("min-height",$(window).height() - 86);
+				$(".content").attr("min-height",$(window).height() - 86);
+				$(".articlelist").attr("min-height",$(window).height() - 86);
+				$(".articlelist").css("min-height",($(window).height() - 86) + 'px');
+				
+				var currentRightHeight = $(".content").height();
+				var currentNavHeight = $(".nav_tree").height();
+				if(currentRightHeight < currentNavHeight){
+					$(".articlelist").css("min-height",currentNavHeight + 'px');
+					$(".articlelist").attr("min-height",currentNavHeight);
+				}else{
+					$(".nav_tree").css("min-height",currentRightHeight + 'px');
+				}
+				
+				
+			}
+			
+			function bindEvent(){
+				$(".p_menue").on('click',function(){
+					if($(this).parent(".menue").hasClass("down")){
+						$(this).parent(".menue").removeClass("down").addClass("up");
+					}else{
+						$(this).parent(".menue").removeClass("up").addClass("down");
+					}
+					calculateHeight();
+				});
+				$(".c_menue_item").on("click",function(){
+					if(!$(this).hasClass("checked")){
+						$(".nav_tree_list .c_menue_item").removeClass("checked");
+						$(this).addClass("checked");
+					}
+				})
+				$(".close_tips").click(function(){
+					$(".tips_msg").hide();
+					calculateHeight();
+				});
+				
+				
+				/****树形菜单展开**/
+				$(".first_level .folder_icon").click(function(){
+					var parent= $(this).parents(".first_level_group").first();
+					if(parent.hasClass("closed")){
+						parent.removeClass("closed").addClass("opened");
+					}else if(parent.hasClass("opened")){
+						parent.removeClass("opened").addClass("closed");
+						parent.find(".second_level_group").removeClass("opened").addClass("closed");
+					}
+					calculateHeight();
+				});
+				$(".second_level .folder_icon").click(function(){
+					var parent= $(this).parents(".second_level_group").first();
+					if(parent.hasClass("closed")){
+						parent.removeClass("closed").addClass("opened");
+					}else if(parent.hasClass("opened")){
+						parent.removeClass("opened").addClass("closed");
+					}
+					calculateHeight();
+				});
+			}
+			
+			function calculateHeight(){
+				var realHeight = $(".articlelist .edit").outerHeight() + $(".article_table").outerHeight();
+				var realLeftHeight = $(".user_info_detail").outerHeight() + $(".nav_tree_list").outerHeight();
+				var currentNavHeight = $(".nav_tree").height();
+				if(realHeight > $(".articlelist").attr("min-height")){
+					if(realHeight > currentNavHeight){
+						$(".nav_tree").css("min-height",realHeight + 'px');
+					    $(".articlelist").css("min-height",realHeight + 'px');
+					}else{
+						if(realLeftHeight > realHeight){
+							$(".articlelist").css("min-height",realLeftHeight + 'px');
+							$(".nav_tree").css("min-height",realLeftHeight + 'px');
+						}else{
+							$(".nav_tree").css("min-height",realHeight + 'px');
+						    $(".articlelist").css("min-height",realHeight + 'px');
+						}
+					}
+				}else{
+					if(currentNavHeight >= $(".articlelist").attr("min-height")){
+						if(realLeftHeight >= $(".articlelist").attr("min-height")){
+							$(".articlelist").css("min-height",realLeftHeight + 'px');
+							$(".nav_tree").css("min-height",realLeftHeight + 'px');
+						}else{
+							$(".nav_tree").css("min-height",$(".articlelist").attr("min-height") + 'px');
+							$(".articlelist").css("min-height",$(".articlelist").attr("min-height")  + 'px');
+						}
+						
+					}else{
+						$(".nav_tree").css("min-height",$(".articlelist").attr("min-height") + 'px');
+						$(".articlelist").css("min-height",$(".articlelist").attr("min-height")  + 'px');
+					}
+				}
+			}
+			
+			
+	
+		</script>
+ <!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

@@ -1,0 +1,109 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 -->  
+
+  <script type="text/javascript" src="__COMMON__/jquery.colorpicker.js"></script>		
+			<div class="content">
+			<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					
+					<div class="edit_tab">
+				{foreach name="groups" item="vo"}
+			      <div class="tab_option {eq name='type' value='$key'}on{/eq}"><a href="{:U('?group='.$key)}">{$vo}配置</a></div>
+		     	{/foreach}
+					</div>
+					<div class="edit_content">
+							 <form class="group-form"  action="{:url('')}" method="post">
+						   	     <div class="edit_content_tab">
+									 {volist name="list" id="config"} 
+										{switch name="config.type"}
+											{case value="text"}
+											    <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+									                 <input type="text" name="config[{$config.name}]" value="{$config.value}">
+								                 </div>
+											
+											{/case}	
+											{case value="textarea"}
+											   <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+									                 <textarea name="config[{$config.name}]"/>{$config.value}</textarea>
+								                 </div>
+											
+											{/case}	
+										   {case value="radio"}
+										         <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+									                <input type="radio" name="config[{$config.name}]" value="{$config.value}"/>
+								                 </div>
+											{/case}	
+											 {case value="select"}
+											    <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+									                 <select name="config[{$config.name}]">
+													    {volist name=":parse_config_attr($config['extra'])" id="vo"}
+													        <option value="{$key}" {eq name="config.value" value="$key"}selected{/eq}>{$vo}</option>
+												        {/volist}
+												     </select>
+								                 </div>
+											{/case}	
+										    {case value="color"}
+											     <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+									                  <input type="text" name="config[{$config.name}]" value="{$config.value}" id="{$config.name}" style="color:{$config.value}"/>
+								                  </div>
+												  <script>
+													$("#{$config.name}").colorpicker({
+														fillcolor:true,
+														success:function(o,color){
+															$(o).css("color",color);
+														}
+													});
+												 </script>
+											{/case}	
+										   {case value="picture"}
+										         <div class="form-group">
+													   <label>{$config.title}<span>({$config.remark})</span></label> 
+													   <input type="hidden"  name="config[{$config.name}]" value="{$config.value}>
+														  <div class="uploader">
+															<span class="uploader-files">上传图片</span>
+															<input type="file" class="uploader_btn" id="{$config.name}]"/>  
+														  </div> 
+														   <div class="uploader_preview">
+																 {notempty name="$config.value"}  
+																  <div class="upload-pre-item"> 
+																	<img class="{$config.name}" src="{$config.value|get_cover_path}"/>
+																	</div>
+																 {/notempty}
+															</div>
+												    
+												         <script type="text/javascript">  
+														var field="{$config.name}";
+														upload(field);
+													    </script>	
+												  </div>
+
+									       {/case}
+									    {/switch}
+									{/volist}	
+						</div>
+						<div class="edit_content_tab none">
+							
+						</div>
+						<div class="btn_group">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div></form> 
+					</div>
+				</div>
+			</div>
+		</div>
+	<script> 	
+	
+	</script>
+  
+ <!-- 头部 -->
+	{include file='public/footer'}
+<!-- 头部 --> 

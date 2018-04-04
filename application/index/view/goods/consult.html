@@ -1,0 +1,42 @@
+
+ <!-- ajax分页商品评论区模板 -->
+	<volist name="consult.list" id="vo">
+								<div class="list_div">
+									<div class="user fl">
+										<div class="pic"><img src="__IMG__/spxq_pic_16.gif"/></div>
+										<p>{$vo.uid|get_username}</p>
+									</div>
+									<div class="rt fl">
+										<div class="q ">
+											<p class="q_del"><span>问</span>{$vo.message}</p>
+											<p class="time">{$vo.create_time|date='Y-m-d H:i',###}</p>
+										</div>
+										<div class="a_list">
+											<div class="a">
+												<div class="div_l fl">
+													<p class="a_del"><span>答</span>{$vo.reply}</p>
+													<p class="time"><span class="span_01"></span>管理员<span class="span_02">{$vo.reply_time|date='Y-m-d H:i',###}</span></p>
+												</div>
+												<div class="div_r">
+													
+												</div>												
+											</div>
+											
+										</div>
+										<!--p class="more">共5个回答<a href="javascript:;">查看更多</a></p-->
+									</div>
+								</div>
+								  </volist>
+								 <div class="page">
+									      {$consult.page}
+								 </div>			  <script type="text/javascript">
+		 var goodsid="{$info.goodsid}";
+		 var type="{$info.type}";  
+         function consult(p,"{$info.type}"){    //user函数名 一定要和action中的第三个参数一致上面有
+                 
+                    $.get('{:U("goods/consult")}', {p:p,goodsid:goodsid,type:type}, function(data){  //用get方法发送信息到UserAction中的user方法
+                     $("#consult").replaceWith("<div  id='consult'>"+data+"</div>"); //user一定要和tpl中的一致
+                });
+         }
+            
+   </script>

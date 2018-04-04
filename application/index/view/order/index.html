@@ -1,0 +1,489 @@
+<!-- 头部 -->
+	{include file='public/header'/}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="javascript:;" class="index_a">个人中心</a> ><span>我的订单</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			<div class="main_top">
+		{include file='public/left'/}
+		<div class="grzx_right_pan fr">
+				
+				<div class="info_div fr">
+					<div class="div_01">
+						<div class="lft fl">
+							<div class="tx fl">
+								<div class="pic">	<a href="{:url('member/edit')}" class="bj f12"><img src="{$UcenterMember.cover_id|get_cover_path}" width="80" height="80"></a></div>
+					
+							</div>
+							<div class="del fl">
+								<div class="name_div">
+									<p class="hello fl f14">您好~ <span class="name">{$UcenterMember.username}</span></p>
+									<p class="f12 fl"></p>
+								</div>
+							
+							</div>
+
+								<div class="num">
+									<span class="icon"></span>
+									当前我的余额<span>[ {$UcenterMember.account}]</span>积分<span>[ {$UcenterMember.score}]</span>
+								</div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="wddd_right_pan fr" style="margin-top:10px;">
+					<div class="top_tab">
+						<ul class="fl f14">
+							<li  {empty name="info['status']"}class="current"{/empty}>
+								<a href="{:U('order/index?status=0')}">所有订单<span></span></a>
+							</li>
+
+							<li {notempty name="info['status']"}{if condition="$info.status eq 1"}class="current"{/if}{/notempty}>
+								<a href="{:U('order/index?status=1')}">待发货<span></span></a>
+							</li>
+							<li {notempty name="info['status']"}{if condition="$info.status eq 2"}class="current"{/if}{/notempty}>
+								<a href="{:U('order/index?status=2')}">待收货<span></span></a>
+							</li>
+							<li {notempty name="info['status']"}{if condition="$info.status eq 3"}class="current"{/if}{/notempty}>
+								<a href="{:U('order/index?status=3')}">已确认<span></span></a>
+							</li>
+						</ul>
+						<div class="hsz fr f12">
+							
+						</div>
+					</div>
+					<div class="tab_con">
+                        <form action="{:U('')}" method="post" class="order_sn">
+						    <input type="hidden" name="order_sn" class="order_sn"/>
+						</form>
+						<form action="{:U('')}" method="post">
+							<div class="sear">
+								<div class="sear_ipt fl">
+									<input type="text"name="order_sn" placeholder="输入订单号进行搜索" id="order_sn" class="ipt_01 fl"/>
+									<input type="button" class="ipt_02 fl" onclick="submitfrm();" value="订单搜索"/>
+								</div>
+								<div class="more fl">
+									<span class="txt">更多筛选条件</span>
+									<span class="icon"><img src="__IMG__/wddd_icon_01.gif"></span>
+								</div>
+							</div>
+							<div class="sc_xl f12">
+								<div class="div_01 fl">
+									<label for="">订单类型</label>
+									<select name="type" id="" class="opt">
+										<option value="0">pc订单</option>
+										<option value="1">手机订单</option>
+									</select>
+								</div>
+								<div class="div_02 fl">
+									<label for="">成交时间</label>
+									<input type="input" name="start_time" class="laydate-icon time_start" value="{$info.start_time|default=''}" id="start_time"/>
+									<span>-</span>
+									<input type="input"  name="end_time" value="{$info.end_time|default=''}"class="laydate-icon time_end"  id="end_time"/>
+								</div>
+								<div class="div_03 fr">
+									<label for="">收件人</label>
+									<input type="text" name="username"/>
+								</div>
+								<div class="div_04 fl">
+									<label for="">发票</label>
+									<select name="is_invoice" id="" class="opt">
+										<option value="0">不需要</option>
+										<option value="1">需要</option>
+									</select>
+								</div>
+								<div class="div_05 fl">
+									<label for="">交易状态</label>
+									<select name="status"  class="opt">
+										<option value="0">待支付</option>
+										<option value="1">待发货</option>
+										<option value="2">待确认</option>
+										<option value="3">已确认</option>
+									</select>
+								</div>
+								<div class="div_06 fr">
+									<label for="">支付方式</label>
+									<select name="paytype" id="" class="opt">
+										<option value="1">货到付款</option>
+										<option value="2">余额</option>
+										<option value="3">在线支付</option>
+									</select>
+								</div>
+								<button class="sc_btn fl"type="submit">搜索</button>
+							</div>
+						</form>
+				
+						<table class="bought_table f12">
+							<tbody>
+								<tr>
+									<th class="th_01">宝贝</th>
+									<th class="th_02">单价</th>
+									<th class="th_03">数量</th>
+									<th class="th_04">商品操作</th>
+									<th class="th_05">实付款</th>
+									<th class="th_06">
+										<div class="field_select">
+											<div class="zt"><span class="txt">交易状态</span><span class="icon"><img src="__IMG__/wddd_icon_03.gif"></span></div>
+											<ul class="down_list">
+												<li class="current"><a href="javascript:;">交易状态</a></li>
+												<li><a href="javascript:;">交易状态</a></li>
+												<li><a href="javascript:;">交易状态</a></li>
+											</ul>
+										</div>
+									</th>
+									<th class="th_07">交易操作</th>
+								</tr>
+							</tbody>
+						</table>
+						{notempty name="res.list"}
+						<div class="sle_all f12">
+							<label for="">
+								<input type="checkbox" />
+								<span class="date">全选</span>
+								<a  onclick='confirmAll({$vo.id});' class="pl">批量确认收货</a>
+							</label>
+							
+						</div>						
+			           {volist name="res.list" id="vo"}
+						<div class="bought_list f12">
+							<table class="top_table">
+								<tbody>
+									<tr>
+										<td class="td_01">
+											<input type="checkbox" class="items" value="{$vo.id}" />
+											<span class="date">{$vo.create_time|date='Y-m-d H:i',###}</span>
+											<span class="dd_nm">订单号: {$vo.order_sn}</span>
+										</td>
+										<td class="td_02">
+										
+										</td>
+										<td class="td_03">
+										
+										</td>
+										<td class="td_04">
+										{if condition="$vo.status gt 2"}<a onclick="delOrder({$vo.id})"></a>{/if}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="del_table ">
+								<tbody>
+									<tr>
+										<td class="td_01">
+											{volist name="vo['sales']" id="vo1"}
+											<div class="con">
+												<div class="div_01 fl">
+													<a href="{:U('Goods/detail?id='.$vo1['goods_id'])}" class="pic fl"><img src="{$vo1.goods_id|get_goods_cover}" width="80" height="80"></a>
+													<div class="info fl">
+														<a href="{:U('Goods/detail?id='.$vo1['goods_id'])}" class="name">{$vo1.title}</a>
+														<p class="color">规格：{$vo1.specifications}</p>
+														<span class="icon"></span>
+													</div>
+												</div>
+												<div class="div_02 fl">
+													<p class="old">￥{$vo1.price}</p>
+													
+												</div>
+												<div class="div_03 fl">
+													<span>{$vo1.num}</span>
+												</div>
+												<div class="div_04 fl">
+												 {if condition="$vo1.status eq 0"}
+												  无
+												   {/if}
+												{if condition="$vo1.status eq 1"}
+												  无
+												   {/if}
+												    {if condition="$vo1.status eq 2"}
+												  无
+												   {/if}
+												  {if condition="$vo1.status eq 3"}
+												  <a href="{:U('service/applyreturn?id='.$vo1['id'])}" class="sh">退货</a>
+												   {/if}
+												   {if condition="$vo1.status eq 4"}
+												  <a href="{:U('service/applyreturn?id='.$vo1['id'])}" class="sh">处理中</a>
+												  {/if}
+												    {if condition="$vo1.status eq 5"}
+												  <a href="{:U('service/applyreturn?id='.$vo1['id'])}" class="sh">已完成</a>
+												   {/if}
+												
+												   
+												{if condition="$vo1.comment_status eq 7"}
+												<a href="{:U('comment/write?id='.$vo1['id'])}" class="ts">评价</a>
+												{/if}
+									             {if condition="$vo1.comment_status eq 2"}已评价{/if}
+										
+												</div>
+											</div>
+											{/volist}										
+										</td>										
+										<td class="td_02">
+											<p class="total">￥{$vo.total_money}</p>
+											<p class="yf">(含运费：￥{$vo.spress|default="0"})</p>
+											{if condition="$vo.type eq 1"}<div class="phone">手机订单</div>{/if}
+										</td>
+										<td class="td_03">
+										<a href="javascript:;" class="jycg">
+										{if condition="$vo.status eq 0"}待支付{/if}
+										{if condition="$vo.status eq 1"}待发货{/if}
+									    {if condition="$vo.status eq 2"}已发货{/if}
+										{if condition="$vo.status eq 3"}已确认{/if}
+									    {if condition="$vo.status eq 4"}申请取消中{/if}
+										{if condition="$vo.status eq 5"}取消订单被拒绝{/if}
+									    {if condition="$vo.status eq 6"}订单已取消{/if}
+										</a>
+											<a href="{:U('order/detail?id='.$vo['id'])}" class="ddxq">订单详情</a>
+											
+											
+										</td>
+										<td class="td_04">
+										{if condition="$vo['status'] eq 0 "}<a href="{:U('order/pay?id='.$vo['id'])}" >前去支付</a>{/if}
+										{if condition="$vo['status'] eq 2 "}<a onclick='confirmOrder({$vo.id});' >确认收货</a>
+        {/if}
+										
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						{/volist}
+						
+						    <div class="sle_all_01 f12">
+							<label for="">
+								<input type="checkbox" />
+								<span class="date">全选</span>
+								<a onclick='confirmAll({$vo.id});' class="pl">批量确认收货</a>
+							</label>
+							
+						</div>
+						{else/}
+						    <span style="text-align:center;width:100%;display:block;">无数据！</span>
+						{/notempty}
+						<div class="page_div page">
+							{$res.page}
+							
+						</div>	
+					</div>
+					
+						
+					</div>
+				</div>	
+			</div>		
+				
+				
+			</div>			
+		</div>
+	</div>
+	<!--/main end-->	
+	{include file="public/footer"/}
+	   <div class="mask none">
+			<div class="alert_success alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="sucess_msg">操作成功</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+		<div class="mask none">
+			<div class="alert_error alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="error_msg">操作失败</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+ <script type="text/javascript" src="__JS__/laydate/laydate.js"></script>	
+ <script type="text/javascript">
+	$("select[name='status']").val("{$info.status|default='1'}");
+	$("select[name='type']").val("{$info.type|default='0'}");
+	$("select[name='pay_type']").val("{$info.pay_type|default='1'}");	
+	$("select[name='is_invoice']").val("{$info.is_invoice|default='0'}");
+	laydate({
+		elem: '#start_time', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+	    format: 'YYYY-MM-DD hh:mm:ss', 
+	    min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+	    event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+	});
+   laydate({  
+  
+    elem: '#end_time', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+     format: 'YYYY-MM-DD hh:mm:ss', 
+     min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+     event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+   });
+
+	$(".mask .alert_div .alert_close").click(function(){
+		$(this).parents(".mask").addClass("none");
+	});
+	$(".mask .alert_div .alert_btn").click(function(){
+		$(this).parents(".mask").addClass("none");
+	});
+	$(".tjpj").click(function(){
+		  opensuccess();
+	})
+	function opensuccess(data){
+		//$(".sucess_msg").text(data.msg);
+		//$(".alert_success").parents(".mask").removeClass("none"); 
+	   setTimeout(function(){
+				if (data.url) {
+					location.href=data.url;
+				}
+	   },1500);
+		
+	}
+	function openerror(data){
+		 $(".error_msg").text(data.msg);
+		$(".alert_error").parents(".mask").removeClass("none");
+	}
+	
+	function confirmOrder(id){
+			var url="{:url('order/confirm')}";
+		      $.post(url,{id:id},function(data){
+  
+					 if(data.code){  
+					     opensuccess(data);
+					 }
+					 else{
+					      openerror(data);
+					 }
+              });
+		  
+		}
+	 function delOrder(id){
+			 var url="{:url('order/del')}";
+		      $.post(url,{id:id},function(data){
+					 if(data.code){  
+					     opensuccess(data);
+					 }
+					 else{
+					      openerror(data);
+					 }
+              });
+		  
+	 }	
+	 function submitfrm(){
+	    var order_sn=$("input#order_sn").val();
+        $("input.order_sn").val(order_sn);
+		$("form.order_sn").submit();
+		  
+	}
+	function confirmAll(id){
+	  var ids=getIds();
+			var url="{:url('order/confirm')}";
+		      $.post(url,{id:ids},function(data){
+					 if(data.code){  
+					     opensuccess(data);
+					 }
+					 else{
+					      openerror(data);
+					 }
+              });
+		  
+		}
+	  function getIds(){ //取值
+		    var option = $("input.items");
+		    var result=new Array();
+		    option.each(function(i){
+		 	     result.push($(this).val());
+		   });
+           return result.join(',');
+        
+	  }			
+
+	$(function(){
+		//tab_ul
+		
+		$('.grzx_main_in .wddd_right_pan .tab_con').eq(0).show();
+		$('.grzx_main_in .wddd_right_pan .top_tab ul li').click(function(){
+			$(this).addClass('current').siblings().removeClass('current');
+			var this_index =$(this).index();				
+			$('.grzx_main_in .wddd_right_pan .tab_con').eq(this_index).show().siblings('.tab_con').hide();
+		});
+				
+		//展开更多信息
+		$('.grzx_main_in .wddd_right_pan .tab_con .sear .more').click(function(){
+			if($(this).children('.icon').children('img').attr('src').match('wddd_icon_01')){
+				$(this).children('.icon').children('img').attr('src','__IMG__/wddd_icon_02.gif');
+				$('.grzx_main_in .wddd_right_pan .tab_con .sc_xl').show();
+			}else{
+				$(this).children('.icon').children('img').attr('src','__IMG__/wddd_icon_01.gif');
+				$('.grzx_main_in .wddd_right_pan .tab_con .sc_xl').hide();					
+			}
+		});
+					
+		//交易状态
+		$('.grzx_main_in .wddd_right_pan .tab_con .bought_table .th_06 .field_select .zt').click(function(){
+			if($(this).children('.icon').children('img').attr('src').match('wddd_icon_03')){
+				$(this).children('.icon').children('img').attr('src','__IMG__/wddd_icon_04.gif');
+				$('.grzx_main_in .wddd_right_pan .tab_con .bought_table .th_06 .field_select .down_list').show();
+			}else{
+				$(this).children('.icon').children('img').attr('src','__IMG__/wddd_icon_03.gif');
+				$('.grzx_main_in .wddd_right_pan .tab_con .bought_table .th_06 .field_select .down_list').hide();					
+			}
+		});
+		$('.grzx_main_in .wddd_right_pan .tab_con .bought_table .th_06 .field_select .down_list li').click(function(){
+			$(this).addClass('current').siblings().removeClass('current');
+		});
+		//sle_all
+		$('.grzx_main_in .wddd_right_pan .tab_con .sle_all .btns button').click(function(){
+			$(this).addClass('current').siblings().removeClass('current');
+		});	
+		//sle_all_01
+		$('.grzx_main_in .wddd_right_pan .tab_con .sle_all_01 .btns button').click(function(){
+			$(this).addClass('current').siblings().removeClass('current');
+		});	
+		//page
+		$('.grzx_main_in .wddd_right_pan .tab_con .page_div .con .page_ul li').click(function(){
+			$(this).addClass('current').siblings().removeClass('current');
+		});
+		
+		//表格全选和反选
+		$('.grzx_main_in .wddd_right_pan .tab_con .sle_all label input').click(function(){	
+			var aInp = $(this).closest('.sle_all').siblings('.bought_list').find('.td_01').children('input');
+			var bInp = $(this).closest('.sle_all').siblings('.sle_all_01').find('input');
+			if($(this).attr('checked') == 'checked'){
+				for(var i = 0; i < aInp.length; i++){					
+					aInp.eq(i).attr('checked','checked');						
+				}				
+				bInp.attr('checked','checked');						
+			}else{
+				for(var i = 0; i < aInp.length; i++){					
+					aInp.eq(i).removeAttr("checked");						
+				}
+				for(var j = 0; j < bInp.length; j++){					
+					bInp.eq(j).removeAttr("checked");						
+				}
+				$(this).closest('.xx_tit').siblings('.js_con').children('ul').children('.li_01').children('input').removeAttr("checked");
+			}				   
+		})
+		$('.grzx_main_in .wddd_right_pan .tab_con .sle_all_01 label input').click(function(){	
+			var aInp = $(this).closest('.sle_all_01').siblings('.bought_list').find('.td_01').children('input');
+			var bInp = $(this).closest('.sle_all_01').siblings('.sle_all').find('input');
+			if($(this).attr('checked') == 'checked'){
+				for(var i = 0; i < aInp.length; i++){					
+					aInp.eq(i).attr('checked','checked');						
+				}				
+				bInp.attr('checked','checked');						
+			}else{
+				for(var i = 0; i < aInp.length; i++){					
+					aInp.eq(i).removeAttr("checked");						
+				}
+				for(var j = 0; j < bInp.length; j++){					
+					bInp.eq(j).removeAttr("checked");						
+				}
+				$(this).closest('.xx_tit').siblings('.js_con').children('ul').children('.li_01').children('input').removeAttr("checked");
+			}				   
+		})
+		
+	})
+	</script>
+</body>
+</html>

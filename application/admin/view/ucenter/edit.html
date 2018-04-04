@@ -1,0 +1,106 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+			<div class="content">
+			<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+					</div>
+					<div class="edit_content">
+						<form class="group-form"  action="{:url('')}" method="post">
+							 <div class="edit_content_tab">
+
+							     <div class="form-group">
+									<label>用户名称<span>(名称)</span></label>
+									<div class="form-input">
+									    <input type="text" name="username" value="{$info.username|default=""}"/> 
+									</div>
+								  </div>
+
+                                    <div class="form-group">
+									    <label>密码<span>(明码必须加密后保存)</span></label>
+									    <div class="form-input">
+									       <input type="text" id="user-weibo" name="password" value="{$info.password|default=""}"><a class="btn" id="encrypt">加密</a>
+								       </div>
+									</div>
+								  
+								  <div class="form-group">
+									<label>手机<span>(手机号)</span></label>
+									<div class="form-input">
+									 	 <input type="text" name="mobile" value="{$info.mobile|default=""}"/>
+								     </div> 
+								  </div>
+								
+        
+						         <div class="form-group">
+									<label>邮箱<span>(用户邮箱)</span></label>
+									<div class="form-input">
+									 	 <input type="text" name="email" value="{$info.email|default=""}"/>
+								     </div> 
+								  </div>
+
+						         
+
+				             	 <div class="form-group">
+												<label>图片<span>(图片名称)</span></label> 
+												<div id="cover_id" class="container">
+													<div id="file_cover_id">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+													<input type="hidden" name="cover_id"  value="{$info.cover_id|default=''}">
+													<a id="select_cover_id" href="javascript:void(0);" class='btn'>选择文件</a>
+													<a id="post_cover_id" href="javascript:void(0);" class='btn'>开始上传</a>
+												</div>
+		
+											    <div class="uploader_preview">
+													  {notempty name="info['cover_id']"}
+															  <div class="uploader-pre-item"> <img src="{$info.cover_id|get_cover_path}"/>
+															 </div>
+														{/notempty}
+												</div>
+
+												<script type="text/javascript">  
+													var field="cover_id";
+													upload(field);
+												</script>	
+                                      </div>
+
+						  
+				  
+						</div>
+						<div class="edit_content_tab none">
+
+							 <div class="form-group">
+							         <div class="form-input">
+									 <label>状态<span>(0-禁用，1-正常)</span></label>
+									 	   <input type="text" name="status" value="{$info.status|default="1"}"/>
+									</div>
+							   </div>
+		
+						</div>
+						<div class="btn_group">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div></form> 
+					</div>
+				</div>
+			</div>
+		</div>
+       <script src="__JS__/edit.js"></script>
+	  <script>
+       $("#encrypt").click(function(){
+            var url = "{:url('encrypt')}";
+	        var pwd=$("input[name='password']").val();
+	        if(!pwd){
+	           alert("密码不能为空");
+	        }
+            $.post(url,{password:pwd},function(data){
+             $("input[name='password']").val(data);
+           });
+        });
+		</script>
+ <!-- 头部 -->
+	{include file='public/footer'}
+<!-- 头部 --> 

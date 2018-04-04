@@ -1,0 +1,504 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{$meta_title}_{:C('WEB_SITE_TITLE')}</title>
+	<link href="__CSS__/base.css" rel="stylesheet" type="text/css"/>
+	<link href="__CSS__/style.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="__JS__/base.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.jqzoom.js"></script>
+	<script type="text/javascript" src="__JS__/lvjing.js"></script>
+	<script type="text/javascript" src="__JS__/jquery.lazyload.js"></script>
+</head>
+ {include file='public/color'}
+<body><div class="ad in_width f12"> {By:ad place='99' name="vo"}
+             		 <a href="{$vo.url|get_url}"> 
+					 <img src="{$vo.cover_id|get_cover_path}"></a>
+		             {/By:ad}</div>
+	<!--header start-->
+	<div class="header w100"> 
+		<div class="header_in in_width f12">
+			{if condition="is_login()"}
+			<div class="header_lef fl">
+				<p>
+					您好 {$UcenterMember.username}
+					<span class="span_01">{$UcenterMember.level|default='vo'}普通会员</span>
+					，欢迎来到
+					<a href="" class="sc_a">yershop商城</a>
+					<a href="{:url('User/logout')}" class="tc_a">［退出］</a>
+				</p>
+			</div>{else/}<div class="header_lef fl header_lef_wdl">
+				<div class="wzc">
+					<span class="fl">嗨，欢迎光临yershop商城</span>
+					
+					<a href="{:url('User/login')}" class="login_a fl">［登录］</a>
+					<a href="{:url('User/register')}" class="zc_a fl">［免费注册］</a>
+				</div>
+			</div>{/if}
+			<div class="header_rgt fr">
+					<dl class="">
+					<dt><a href="{:U('order/index')}">我的订单</a></dt>
+					
+				</dl>
+				<dl class="">
+					<dt><a href="{:U('collect/index')}">我的收藏</a></dt>
+					
+				</dl>
+				<dl class="">
+					<dt><a href="{:U('help/index?id=65')}">客户服务</a></dt>
+					
+				</dl>
+			    <dl class="weixin">
+					<dt>关注我们<i></i></dt>
+					<dd>
+					    <h4>扫描二维码<br>
+						关注商城微信号</h4>
+					    <img src="__IMG__/code_pic.gif"> 
+					</dd>
+				</dl>									
+			</div>
+		</div>	
+	</div>
+	<!--/header end-->
+	
+	<!--logo start-->
+	<div class="logo w100">
+		<div class="logo_in in_width">
+			<h1 class="logo_pic fl"><a href="{:url('index/index')}"><img title="YERSHOP" src="__IMG__/logo_pic.gif" width="201" height="59" /></a></h1>			
+			<div class="head-search-layout">
+				<div class="head-search-bar" id="head-search-bar">
+					
+                    <form class="search-form" id="top_search_form" action="{:url('search/index')}" method="post">
+						<input name="act" id="search_act" value="search" type="hidden">
+          
+                        <input name="keyword" id="keyword" type="text" class="input-text ui-autocomplete-input" value="" maxlength="60" x-webkit-speech="" lang="zh-CN" onwebkitspeechchange="foo()" placeholder="请输入您要搜索的商品的关键字" data-value="" x-webkit-grammar="builtin:search" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+                        <input type="submit" id="button" value="搜索" class="input-submit">
+					
+                    </form>
+                  	<p>热门搜索:{foreach name="hotsearch" item="vo"}<a href="{:url('Search/index?keyword='.$vo)}">{$vo}</a>{/foreach}</p>
+				</div>
+				
+			</div>			
+			<div class="mod_minicart" style="">
+				<a id="nofollow" target="_self" href="{:url('cart/index')}" class="mini_cart_btn">
+					<i class="cart_icon"></i> 
+					<em class="cart_num">{$cart["total_num"]|default="0"}</em>
+					<span>购物车</span>
+				</a>
+				<div id="minicart_list" class="minicart_list">
+					<div class="spacer"></div>
+					<!-- 购物车没有商品 -->
+					
+					<!-- 购物车有商品 -->
+					<div class="list_detail">
+						<ul class="has_sp cartlist">
+					        {empty name="cartlist"}
+			         	<!-- 购物车没有商品 -->
+						  
+							<p  class="none_tips" style="margin:50px 0;text-align:center;">购物车中没有商品，赶紧去选购！</p>
+						 
+				        {else/}	 {foreach name="cartlist" item="vo"}  
+							<li class="item{$vo.id}">
+								<a href="{:url('Goods/detail?id='.$vo['goodsid'])}" class="pic fl"><img src="{$vo.goodsid|get_goods_cover}"/></a>
+								<a href="{:url('Goods/detail?id='.$vo['goodsid'])}" class="name fl">{$vo.goodsid|get_goods="title"}{$vo.specifications}</a>
+								<div class="mcartRight">
+									<span class="pro_price">¥<em>{$vo.price}</em>×<em class="item_num_{$vo.id}">{$vo.num}</em></span>
+									<em><a onclick="cancel_cart(this,{$vo.id})">删除</a></em>
+								</div>
+							</li>
+						{/foreach}{/empty}
+						</ul>
+						<div class="checkout_box" style="{empty name="cartlist"}display:none{else/}display:block{/empty} ">
+							<p class="fl">共<em class="tNum">{$cart.total_count}</em>种商品,总计金额：<em class="tSum">¥{$cart.total_money}</em></p>
+							<a class="checkout_btn" href="{:url('cart/index')}"> 去结算 </a>
+
+						</div>
+					</div> 
+				</div>				
+			</div>			
+			
+		</div>
+	</div>
+	<!--/logo end--> 
+	<!--nav start-->
+	<div class="nav w100">
+		<div class="nav_in in_width">
+			<div class="sidebar_div fl">
+				<div class="title">
+					<i></i>
+					<h2 class="f14" id="all-class">全部商品分类</h2>
+				</div>
+				
+				<ul class="left_sidebar" id="all-goods"  style="display:block;">
+
+				{volist name="category" id="vo"}
+					<li class="left_sidebar_li">
+						<div class="product">
+							<div class="border">								
+								<div class="fl_div fl"><h3><a href="{:url('Goods/lists?id='.$vo['id'])}">{$vo.title}</a></h3>
+								</div>
+								<span class="fr pic"><img src="__IMG__/left_sidebar_li.gif"/></span>
+							</div>							
+						</div>
+						<div class="product-wrap f14">
+							<div class="menu_div">								
+								<div class="sub-class" >
+									<div class="sub-class-content">
+										<div class="recommend-class">
+											{$vo.id|parseHot}
+											
+										</div>
+										  {volist name="vo['child']" id="vo1"}
+										<dl>
+											<dt><h3><a href="{:url('Goods/lists?id='.$vo1['id'])}">{$vo1.title}</a></h3></dt>
+											<dd class="goods-class">
+												{notempty name="vo1['child']"}{volist name="vo1['child']" id="vo2"}<a href="{:url('Goods/lists?id='.$vo2['id'])}">{$vo2.title}</a>
+											     {/volist}{/notempty}
+											</dd>
+										</dl> {/volist}
+									</div>
+								</div>								
+							</div>
+						</div>
+					</li>{/volist}
+					
+				</ul>
+			</div>			
+			<ul class="nav_list fl">
+             {volist name="channel" id="vo"}
+				<li class="fl"><a href="{$vo.url|get_url}">{$vo.title}</a></li>
+				
+			{/volist}
+			</ul>
+		</div>
+	</div>
+	<!--/nav end-->
+		<!--banner start-->
+	<div class="banner w_100">
+		<div class="banner_in in_width">
+			<ul class="banner_list">
+				{volist name="slidelist" id="vo"}  
+				
+				<li class="li_01"><a href="{$vo.url|get_url}"><img src="{$vo.cover_id|get_cover_path}"/></a></li>
+				
+              {/volist}
+			</ul>
+			<ol class="banner_ol">
+			    {volist name="slidelist" id="vo" key="k"}  
+				  <li {if condition="$k eq 1"}class="current"{/if}></li>
+				  {/volist}
+			</ol>
+			
+		</div>	
+	</div>
+	<!--/banner end-->
+	
+	<!--main start-->
+	<div class="main w100 index_main" style="background:;">
+		<div class="main_in in_width index_main_in">
+
+			<div class="mid_banner6" style="display:block;height:15px;"></div>
+			{volist name="tree" id="vo"  key="k" offset='0' length='8'}
+			<div class="common_list">
+				<div class="top">
+					<div class="title f14">
+						<a href="{:url('Goods/lists?id='.$vo['id'])}" class=" f14">{$k}F {$vo.title}</a>
+						<i class="icon"></i>
+					</div>
+		                 
+				{volist name="vo.child" id="to" offset='0' length='4' key="n"}
+	 <a   id='category_{$to.id}' title="{$to.title}" href="javascript:vod(0);"   onmouseover="getlist({$to.id},{$vo.id})">
+    {$to.title}</a>
+	{/volist} 
+				 <a  class="active" id='category_{$vo.id}' title="{$vo.title}"href="javascript:vod(0);" onmouseover="getlist({$vo.id},{$vo.id})">
+   {switch name="k"}{case value="1"}最新{/case}<case value="2"}热门{/case}{case value="3"}大牌</case}{case value="4"}推荐{/case}{default /}热门{/switch}</a>
+				
+   		
+				</div>
+				
+				<div class="list_div">
+					<div class="lft">
+						<ul>
+						{volist name="vo.child" id="to" offset='0' length='6'}
+						 <li><a  id='category_{$to.id}' title="{$to.title}" href="{:url('Goods/lists?id='.$vo['id'])}"   onmouseover="getlist({$to.id},{$vo.id})">
+                              {$to.title}</a></li>
+	                    {/volist}
+						</ul>
+						<div class="ad"><a href="{:url('Goods/lists?id='.$vo['id'])}" class=" f14"><img src="{$vo.cover_id|get_cover='path'}"/></a></div>
+					</div>
+					
+					<div class="rgt">
+						<ul id="list_{$vo.id}">
+						  {volist name="vo.item" id="article"}                      
+                            <li>
+                           <div class="pic" >
+							<a class="yershop_img" href="{:url('goods/detail?id='.$article['id'])}" title="{$article.title}">
+								<img class="lazy" data-original="{$article.cover_id|get_cover='path'}"></a>
+						   
+						</div>
+						<div class="name"><a href="{:url('goods/detail?id='.$article['id'])}"  title="{$article.title}">{$article.title|substr_cn="30"}</a></div>
+						<div class="price" style="text-align:center;">
+							<font>￥</font><span>{$article.price}</span>
+						   
+						</div>
+					   </li>  
+				   {/volist}
+			  
+						</ul>
+					</div>
+				</div>
+			</div>	
+			 <p class="adimg">
+			  {volist name="vo.brand" id="bo"} 
+			     
+				 <span  style="display:inline-block;overflow:hidden;width:{php}echo 1200/count($vo['brand']);{/php}px">  <a  href="{:U('goods/lists?brand_id='.$bo['id'].'&id='.$vo['id'])}">
+                            <img src="{$bo.cover_id|get_cover='path'}" width="100%" height=
+							"40px"></a></span>
+			  {/volist}</p>	
+			  
+	 <p>
+			  {volist name="vo.ad" id="ao"} 
+			     
+				 <span style="display:inline-block;overflow:hidden;width:{php}echo 100/count($vo['ad']);{/php}">  <a  href="{$ao.url|get_url}">
+                            <img src="{$ao.cover_id|get_cover='path'}" width="100%" ></a></span>
+			  {/volist}</p>	
+
+			{/volist} 		
+			
+		</div>
+	</div>
+	<!--/main end-->	
+{include file='public/footer'}
+
+	<script type="text/javascript">
+		$(function(){
+			//购物车
+			$(".mod_minicart").hover(function() {
+				$("#nofollow,#minicart_list").addClass("on");
+			},function() {
+				$("#nofollow,#minicart_list").removeClass("on");
+			});
+			//nav		
+			$('.nav_list li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+			});
+			//left_sidebar
+			$('.nav_in .left_sidebar .left_sidebar_li').hover(function(){		
+				$(this).find('.product').addClass('active')
+				$(this).find('.product-wrap').show();
+			},function(){
+				$(this).find('.product').removeClass('active');
+				$(this).find('.product-wrap').hide();
+
+			});
+			$('.nav_in .left_sidebar .left_sidebar_li .product-wrap .menu_oneclose').click(function(e) {				
+				$(this).parent('.menu_div').parent('.product-wrap').hide();
+			});
+			
+			//分类菜单的显示隐藏                                                                
+			var oDiv3 = document.getElementById('all-class');
+			var oDiv4 = document.getElementById('all-goods');
+			var timer2 = null;//定义定时器变量
+			//鼠标移入div1或div2都把定时器关闭了，不让他消失
+			oDiv3.onmouseover = oDiv4.onmouseover = function (){	
+				oDiv4.style.display = 'block';
+				clearTimeout(timer2);
+			}
+
+			//鼠标移出div1或div2都重新开定时器，让他延时消失
+			oDiv3.onmouseout = oDiv4.onmouseout = function (){
+				//开定时器
+				timer2 = setTimeout(function () { 
+				oDiv4.style.display = 'block'; },300);
+			}
+			
+			//banner
+				var banner_len=$('.banner_in .banner_list li').length-1;
+				var ol_len=$('.banner_in .banner_ol li').length-1;
+				var myFn_01 = function(){
+						myOl++;
+						if(myOl > banner_len){
+							myOl = 0;	
+						}
+						$('.banner_in .banner_ol li').eq(myOl).addClass('current').siblings().removeClass('current');
+						$('.banner_in .banner_list li').eq(myImg).stop().hide();
+						myImg++;
+						if(myImg > banner_len){
+							myImg = 0;	
+						}
+						$('.banner_in .banner_list li').eq(myImg).stop().show();
+					} 
+				var myOl = 0;
+				var myImg = 0;
+				$('.banner_in').hover(function(e) {
+					clearInterval(timer02);
+				},function(){	
+					clearInterval(timer02);
+					timer02 = setInterval(myFn_01,3000)
+				});	
+						
+				$('.banner_in .banner_list li').eq(0).show();		
+				
+				//ol点击
+				$('.banner_in .banner_ol li').click(function(e) {
+					$(this).addClass('current').siblings().removeClass('current');
+					$('.banner_in ul li').eq($(this).index()).stop().show().siblings().stop().hide();
+					myOl = $(this).index();
+					myImg = $(this).index();
+				});
+				
+				var timer02 = null;
+				timer02 = setInterval(myFn_01,4000);
+			
+			//侧边栏
+			$('.nc_appbar .con .kf a').hover(function(){		
+				$(this).children('.icon').addClass('cur');
+				$(this).children('.tit').show();
+			},function(){
+				$(this).children('.icon').removeClass('cur');
+				$(this).children('.tit').hide();
+			});
+			$('.nc_appbar .con .gwc a').hover(function(){		
+				$(this).children('.icon').addClass('cur');
+				$(this).children('.tit').addClass('cur');
+			},function(){
+				$(this).children('.icon').removeClass('cur');
+				$(this).children('.tit').removeClass('cur');
+			});
+			$('.nc_appbar .con .spdb a').hover(function(){		
+				$(this).children('.icon').addClass('cur');
+				$(this).children('.tit').show();
+			},function(){
+				$(this).children('.icon').removeClass('cur');
+				$(this).children('.tit').hide();
+			});
+			$('.nc_appbar .con .dl a').hover(function(){		
+				$(this).children('.icon_01').addClass('cur');
+				$(this).children('.login_div').show();
+			},function(){
+				$(this).children('.icon_01').removeClass('cur');
+				$(this).children('.login_div').hide();
+			});
+			$('.to_top').click(function(e) {
+				$('body,html').animate({'scrollTop':'0'},500);
+			});
+			$('.to_top a').hover(function(){		
+				$(this).children('.icon').addClass('cur');
+				$(this).children('.tit').addClass('cur');
+			},function(){
+				$(this).children('.icon').removeClass('cur');
+				$(this).children('.tit').removeClass('cur');
+			});
+			
+			//li hover_01
+			$('.index_main_in .tjsj_con .top_div .rgt_div ul li').hover(function(){		
+				$(this).css('opacity','1');
+				$(this).siblings().css('opacity','0.8');
+			},function(){
+				$(this).css('opacity','1');
+				$(this).siblings().css('opacity','1');
+			});
+			//li hover_02
+			$('.index_main_in .tjsj_con .bot_div ul li').hover(function(){		
+				$(this).find('img').css('opacity','1');
+				$(this).siblings().find('img').css('opacity','0.8');
+			},function(){
+				$(this).find('img').css('opacity','1');
+				$(this).siblings().find('img').css('opacity','1');
+			});
+			
+			
+			//
+			var myFn = function(){
+				olKey++;
+				if(olKey >2){
+					olKey = 0;
+				}
+				$('.index_main_in .del_con .rgt_div .con_del .lft_ul .tab_ol li').eq(olKey).addClass('current').siblings().removeClass('current');
+				imgKey++;
+				if(imgKey >3){
+					imgKey =1;
+					$('.con ul').css('left','0px');	
+				}
+				var move = imgKey * -348;
+				$('.index_main_in .del_con .rgt_div .con_del .lft_ul .conIn ul ').stop().animate({'left':move +'px'},500);			
+			}
+			
+					
+				//自动轮播2
+			var timer01 = null;
+			timer01 = setInterval(myFn,1000);
+			$('.index_main_in .del_con .rgt_div .con_del').hover(function(e) {
+				clearInterval(timer01);
+			},function(){
+				clearInterval(timer01);	
+				timer01 = setInterval(myFn,1000);
+			});
+			
+			
+			var myLi = $('.index_main_in .del_con .rgt_div .con_del .lft_ul .conIn ul li:eq(0)').clone(true);
+			var myTag = $(myLi);
+			$('.index_main_in .del_con .rgt_div .con_del .lft_ul .conIn ul').append(myTag);
+			
+			var olKey = 0;
+			var imgKey = 0;
+
+				// ol点击
+			$('.index_main_in .del_con .rgt_div .con_del .lft_ul .tab_ol li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var move = $(this).index() * -348;
+				$('.index_main_in .del_con .rgt_div .con_del .lft_ul .conIn ul').stop().animate({'left':move + 'px'},500);
+				olKey = $(this).index();
+				imgKey = $(this).index();
+			});
+			
+			//li hover_03
+			$('.index_main_in .del_con .rgt_div .title ul li').hover(function(){		
+				$(this).find('i').css('color','#f19715');
+				$(this).siblings().find('i').css('color','#b5b5b5');
+			});
+			
+			$('.index_main_in .del_con .rgt_div .title ul li').click(function(){		
+				$(this).find('i').css('color','#f19715');
+				$(this).siblings().find('i').css('color','#b5b5b5');
+				var this_index =$(this).index();
+				$(this).closest('.title').siblings('.con_del').find('.list_01').eq(this_index).addClass('current').siblings().removeClass('current');
+			});
+			//li hover_04
+			$('.index_main_in .del_con .rgt_div .con_del .rgt_ul .list_01 li').hover(function(){		
+				$(this).find('img').css('opacity','1');
+				$(this).siblings().find('img').css('opacity','0.8');
+			},function(){
+				$(this).find('img').css('opacity','1');
+				$(this).siblings().find('img').css('opacity','1');
+			});
+		})
+	
+function getlist(id,pid) {
+	$("#category_"+id).addClass('active').siblings().removeClass('active');
+	var url="{:url('Index/getGoodlist')}";
+	$.post(url, {id:id},function(data){
+		 if(data){
+				  var html = '';
+				 $("ul#list_"+pid).empty(); 		  
+				  $.each(data, function(i,n){			
+						 var html='<li><div class="pic" > <a class="yershop_img" href="'+n.url+'" target="_blank" title="'+n.title+'"> <img src="'+n.pic+'"width="120" height="120" ></a>  </div> <div class="name"><a href="'+n.url+'"  target="_blank" title="'+n.title
+						  +'">'+n.title+'</a></div> <div  class="price">  <font>￥</font><span>'+n.price+'</span></div></li> ';	
+					    $("ul#list_"+pid).append(html);
+				 });
+		}
+
+	})
+}
+
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+      $("img.lazy").lazyload({effect: "fadeIn"});
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!-- 头部 -->
+	{include file='Public/header'}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="{:url('order/index')}" class="index_a">个人中心</a> ><span>商品评价</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			<div class="main_top">
+					{include file='Public/left'}
+            <form  action="{:url('comment/update')}"id="submitfrm" method="post">
+				<div class="fr sppj_right_pan">
+					<div class="sp_div">
+						<div class="pic fl"><img src="{$info.goods_id|get_goods_cover}" width="278" height="278"/></div>
+						<div class="rgt_div fl">
+							<a href="javascript:;" class="f18 name">{$info.title|substr_cn="49"}<br />{$info.specifications|default="无"}</a>
+							<p class="f14 price"><span class="span_01">价格</span><span  class="span_02">{$info.price}</span>元</p>
+							<p class="ps f14"><span class="span_01">配送</span><span  class="span_02">快递：{$info.spress}</span></p>
+							<p class="f14 yxl"><span class="span_01">月销售</span><span  class="span_02">{$info.goods_id|get_goods="sales"}</span>件</p>
+							<div  class="pj f14">
+								<span class="span_01 fl">评价</span>
+								<div class="star star_04 fl"></div>
+								<span class="span_02 fl">{$info.goods_id|getEqual}分（累计评价{$info.goods_id|get_goods="comments"} )</span>
+							</div>
+						</div>
+					</div>
+					<div class="xpj_div">
+						<div class="ljpl"><h3>累计评论<span>{$info.goods_id|get_goods="comments"}</span></h3></div>
+						<div class="spms">
+							<div class="div_l fl">
+								<p class="txt f12">与描述相符</p>
+								<p class="num">{$info.goods_id|getEqual}</p>
+								<div class="star star_04"></div>
+							</div>
+							<div class="range fl f12">
+								    {foreach name="tags" item="vo"  key="k"}  
+									   <li><a class="txt fl {if condition="$k eq 1}current{/if}">{$vo.title}</a></li>
+									{/foreach}
+								
+						  <input type="hidden" name="tag"  id="tags" value=""	>
+						  <input type="hidden" name="goods_id"  value="{$info.goods_id|default=''}"	>
+						  <input type="hidden" name="sales_id"  value="{$info.id|default=''}"	>
+							</div>
+						
+						</div>
+						
+													
+				<script>	//规格
+			$('.range a').click(function(){
+				$(this).toggleClass('current');
+			});
+			</script>						
+						
+
+					<div class="xpj_del">
+							<div class="pj_box f12">
+								<div class="starbox">
+									<span class="s_name fl">总体评价</span>
+									<ul class="star_ul fl">
+										<li><a class="one-star" href="javascript:;"></a></li>
+										<li><a class="two-star" href="javascript:;"></a></li>
+										<li><a class="three-star"  href="javascript:;"></a></li>
+										<li><a class="four-star"  href="javascript:;"></a></li>
+										<li><a class="five-star"  href="javascript:;"></a></li>
+										   <input type="hidden" name="score" value=""	>
+									</ul>
+									
+								</div>
+								<div class="starbox">
+									<span class="s_name fl">描述相符</span>
+									<ul class="star_ul fl">
+										<li><a class="one-star" href="javascript:;"></a></li>
+										<li><a class="two-star" href="javascript:;"></a></li>
+										<li><a class="three-star"  href="javascript:;"></a></li>
+										<li><a class="four-star"  href="javascript:;"></a></li>
+										<li><a class="five-star"  href="javascript:;"></a></li>
+										 <input type="hidden" name="des" value=""	>
+									</ul>
+									
+								</div>
+								<div class="starbox">
+									<span class="s_name fl">服务态度</span>
+									<ul class="star_ul fl">
+										<li><a class="one-star" href="javascript:;"></a></li>
+										<li><a class="two-star" href="javascript:;"></a></li>
+										<li><a class="three-star"  href="javascript:;"></a></li>
+										<li><a class="four-star"  href="javascript:;"></a></li>
+										<li><a class="five-star"  href="javascript:;"></a></li>
+										 <input type="hidden" name="service" value=""	>
+									</ul>
+									
+								</div>
+								<div class="starbox">
+									<span class="s_name fl">发货速度</span>
+									<ul class="star_ul fl">
+										<li><a class="one-star" href="javascript:;"></a></li>
+										<li><a class="two-star" href="javascript:;"></a></li>
+										<li><a class="three-star"  href="javascript:;"></a></li>
+										<li><a class="four-star"  href="javascript:;"></a></li>
+										<li><a class="five-star"  href="javascript:;"></a></li>
+										 <input type="hidden" name="delivery" value=""	>
+									</ul>
+									
+								</div>
+							</div>
+							<div class="gs">
+								<p class="tip f14">其他买家，需要你的建议哦！</p>
+								<div class="sygs f12">
+									<div class="lf fl f12"><span></span>使用感受：</div>
+									<div class="rt fl">
+										<textarea  id="" name="content"></textarea>
+										<div class="st">
+											<div class="top f12">
+												<a href="javascript:;">晒图</a>
+												<input type="file" class="upload_file" id="uploads"/>
+								                  <input type="hidden" name="cover_id" id="cover_id" value="{$draw.cover_id|default=''}"	>
+												
+											</div>
+											<ul class="st_ul">
+										
+											</ul>
+												<script type="text/javascript" src="__COMMON__/uploadify/jquery.uploadify.min.js"></script>							
+				<script type="text/javascript">
+				    /* 初始化上传插件 */
+					$("#uploads").uploadify({
+				        "height"          : 30,
+				        "swf"             : "__COMMON__/uploadify/uploadify.swf",
+				        "fileObjName"     : "download",
+				        "buttonText"      : "",
+				        "uploader"        : "{:url('File/uploadpicture',array('session_id'=>session_id()))}",
+				        "width"           : 150,
+				        'removeTimeout'	  : 0,
+				        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+				        "onUploadSuccess" : uploadPicture,
+				        'onFallback' : function() {
+				            alert('未检测到兼容版本的Flash.');
+				        }
+				    });
+				
+			      function uploadPicture(file, data){
+				    	var data = $.parseJSON(data);
+				    	var src = '';
+				        if(data.status){
+				        	
+				        	src = data.url || data.path;
+							var upload_img = "<li><img class='pic' src=" + src +" title='点击显示大图' data-id="+data.id+"><a onclick='delPic(this);' class='close'>X</a></li>";
+                            picsbox = $(".st_ul");
+							picsbox.append(upload_img);
+                            setVal();
+				        }
+				    }
+					  function delPic(obj){ //删除
+							$(obj).parents("li").remove();
+							setVal();
+						}
+						function setVal(){ //取值
+							var option = $(".st_ul img");
+							var result=new Array();
+							option.each(function(i){
+								 result.push($(this).attr('data-id'));
+						    });
+						   ids= result.join(',');
+						   $('#cover_id').val(ids);
+					  }			
+						
+				</script>
+
+											<div class="nm f12">
+												<span class="icon current"><input type="checkbox" name="hide"  onclick="comment()"/></span>
+												匿名评价
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<a onclick="submit()" class="tjpj f14">提交评价</a>
+						</div>
+					</div>
+				</div>	
+			</div>			
+		</div>
+	</div></form>
+	<!--/main end-->	
+	<!-- 尾部 -->
+{include file='Public/footer'}
+<!-- 尾部 -->
+	
+	<script type="text/javascript">
+	    function submit(){
+			var option = $(".range .current");
+							var result=new Array();
+							option.each(function(i){
+								 result.push($(this).text());
+						    });
+			 ids= result.join(',');
+			 $('#tags').val(ids);
+            var ul=$(".star_ul");
+	        ul.each(function(i){ 
+                $(".star_ul").eq(i).find("input").val($(".star_ul").eq(i).find("a.active-star").length);
+
+			 });
+            var self = $("#submitfrm");
+	          $.post(self.attr("action"),self.serialize(),function(data){
+  
+					 if(data.code){  
+					     opensuccess(data);
+					 }
+					 else{
+					      openerror(data);
+					 }
+              });
+		   
+	     }
+		$(function(){
+			//nm
+			$('.grzx_main_in .sppj_right_pan .xpj_div .xpj_del .gs .sygs .rt .st .nm .icon').click(function(){
+				if($(this).hasClass('current')){
+					$(this).removeClass('current');					
+				}else{
+					$(this).addClass('current');		
+				}
+			});
+			
+			//评价						
+			$('.grzx_main_in .sppj_right_pan .xpj_div .xpj_del .pj_box .starbox .star_ul li a').click(function(){
+				var sel_div_01 = $(this).closest('.starbox').parent('.pj_box').children('.starbox').eq(0);
+				var sel_div_02 = $(this).closest('.starbox').parent('.pj_box').children('.starbox').eq(1);
+				var sel_div_03 = $(this).closest('.starbox').parent('.pj_box').children('.starbox').eq(2);
+				var sel_div_04 = $(this).closest('.starbox').parent('.pj_box').children('.starbox').eq(3);
+				var sel_all = [sel_div_01,sel_div_02,sel_div_03,sel_div_04];		
+				var this_index =$(this).parent('li').index();
+				var div_index = $(this).closest('.starbox').index();
+				var sel_div = sel_all[div_index];
+				var sel_len = sel_div.children('.star_ul').find('.active-star').length - 1;	
+				if(this_index == sel_len){
+					$(this).removeClass('active-star');
+					$(this).parent('li').prevAll().children('a').removeClass('active-star');
+					$(this).parent('li').nextAll().children('a').removeClass('active-star');
+				}else if(this_index < sel_len){
+					$(this).addClass('active-star');
+					$(this).parent('li').prevAll().children('a').addClass('active-star');
+					$(this).parent('li').nextAll().children('a').removeClass('active-star');				
+				}else if(this_index > sel_len){
+					$(this).addClass('active-star');
+					$(this).parent('li').prevAll().children('a').addClass('active-star');
+					$(this).parent('li').nextAll().children('a').removeClass('active-star');				
+				}
+				//$('.grzx_main_in .sppj_right_pan .xpj_div .xpj_del .pj_box  .starbox .star_ul li a').stop();		
+			})
+		})
+	</script>
+  <div class="mask none">
+			<div class="alert_success alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="sucess_msg">操作成功</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+		<div class="mask none">
+			<div class="alert_error alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="error_msg">操作失败</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+		<script>
+			
+			$(".mask .alert_div .alert_close").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			$(".mask .alert_div .alert_btn").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			
+			function opensuccess(data){
+			    $(".sucess_msg").text(data.msg);
+				$(".alert_success").parents(".mask").removeClass("none"); 
+			   setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }
+               },1000);
+				
+			}
+			function openerror(data){
+			     $(".error_msg").text(data.msg);
+				$(".alert_error").parents(".mask").removeClass("none");
+			}
+		</script>

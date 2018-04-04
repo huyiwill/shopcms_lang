@@ -1,0 +1,65 @@
+<!-- 头部 -->
+	{include file='public/toolbar'}
+<!-- 头部 --> 
+	<!--logo start-->
+	<div class="logo w100">
+		<div class="logo_in in_width tjdd_in_width">
+			<h1 class="logo_pic fl"><a href="{:url('index/index')}"><img title="YERSHOP" src="__IMG__/logo_pic.gif" width="201" height="59" /></a></h1>			
+			<div class="jd_div fr">
+				<ul>
+					<li class="li_01">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">我的购物车</p>
+					</li>
+					<li class="li_02">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">确认订单</p>
+					</li>
+					<li class="li_03">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">支付提交</p>
+					</li>
+					<li class="li_04 current">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">订单完成</p>
+					</li>
+				</ul>
+			</div>			
+		</div>
+	</div>
+	<!--/logo end--> 
+	<!--main start-->
+	<div class="main w100 tjdd_main">
+		<div class="main_in in_width tjdd_main_in">
+			<div class="tjsb_con">
+				<img src="__IMG__/tjsb_pic_01.gif" class="icon_l fl"/>
+				<div class="txt_r fl f14"> 
+				{if condition="$info.msg"}
+					<p class="txt_01 f16">{$info.msg}。</p>
+				{else/}
+					<p class="txt_01 f16">抱歉，本次付款未成功，可能由于以下原因。</p>
+					<div class="txt_02">
+						<p>·您使用的这张银行卡余额不足，无法付款。</p>
+						<p>·由于网络系统的原因，您暂时无法付款，请稍候再使用。</p>
+					</div>
+					<p class="txt_03">您可能需要：<a href="javascript:;">返回我的订单</a></p>
+				</div>
+				{/if}
+			</div>
+		</div>
+
+	</div>
+	<!--/main end-->	
+	{include file='Public/footer'}
+	
+	<script type="text/javascript">
+		$(function(){		
+			
+		})
+	</script>
+</body>
+</html>

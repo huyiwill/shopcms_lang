@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>琅琊阁后台管理</title>
+  <link rel="stylesheet" href="__COMMON__/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="__CSS__/style.css"/>
+  <script type="text/javascript" src="__COMMON__/jquery.min.js"></script>
+
+  <!-- 自定义弹窗-->
+  {include file='public/dialog'}
+  <!-- 换肤功能 -->
+  {include file='public/color'}
+</head>
+<body>
+
+
+
+<div class="top header">
+  <div class="logo"></div>
+
+
+
+  <ul class="main_links">
+    <li><a href="{:url('index/index')}">首页 </a></li>
+    {present name="group"}
+    <!-- 欢迎语 -->
+    {volist name="group" id="vo" empty=""}
+
+    <li>
+      <a href="{$vo.id|get_group_url}">{$vo.title|default=""} </a>
+    </li>
+
+    {/volist}
+
+    <!--<li><a href="{:site_url()}" target="_blank">前台</a></li>-->
+    {/present}
+  </ul>
+
+
+
+
+  <div class="user_info">
+
+    <a href="{:url('login/logout')}" id="user_icon"><i class="fa fa-user"></i></a>
+
+  </div>
+  <div class="down_menu" id="down_menu">
+    <ul>
+      <li><a href="{:url('ucenter/edit',array('id'=>is_login()))}">修改资料</a></li>
+      <li><a href="{:url('login/logout')}">退出登录</a></li>
+    </ul>
+  </div>
+  <script>
+
+  </script>
+
+</div>
+
+
+<div class="main">
+  <div class="nav_tree">
+    <div class="innerUl">
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="__JS__/proTree.js"></script>
+  <script type="text/javascript">
+    var oDiv3 = document.getElementById('user_icon');
+    var oDiv4 = document.getElementById('down_menu');
+    var timer2 = null;
+    oDiv3.onmouseover = oDiv4.onmouseover = function(){
+      oDiv4.style.display = 'block';
+      clearTimeout(timer2);
+    }
+    oDiv3.onmouseout = oDiv4.onmouseout = function(){
+      //寮€瀹氭椂鍣�
+      timer2 = setTimeout(function(){
+        oDiv4.style.display = 'none';
+      }, 300);
+    }
+    $(".innerUl").ProTree({
+      arr         : {$sidebar},
+      simIcon     : "fa fa-file-o",//单个标题字体图标 不传默认glyphicon-file
+      mouIconOpen : "fa fa-folder-open-o",//含多个标题的打开字体图标  不传默认glyphicon-folder-open
+      mouIconClose: "fa fa-folder-o",//含多个标题的关闭的字体图标  不传默认glyphicon-folder-close
+      callback    : function(id, name, url){
+        window.location.href = url;
+      }
+    });
+    var upload_url = "{:url('uploads/picture')}";
+    var oss_path = "__COMMON__/plupload";
+    var site_path = "{:site_url('')}";
+    var upload_type = "{:C('upload_type')}";
+    var get_url = "{:url('Attachment/get')}";
+    if(upload_type == 1){
+      var domain_url = "{:C('SERVERURL')}";
+    }else{
+      var domain_url = "{:url('Attachment/update')}";
+    }
+    var insert_url = "{:url('Attachment/insert')}";
+  </script>
+  <script type="text/javascript" src="__COMMON__/plupload/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+  <script type="text/javascript" src="__COMMON__/plupload/upload.js"></script>
+  <script type="text/javascript" src="__COMMON__/laydate/laydate.js"></script>

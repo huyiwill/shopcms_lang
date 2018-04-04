@@ -1,0 +1,127 @@
+<!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+			<div class="content"><div class="main">
+			<div class="nav_tree nav_tree_two">
+				<div class="innerUls" style="font-size:10px">
+
+		         </div>
+	    </div>   <script type="text/javascript">
+		   
+		   $(".innerUls").ProTree({
+				arr:{$sidebars},
+				simIcon: "fa fa-file-o",//单个标题字体图标 不传默认glyphicon-file
+				mouIconOpen: "fa fa-folder-open-o",//含多个标题的打开字体图标  不传默认glyphicon-folder-open
+				mouIconClose:" line-height: 26px;",//含多个标题的关闭的字体图标  不传默认glyphicon-folder-close
+				callback: function(id,name,url) {
+					window.location.href =url;
+				}
+		   });</script>
+				<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+					<div class="edit_title">{$meta_title|default=""}</div>
+
+	     <div class="search">
+					<form class="search-form"  action="{:url()}" method="post">
+					  <div class="group">
+					       名称：<input type="text" name="title" class="search_ipt" value="{:input('title')}"/>
+					  
+					  </div>
+						  <div class="group">
+					     排序：<input type="text" name="sort"  class="search_ipt" value="{:input('sort')}"/>
+					  </div>
+					     <div class="group">
+					     创建时间：<input type="text"  name="start_time" id="start_time" class="laydate-icon input_box search_ipt" value="{:input('start_time')}"/> 
+					  </div>
+					  <script>
+					laydate({
+					elem: '#start_time',
+					format: 'YYYY-MM-DD hh:mm:ss', 
+					min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+					});
+					</script>
+                     <div class="group">
+					     结束时间：<input type="text"  name="end_time" id="end_time" class="laydate-icon input_box search_ipt end" value="{:input('end_time')}"/><input type="button" class="search_btn"value="搜索" onclick="$('.search-form').submit()">
+					  </div>
+					  <script>
+					laydate({
+					  elem: '#end_time',
+					  format: 'YYYY-MM-DD hh:mm:ss', 
+					  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+					});
+                  </script>
+					
+					</form>
+					</div>
+				<div class="goods-rgt">
+					<div class="edit">
+						<div class="edit_top">
+							<a href="{:url('add?pid='.$pid)}" class="add cur">新增</a>
+							<a data-url="{:url('del')}" class="delete cur">删除</a>
+						</div>
+						<div class="search_right">
+							<input type="text" />
+							<div class="search_btn"></div>
+						</div>
+					</div>
+					<table class="goods">
+					    <tr>
+							<th><input class="checkbox check-all" type="checkbox">   </th>	
+							<th>id</th> 
+							<th>图片</th>                                
+							<th>标题</th>
+							<th>sku</th>
+							<th>价格</th>
+							<th>总库存</th>
+							<th>状态</th>
+							
+							<th class="">操作</th>
+				       </tr>
+				       {volist name="res.list" id="vo"}
+                            <tr>
+								<td> <input class="ids row-selected" type="checkbox" name="id[]" value="{$vo.id}"> </td>
+								<td>{$vo.id}</td>
+								<td><img src="{$vo.cover_id|get_cover_path}" class="thumb"> </td>
+								<td class="tit"><a href="{:U('goods/edit?id='.$vo['id'])}">{$vo.title}</a> </td>
+								<td><a href="{:U('sku/index?goods_id='.$vo['id'])}">[查看]</a></td>
+								<td class="price">{$vo.price}</td>
+								<td>{$vo.num}</td>
+								<td>  {eq name="vo.status" value="1"}
+											         显示中		
+											   {else/}
+														<a data-url="{:url('del?id='.$vo['id'])}" class="green_btn cur">已下架</a>
+												{/eq}</td>
+								
+								<td class="list_opr">
+								    <span class="opr_box">
+									    <a href="{:url('edit?id='.$vo['id'])}" class="edit_btn cur">编辑</a>
+										       {eq name="vo.status" value="1"}
+											          <a href="{:url('change?status=0&id='.$vo['id'])}" class="blue cur">下架</a>		
+											   {else/}
+														<a href="{:url('change?status=1&id='.$vo['id'])}" class="green cur">上架</a>
+												{/eq}
+									    <a data-url="{:url('del?id='.$vo['id'])}" class="del_btn cur">删除</a>
+									    <a href="{:site_url()}/index.php/index/goods/detail/id/{$vo.id}" class="preview" target="_blank">预览</a>
+									</span>          
+								</td>
+                           </tr>
+					    {/volist}
+					</table>
+					<!--分页-->
+					<ul class="pagination">
+						  {$res.page}
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+	<script>
+
+var sid="{:input('pid')}";var obj=$("span#"+sid);$(obj).parents("li").eq(0).addClass("active");
+</script> 
+		
+	 <!-- 头部 -->
+	{include file='public/footer'}
+<!-- 头部 --> 
+

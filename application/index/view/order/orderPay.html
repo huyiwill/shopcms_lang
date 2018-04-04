@@ -1,0 +1,314 @@
+<!-- 头部 -->
+	{include file='public/toolbar'}
+<!-- 头部 --> 
+	<!--logo start-->
+	<div class="logo w100">
+		<div class="logo_in in_width tjdd_in_width">
+			<h1 class="logo_pic fl"><a href="{:url('index/index')}"><img title="YERSHOP" src="__IMG__/logo_pic.gif" width="201" height="59" /></a></h1>			
+			<div class="jd_div fr">
+				<ul>
+					<li class="li_01">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txta f12">我的购物车</p>
+					</li>
+					<li class="li_02 current">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">确认订单</p>
+					</li>
+					<li class="li_03">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">支付提交</p>
+					</li>
+					<li class="li_04">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">订单完成</p>
+					</li>
+				</ul>
+			</div>			
+		</div>
+	</div>
+	<!--/logo end--> 
+	<!--main start-->
+	<div class="main w100 tjdd_main">
+		<div class="main_in in_width tjdd_main_in">
+			<div class="qrdd_con">
+				<h3 class="f24 top_title">确认订单</h3>
+				<p class="tip f12">请仔细核对填写收货、发票等信息，以确保物流快递及时准确投递。</p>
+				<ul class="hd_list">
+					
+					{empty name="address" id="vo"}
+					<li class="user user_update"></li>
+					{else/}
+					<li class="user user_update">
+						<h4 class="f16">收货人信息<a onclick="updateAddress()" class="xg f12">[修改]</a></h4>
+						<p class="info f12">{$address.username}&nbsp;&nbsp;&nbsp;&nbsp{$address.province}&nbsp;&nbsp;{$address.city}&nbsp;&nbsp;{$address.area}&nbsp;&nbsp;{$address.address}<span class="icon"></span>
+						<span class="num">{$address.mobile}</span></p>
+					</li>
+					{/empty}
+					<li class="user new_info user_add" style="{notempty name="address"}display:none{/notempty}">
+								<form class="search-form" id="adr_form" 
+								action="{notempty name="address"}{:U('address/update')}{else/}{:U('address/add')}{/notempty}">
+							<div class="new_adr f12"><input type="radio" checked id="new_ipt"/>{notempty name="address"}修改{else/}新增{/notempty}地址</div>
+							<div class="ipts f12">
+								<div class="div_01">
+									<div class="div_l fl"><span>*</span>收货人姓名：</div>
+									<input type="text" name="username" class="ipt_r fl" value="{$address.username}"/>
+								</div>
+								<div class="div_02">
+									<div class="div_l fl"><span>*</span>所在地区：</div>
+									
+						<select id="province" name="province" > 
+<option value="-1">选择省份</option>
+  {volist name="arealist" id="vo" }
+  <option  value="{$vo.id}" >{$vo.title}</option>  
+  {/volist}</select> 
+   <select id="city" name="city"> <option value="-1">选择城市</option> </select>
+ <select id="area" name="area"> <option value="-1">选择地区</option> </select>
+	
+	<script>
+	$('#province').change(function(){
+					if(this.value==-1){
+						return;
+					}
+					$.post('{:url("address/change")}',{pid:this.value},
+					function(data,textStatus){
+						if(data){
+						    $('#city').empty();//清空原有的数据
+							$("<option value='-1'>选择城市</option>").appendTo("#city");
+								$.each(data, function(i,n){
+								$("<option value='"+n.id+"'>"+n.title+"</option>").appendTo("#city");
+								
+							});
+							
+						}else{
+							alert('没有子级了!');
+						}
+					},'json');
+				});
+                   $('#city').change(function(){
+					   if(this.value==-1){
+						  return;
+					   }
+				    $.post('{:url("address/change")}',{pid:this.value},
+					function(data,textStatus){
+						if(data){
+						
+					  $('#area').empty();//清空原有的数据
+					  $("<option value='-1'>选择区域</option>").appendTo("#area");
+							$.each(data, function(i,n){
+								$("<option value='"+n.id+"'>"+n.title+"</option>").appendTo("#area");
+								//$("#ltwo").append('<option value="'+n.region_id+'">'+n.region_name+'</option>');
+							});
+							$('#ltwo').show();
+						}else{
+							alert('没有子级了!');
+						}
+					},'json');
+				});
+   
+	$("select[name='province]").val("{$info.province|default='湖北'}");
+    $("select[name='city]").val("{$info.city|default='武汉'}");
+    $("select[name='area]").val("{$info.area|default='武昌区'}");
+				</script>
+								</div>
+								<div class="div_03">
+									<div class="div_l fl"><span>*</span>详细地址：</div>
+									<div class="div_r fl">
+										<input type="text" name="address" class="ipt_r" value="{$address.address}"/>
+										<p class="tip_01">请填写真实地址，不需要重复填写所在地区</p>
+									</div>
+								</div>
+								<div class="div_04">
+									<div class="div_l fl"><span>*</span>手机号码：</div>
+									<div class="div_r fl">
+										<input type="text" id="ipt_01" name="mobile" class="fl" value="{$address.mobile}"/>
+										<p class="or fl">(或) 固定电话：</p>
+										<input type="text"  name="phone" value="{$address.phone}" id="ipt_02" class="fl"/>
+									</div>
+									<input type="hidden"  name="id" value="{$address.id}" id="ipt_02" class="fl"/>
+								</div>
+								<a onclick="adr_form_update()" class="save">保存收货人信息</a>
+							</div>
+						</form>
+				
+					</li>
+					
+					<li class="zffs">
+						<h4 class="f16">支付方式</h4>
+						<p class="info f12">在线支付</p>
+					</li>
+					<li class="fp">
+						<h4 class="f16">发票信息<a onclick="showInvoice()" class="xg f12">[修改]</a></h4>
+						<p class="info f12 invoice_show"></p>
+					</li>
+					<li class="fp new_info invoice">
+						<form class="search-form" id="fp_form"action="{:U('order/save')}" >
+							<div class="new_adr f12"><input checked type="radio" id="new_ipt"/>使用新的发票信息</div>
+							<div class="ipts f12">
+								<div class="div_01">
+									<div class="div_l fl">发票类型：</div>
+									<div class="fl div_r">
+										<input type="radio" checked name="invoice_type" value="普通发票" class="ipt_r"/>
+										普通发票
+									</div>
+								</div>
+								<div class="div_02">
+									<div class="div_l fl">发票抬头：</div>
+									<select name="invoice_header" id="place_01" class="sel_01 fl">
+										<option value="个人">个人</option>
+										<option value="单位">单位</option>
+									</select>
+								</div>
+								<div class="div_03">
+									<div class="div_l fl">发票内容：</div>
+									<select name="invoice_content" id="place_01" class="sel_01 fl">
+										<option value="明细">明细</option>
+										<option value="酒">酒</option>
+										<option value="食品">食品</option>
+										<option value="饮料">饮料</option>
+									</select>
+								</div>
+								<div class="btns">
+									<a onclick="setInvoice()" class="save fl">保存收货人信息</a>
+									<a onclick="noInvoice()" class="no_fp fl">不需要发票</a>
+								</div>
+								<input type="hidden" name="is_invoice" />
+								<input type="hidden" name="message" />
+								<input type="hidden" name="address_id" value="{$address.id}"/>
+								<input type="hidden" name="id" value="{$info.id}"/>
+							</div>
+						</form>
+					</li><form >
+					<li class="spqd">
+						<h4 class="f16">商品清单</h4>
+						<table class="bought_table f12">
+							<tbody>
+								<tr>
+									<th class="th_01">商品</th>
+									<th class="th_02">单价(元)</th>
+									<th class="th_03">数量</th>
+									<th class="th_04">小计(元)</th>
+								</tr>
+							</tbody>
+						</table>
+						<div class="dd_list">
+							<div class="list">
+							
+								<table class="del_table f12">
+									<tbody>
+										{volist name="list" id="vo"}
+										<tr>
+											<td class="td_01">
+												<a href="{:url('Goods/detail?id='.$vo['goods_id'])}" class="pic fl"><img src="{$vo.goods_id|get_goods_cover}"/></a>
+												<div class="info fl">
+													<a href="{:url('Goods/detail?id='.$vo['goods_id'])}" class="name f12">{$vo.title}</a>
+													<p class="gg f12">规格：{$vo.specifications}</p>
+												</div>
+											</td>
+											<td class="td_02">{$vo.price}</td>
+											<td class="td_03">{$vo.num}</td>
+											<td class="td_04">{$vo.total}</td>
+										</tr>
+										{/volist}
+									</tbody>
+								</table>							
+							</div>
+						</div>
+						<div class="bot_div">
+							<div class="ll fl">
+								<span class="fl f12">买家留言：</span>
+								<input type="text" class="ipt fl" placeholder="选填：对本次交易的说明（建议填写已经和商家达成一致的说明）"/>
+							</div>	
+							<div class="xj fr f12">
+								<div class="div_01 spje">
+									<span class="span_01 fl">商品金额：</span>
+									<span class="span_02 fl"></span>
+									<span class="span_03 fl">{$info.total}</span>
+								</div>
+								<div class="div_01 yf">
+									<span class="span_01 fl">物流运费：</span>
+									<span class="span_02 fl"></span>
+									<span class="span_03 fl">{$info.ship_price}</span>
+								</div>
+								<div class="div_01 hj">
+									<span class="span_01 fl">本店合计：</span>
+									<span class="span_02 fl"></span>
+									<div class="span_03 fl"><span>{$info.total_money}</span>元</div>
+								</div>
+								
+							</div>
+						</div>
+						<div class="all">
+							<a onclick="orderSubmit()" class="tjdd f20 fr">提交订单</a>
+							<p class="tol_price f12 fr">订单总金额：<span class="f18">{$info.total_money}</span>元</p>
+							
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+
+	<!--/main end-->	
+
+	<script type="text/javascript">
+		function updateAddress(){
+		 $(".user_add").toggle();
+		}
+
+		function adr_form_update(){
+		      var self = $("#adr_form");
+		      $.post(self.attr("action"),self.serialize(),function(data){
+  
+					 if(data.code){  
+					    $("input[name='address_id']").val(data.id); 
+						$('li.user_update').html(data.html); 
+						$('li.new_info').hide(); 
+					 }
+					 else{
+					     alert(data.msg);
+					 }
+              });
+		  
+		}	
+		function setInvoice(){
+		     // var self = $("#adr_form_add");
+		     var html=$("input[name='invoice_type']").val()+','+$("select[name='invoice_header']").val()+','+$("select[name='invoice_content']").val();
+		     $(".invoice_show").html(html); 
+			 $(".invoice").hide();
+			 $("input[name='is_invoice']").val("是");
+		}
+		function showInvoice(){
+			 $(".invoice").show();
+		}
+		function noInvoice(){
+		      $(".invoice").hide();
+		     var html="不需要发票";
+		     $(".invoice_show").html(html); 
+			 $("input[name='is_invoice']").val("否");
+			
+		}
+		function orderSubmit(){ 
+		     var deal_url = "{:U('order/save')}";
+			 var self = $("#fp_form");
+			 var message = $(".ipt").val();
+			 $("input[name='message']").val(message);
+				$.post(deal_url,self.serialize(),function(data){   
+					 if(data.code){ 
+						  var url = "{:U('order/Pay')}"+'&id='+data.id;
+						  window.location.href =data.url;
+						  
+					}
+					 else{
+					    alert(data.msg);
+					 }
+                });
+	       
+	}
+	</script>
+{include file='public/footer'}

@@ -1,0 +1,61 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+	
+			<div class="content">
+				<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="table">
+					<div class="edit">
+						<div class="edit_left ">
+							<a href="{:U('add')}" class="add cur">新增</a>
+							<a  data-url="{:U('del')}" class="delete cur">删除</a>
+						</div>
+						<div class="search_right">
+							<input type="text" value="{:input('title')}"/>
+							<div class="search_btn"></div>
+						</div>
+					</div>
+					<table class="list_table">
+					    <tr>
+							<th><input class="checkbox check-all" type="checkbox"></th>
+							<th>id</th><th class="">快递名称</th>
+							<th class="tit">快递单号</th>
+							<th class="">状态</th>
+							<th class="">创建时间</th>
+							<th class="">操作</th>
+			            </tr>
+				         {volist name="res.list" id="vo"}
+                           <tr>
+                                    <td> <input class="ids row-selected" type="checkbox" name="id[]" value="{$vo.id}"> </td>
+									<td>{$vo.id} </td>
+									<td>{$vo.title}</td>
+									<td>{$vo.code}</td>
+									<td>{eq name="vo.status" value="1"}
+												已使用</a>
+											{else/}
+											未使用
+											{/eq}
+									</td>
+									<td>{$vo.create_time|time_format}</td>
+			                        <td class="list_opr">
+                                     <span class="opr_box">
+										 <a href="{:url('edit?id='.$vo['id'])}" class="edit_btn cur">编辑</a>
+										 <a data-url="{:url('del?id='.$vo['id'])}" class="del_btn cur">删除</a>
+                                      </span>          
+                                   </td>
+                           </tr>				
+					    {/volist}
+					</table>
+					<!--分页-->
+					<ul class="pagination">
+						  {$res.page}
+					</ul>
+				</div>
+			
+			</div>
+		</div>		
+	 <!-- 头部 -->
+	{include file='public/footer'}
+<!-- 头部 --> 
+

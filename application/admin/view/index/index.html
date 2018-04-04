@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{$meta_title|default=""}|琅琊阁后台管理</title>
+		<link rel="stylesheet" href="__CSS__/style.css" />
+	    <link rel="stylesheet" href="__COMMON__/font-awesome/css/font-awesome.min.css">
+		<script type="text/javascript" src="__JS__/jquery.min.js" ></script>
+	</head>
+
+	<!-- 自定义弹窗-->
+    {include file='public/dialog'}
+	<!-- 换肤功能 -->
+	{include file='public/color'}
+	<body>
+		<div class="top"  style="margin:0 auto;">
+			<div class="logo"></div>
+			<ul class="main_links">
+			<li><a href="{:url('index/index')}">首页 </a></li>  {present name="group"}    
+                        <!-- 欢迎语 -->
+						   {volist name="group" id="vo" empty=""}
+                            <li><a href="{$vo.id|get_group_url}">{$vo.title|default=""} </a></li>
+							{/volist}  
+							{/present}
+			<li><a href="{:site_url()}" target="_blank">前台 </a></li>
+
+			</ul>	
+		<div class="user_info">
+			
+				<a href="{:url('login/logout')}" id="user_icon"><i class="fa fa-user"></i></a>
+				
+			</div>
+			<div class="down_menu" id="down_menu">
+				<ul>
+				<li><a href="{:url('ucenter/edit',array('id'=>is_login()))}">修改资料</a></li>
+				<li><a href="{:url('login/logout')}">退出登录</a></li>
+				</ul>
+			</div>
+		<script>	
+		var oDiv3 = document.getElementById('user_icon');
+		var oDiv4 = document.getElementById('down_menu');
+		var timer2 = null;
+		oDiv3.onmouseover = oDiv4.onmouseover = function (){	
+			oDiv4.style.display = 'block';
+			clearTimeout(timer2);
+		}
+		oDiv3.onmouseout = oDiv4.onmouseout = function (){
+			//寮€瀹氭椂鍣�
+			timer2 = setTimeout(function () { 
+			oDiv4.style.display = 'none'; },300);
+		}
+	</script>	
+
+		</div>
+	<div class="blocks" >
+			
+	<div class="warp">
+			<div class="bg"></div>
+				<div class="show_info">
+					<div class="calc_goods_cate show_info_div left">
+						<div class="left_img">
+							<div></div>
+						</div>
+						<div class="right_text category">
+							<span class="text_title">总分类数</span>
+							<span class="num">{$info.category|default="0"}</span>
+						</div>
+					</div>
+					
+					  <div class="imgs_tnums show_info_div left">
+						<div class="left_img">
+							<div></div>
+						</div>
+						<div class="right_text pics">
+							<span class="text_title">总图片数</span>
+							<span class="num">{$info.category|default="0"}</span>
+						</div>
+					</div>
+					
+					<div class="ads_nums show_info_div left">
+						<div class="left_img">
+							<div></div>
+						</div>
+						<div class="right_text ad">
+							<span class="text_title">广告个数</span>
+							<span class="num">{$info.ad|default="0"}</span>
+						</div>
+					</div>
+					<div class="goods_quantity show_info_div left">
+						<div class="left_img">
+							<div></div>
+						</div>
+						<div class="right_text log">
+							<span class="text_title">日志个数</span>
+							<span class="num">{$info.log|default="0"}</span>
+						</div>
+					</div>
+					<div class="user_amount show_info_div left">
+						<div class="left_img">
+							<div></div>
+						</div>
+						<div class="right_text user">
+							<span class="text_title">用户量</span>
+							<span class="num">{$info.user|default="0"}</span>
+						</div>
+					</div>
+				</div>
+			  
+				 
+			</div>
+		</div>
+		
+		
+			<div class="container"> 
+
+	<div class="item">
+
+		
+			<div class="tit computer"><img class="icon-computer" src="__IMG__/com.png">系统信息</div>
+			
+							<table>
+					<tbody>
+
+						<th>服务器操作系统</th>
+						<td>{$Think.const.PHP_OS}</td>
+					</tr>
+					
+					<tr>
+						<th>服务器解译引擎</th>
+						<td>{$_SERVER['SERVER_SOFTWARE']}</td>
+					</tr>
+					<tr>
+						<th>应用部署目录 </th>
+												<td>{:getcwd()}</td>
+					</tr>
+					<tr>
+						<th>上传限制</th>
+						<td>{:ini_get('upload_max_filesize')}</td>
+					</tr>
+					
+				</tbody></table>
+	
+</div>
+
+	</div>
+<div class="footer"><p> Powered by <a href="http://www.yershop.com/" style="color:blue" target="_blank">yershop</a>  @武汉贝云网络科技有限公司 </p></div>
+

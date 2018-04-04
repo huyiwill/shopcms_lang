@@ -1,0 +1,130 @@
+<!-- 头部 -->
+	{include file='public/toolbar'}
+<!-- 头部 --> 
+	<!--logo start-->
+	<div class="logo w100">
+		<div class="logo_in in_width tjdd_in_width">
+			<h1 class="logo_pic fl"><a href="{:url('index/index')}"><img title="YERSHOP" src="__IMG__/logo_pic.gif" width="201" height="59" /></a></h1>			
+			<div class="jd_div fr">
+				<ul>
+					<li class="li_01">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">我的购物车</p>
+					</li>
+					<li class="li_02">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">确认订单</p>
+					</li>
+					<li class="li_03 current">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">支付提交</p>
+					</li>
+					<li class="li_04">
+						<span class="icon"></span>
+						<div class="line"><span class="yq"></span></div>
+						<p class="txt f12">订单完成</p>
+					</li>
+				</ul>
+			</div>			
+		</div>
+	</div>
+	<!--/logo end--> 
+	<!--main start-->
+	<div class="main w100 tjdd_main">
+		<div class="main_in in_width tjdd_main_in">
+			<div class="tjzf_con">
+			<form class="search-form" id="fp_form" action="{:U('alipay/index')}" method="post">
+				<h3 class="f24 top_title">支付提交</h3>
+				<p class="tip f12">订单详情内容可通过查看<a href="{:url('order/index')}">我的订单</a>进行核对处理。</p>
+				<div class="del">
+					<div class="div_top">
+						<p class="f14 time_left">请您在60分钟内完成支付，逾期订单将自动取消。应付金额：<span class="f18">{$info.total_money}</span>元</p>
+						<div class="dd_del f12">
+							<ul class="title_ul">
+								<li class="li_01">订单号</li>
+								<li class="li_02">支付方式</li>
+								<li class="li_03">金额(元)</li>
+							</ul>
+							<ul class="del_ul">
+								<li class="li_01">{$info.order_sn}</li>
+								<li class="li_02">在线支付</li>
+								<li class="li_03">{$info.total_money}</li>
+							</ul>
+						</div>
+					</div>				
+					<div class="ye_zf">
+						<p class="fs f16">使用余额支付</p>
+						<div class="bot_div f12">
+							<div class="div_l fl">
+								<input type="checkbox"  id="checkbox-id"  class="fl" name="account"/>
+								<p class="fl f12">使用余额支付（可用余额：<span>{$UcenterMember.account}</span>元）</p>
+							</div>
+							<div class="div_r fl">
+								<span class="fl f12">余额不足?</span>
+								<a href="{:url('pay/index')}" class="cz_btn fl">马上充值</a>
+							</div>
+						</div>
+					</div>
+					<div class="zx_zf">
+						<p class="fs f16">选择在线支付</p>
+						<div class="bot_div">
+							<ul>
+								<li class="current"><a attr-id="1"><img src="__IMG__/zxzf_pic_01.jpg"/></a></li>
+								<li><a attr-id="2"><img src="__IMG__/zxzf_pic_04.jpg"/></a></li>
+								<!--li><a attr-id="tenpay"><img src="__IMG__/zxzf_pic_02.jpg"/></a></li>
+								<li><a href="javascript:;"><img src="__IMG__/zxzf_pic_03.jpg"/></a></li-->
+							</ul>
+							<div class="sure_div"><a onclick="paySubmit();" class="wrzf f20">确认支付</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+	<input type="hidden" name="paytype" value="1"/>
+	<input type="hidden" name="id" value="{$info.id}"/>
+	</form>
+	<!--/main end-->	
+	
+	<script type="text/javascript">
+	
+		function paySubmit(){ 
+		   if($('#checkbox-id').is(':checked')) {
+              orderSubmit();return false;
+            }
+		
+	       $("#fp_form").submit();
+	       
+	}
+	function orderSubmit(){  
+		        var id="{$info['id']}";
+				$.post('{:url("pay/usecount")}',{id:id},function(data){   
+					 if(data.code){ 
+						
+		                   window.location.href =data.url;
+					}
+					 else{
+					    alert(data.msg); 
+						
+					 }
+                });
+	       
+}
+	</script>
+	
+	<script type="text/javascript">
+		$(function(){		
+			$('.tjdd_main .tjdd_main_in .tjzf_con .del .zx_zf .bot_div ul li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var id=$(this).find("a").attr("attr-id")
+				 $("input[name='paytype']").val(id);
+			});
+			
+		})
+	</script>
+{include file='public/footer'}

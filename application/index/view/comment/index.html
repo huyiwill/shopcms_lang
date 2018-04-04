@@ -1,0 +1,98 @@
+<!-- 头部 -->
+	{include file='Public/header'}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="javascript:;" class="index_a">个人中心</a> ><span>商品评价</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			<div class="main_top">
+				{include file='Public/left'}
+				<div class="fr sppj_right_pan">
+					<div class="top_tab">
+						<ul class="fl f14">
+							<li  class="current">
+								<a href="{:U('comment/index')}">已评价<span>{$res.count}</span></a>
+							</li>
+							<li>
+								<a href="{:U('comment/lists')}">待评价<span>{$res.num}</span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="tab_con">						
+						<table class="ypj_table f12">
+							<tbody>
+								<tr>
+									<th class="th_01"></th>
+									
+									<th class="th_03">宝贝信息</th>
+									<th class="th_04">操作<span>?</span></th>
+								</tr>
+							</tbody>
+						</table>					
+						<div class="ypj_list f12">
+						{volist name="res.list" id="vo"}
+						<table class="del_table">
+								<tbody>
+									<tr>
+										<td class="td_01">
+											<span class="hp_icon fl"></span>
+											<div class="pj_del f12 fl">
+												<p class="pj_con">{$vo.content}</p>
+												<ul class="st">
+													<li>
+														<img src="__IMG__/sppj_pic_01.gif" class="pic">
+														
+													</li>
+													<li>
+														<img src="__IMG__/sppj_pic_01.gif" class="pic">
+														
+													</li>
+												</ul>
+												<p class="time">[{$vo.create_time|date="Y-m-d h:i:s",###}]</p>
+											</div>								
+										</td>										
+									
+										<td class="td_03 f12">
+											<a href="javascript:;" class="sp_info"></a>
+											<p class="price"><span></span> 元</p>
+										</td>
+										<td class="td_04">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							
+							{/volist}
+							
+						</div>
+						<div class="page_div">
+							{$res.page}	
+						</div>	
+						
+						
+					</div>
+					<div class="tab_con">						
+					
+						</div>
+						<div class="page_div_03 f12">
+						
+						</div>
+						
+						
+					</div>
+
+				</div>	
+			</div>			
+		</div>
+	</div>
+	<!--/main end-->	
+{include file='Public/footer'}	
+	
+</body>
+</html>

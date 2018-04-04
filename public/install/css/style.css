@@ -1,0 +1,73 @@
+﻿
+html { background-color: white; }
+ul,ol {list-style:none;}
+a {text-decoration:none; color:#333}
+a:hover {text-decoration:none;}
+a,button{cursor:pointer;#333333}
+a,input,button,select,textarea{outline:none;}
+body {
+	margin: 0;
+	padding: 0;
+	color: #333;
+	font: 14px/1.8 Tahoma, Geneva, '\5B8B\4F53';
+}
+u {
+	list-style: none outside none;
+	margin: 0;
+	padding: 0;
+}
+a{}
+h1{margin:15px;}
+.step-active .line { background-color: #e0e0e0; }
+
+.container{clear:both;display:block;height:300px;overflow:auto;margin:90px auto;width:91%}
+.content{height:300px;overflow:auto;margin:90px auto;width:91%}
+.content input{height:25px;width:190px}
+.content .item div{line-height:25px;clear:both;padding:5px}
+.footer{
+	position:fixed;
+    z-index:900;height:50px;
+    overflow:auto;
+    margin:0px auto;
+    width:85%;
+    width:91%;padding:0 30px;bottom: 0;
+   }
+.footer .btn-orange{width:104px;line-height:35px;height:35px;color: #fef4e9;
+border: solid 1px #da7c0c;
+background: #fa6c6b;
+margin: 5px;display:inline-block;text-align:center;
+}
+.footer .btn-blue{
+	width:104px;line-height:35px;height:35px;color: #fef4e9;
+border: solid 1px #da7c0c;
+background: #20a8d8;
+margin: 5px;display:inline-block;text-align:center;
+}
+.table{
+	width:100%;
+}
+.item{float:left}
+.item div{display:block;height:35px;line-height:35px;}
+.item input{
+ display:block;
+ width:300px;
+ border: 1px solid #dddddd;
+ height:35px;
+ line-height:35px;
+ margin-bottom:10px;
+ }
+.item select{
+ display:block;
+ width:100px;
+ border: 1px solid #dddddd;
+ height:35px;
+ line-height:35px;
+ margin-bottom:10px;
+ }
+.table th, .table td {
+    padding: 8px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}

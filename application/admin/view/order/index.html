@@ -1,0 +1,228 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+	
+			<div class="content">
+				<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+					 <script type="text/javascript" src="__COMMON__/laydate/laydate.js"></script>	
+					 <div class="search">
+					   <form class="search-form"  action="{:url()}" method="post">
+						  <div class="group">
+							  收件人：<input type="text" name="username" class="search_ipt" value="{:input('username')}"/>
+						  </div> 
+						  <div class="group">
+							  用户id：<input type="text" name="uid" class="search_ipt" value="{:input('uid')}"/>
+						  </div>
+							  <div class="group">
+							订单号：<input type="text" name="order_sn"  class="search_ipt" value="{:input('order_sn')}"/>
+						  </div>
+							 <div class="group">
+							 创建时间：<input type="text"  name="start_time" id="start_time" class="laydate-icon input_box search_ipt" value="{:input('start_time')}"/> 
+						  </div>
+						
+						 <div class="group">
+							 结束时间：<input type="text"  name="end_time" id="end_time" class="laydate-icon input_box search_ipt" value="{:input('end_time')}"/>
+						  </div>
+						
+						   <div class="group">
+							   手机：<input type="text" name="mobile" class="search_ipt" value="{:input('monile')}"/>
+						  
+						  </div> 
+						  <div class="group">
+						   订单状态:
+								<select name="status"  class=" input_box search_ipt" >
+								<option value="0">待支付</option>   
+								<option value="1">待发货</option>   
+								<option value="2">已发货</option> 
+								<option value="3">已确认</option>   	 
+								</select>
+						  </div>
+						  <div class="group">
+								  是否到货:
+									 <select name="isdao"  class="input_box search_ipt end" >
+										 <option value="0">否</option>   
+										 <option value="1">是</option>   
+									 </select>
+								 
+							  </div>	
+							  
+							  <input type="button" class="search_btn"value="搜索" onclick="$('.search-form').submit()">
+					</form>
+				</div>
+				<div class="table">
+					<div class="edit">
+						<div class="edit_left ">
+							<a href="{:url('add')}" class="add cur">新增</a>
+							<a data-url="{:url('del')}" class="delete cur">删除</a>
+							<a href="{:url('out')}" class="add cur blue">导出</a>
+						</div>
+						<div class="search_right">
+							<input type="text" value="{:input('title')}"/>
+							<div class="search_btn"></div>
+						</div>
+					</div>
+
+						<div class="sle_all f12">
+							<label for="">
+								<input type="checkbox" class="checkbox check-all"/>
+								<span class="date">全选</span>
+								<a  data-url="{:url('send')}" class="send_order pl">批量发货</a>
+								<a  data-url="{:url('confirm')}"  class="confirm_order pl">批量确认收货</a>
+							</label>
+							
+						</div>						
+			     
+						<div class="bought_list f12">
+						  <table class="del_table ">
+								<tbody>
+									<tr>
+										<td class="td_01">
+											
+											<div class="con">
+												<div class="div_01 fl">
+													商品
+												</div>
+												<div class="div_02 fl">
+													
+													数量
+												</div>
+												<div class="div_03 fl">
+													<span>收件人</span>
+												</div>
+												<div class="div_04 fl">
+										          地址
+												</div>
+											</div>
+																					
+										</td>										
+										<td class="td_02">
+										    总金额
+										</td>
+										<td class="td_03">
+										  状态	
+										</td>
+										<td class="td_04">
+	                                              操作
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							{notempty name="res.list"}
+	                           {volist name="res.list" id="vo"}
+							<table class="top_table">
+								<tbody>
+									<tr>
+										<td class="td_01">
+											<input  class="ids row-selected" type="checkbox" name="id[]" value="{$vo.id}" />
+											<span class="date">下单时间{$vo.create_time|date='Y-m-d H:i',###}</span>
+											<span class="dd_nm">订单号: {$vo.order_sn}</span>
+										</td>
+										<td class="td_02">
+										
+										</td>
+										<td class="td_03">
+										
+										</td>
+										<td class="td_04">
+										{if condition="$vo.status gt 2"}<a onclick="delOrder({$vo.id})"></a>{/if}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="del_table ">
+								<tbody>
+									<tr>
+										<td class="td_01">
+											{volist name="vo['sales']" id="vo1"}
+											<div class="con">
+												<div class="div_01 fl">
+													<span class="pic fl" target="_blank" ><img src="{$vo1.goods_id|get_goods_cover}"></span>
+													<div class="info fl">
+														<span target="_blank" class="name">{$vo1.title}</span>
+														<p class="color">规格：{$vo1.specifications}</p>
+														<span class="icon"></span>
+													</div>
+												</div>
+												<div class="div_02 fl">
+													
+													<p class="new">￥{$vo1.price}</br>({$vo1.num}件)</p>
+												</div>
+												<div class="div_03 fl">
+													<span>{$vo.username}</span>
+												</div>
+												<div class="div_04 fl">
+										           {$vo.address}</br>联系方式：{$vo.mobile}
+												</div>
+											</div>
+											{/volist}										
+										</td>										
+										<td class="td_02">
+											<p class="total price">￥{$vo.total_money}</p>
+											<p class="yf">(含运费：￥{$vo.spress|default="0"})</p>
+											{if condition="$vo.type eq 1"}<div class="phone">手机订单</div>{/if}
+										</td>
+										<td class="td_03">
+										<a  class="green">
+											{if condition="$vo.status eq 0"}待支付{/if}
+											{if condition="$vo.status eq 1"}待发货{/if}
+											{if condition="$vo.status eq 2"}已发货{/if}
+											{if condition="$vo.status eq 3"}已确认{/if}
+											{if condition="$vo.status eq 4"}申请取消中{/if}
+											{if condition="$vo.status eq 5"}取消订单被拒绝{/if}
+											{if condition="$vo.status eq 6"}订单已取消{/if}
+										</a>
+										</td>
+										<td class="td_04">
+										  <a href="{:url('edit?id='.$vo['id'])}" class="edit_btn ddxq">编辑</a>
+										 
+										  <a href="{:url('detail?id='.$vo['id'])}" class="ddxq">详情</a>
+											
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						
+						{/volist}
+						</div>
+						    <div class="sle_all_01 f12">
+							<label for="">
+								<input type="checkbox" class="checkbox check-all"/>
+								<span class="date">全选</span>
+								<a onclick='confirmAll({$vo.id});' class="pl">批量确认收货</a>
+							</label>
+							
+						</div>
+						{else/}
+						    <span style="text-align:center;width:100%;display:block;">无数据！</span>
+						{/notempty}
+						<div class="page_div page">
+							{$res.page}
+							
+						</div>	
+					
+				</div>
+			
+			</div>
+		</div>
+	   <script src="__JS__/style.js"></script> 
+       <script>
+	       $("select[name='status']").val("{:input('status')}");
+	       $("select[name='isdao']").val("{:input('isdao')}");
+				laydate({
+					  elem: '#end_time',
+					  format: 'YYYY-MM-DD hh:mm:ss', 
+					  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+				});
+   
+				laydate({
+					elem: '#start_time',
+					format: 'YYYY-MM-DD hh:mm:ss', 
+					min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+					event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+				});
+		</script>
+	<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

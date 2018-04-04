@@ -1,0 +1,308 @@
+<!-- 头部 -->
+	{include file='public/header'/}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="javascript:;" class="index_a">个人中心</a> ><span>收货地址</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			<div class="main_top">
+			{include file='Public/left'/}
+				<div class="shdz_right_pan fl">
+					<form class="search-form adr_form_update" id="top_search_form" action="{:U('address/update')}">
+						<p class="new_ad f14">{$address['id']?'编辑':'新增'}收货地址</p>
+						<div class="ipts f14">
+							<div class="div_01">
+								<span class="span_l">收货人：</span>
+								<input type="text" name="username" class="ipt_r fl" value="{$address.username|default=''}"/>
+							</div>
+							<div class="div_02">
+								<span class="span_l">所在地区：</span>
+							
+
+							<select id="province" name="province" > 
+<option value="-1">选择省份</option>
+  {volist name="list" id="vo" }
+  <option  value="{$vo.id}" >{$vo.title}</option>  
+  {/volist}</select> 
+   <select id="city" name="city"> <option value="-1">选择城市</option> </select>
+ <select id="area" name="area"> <option value="-1">选择地区</option> </select>
+	
+	<script>
+	$('#province').change(function(){
+					if(this.value==-1){
+						return;
+					}
+					$.post('{:url("address/change")}',{pid:this.value},
+					function(data,textStatus){
+						if(data){
+						    $('#city').empty();//清空原有的数据
+							$("<option value='-1'>选择城市</option>").appendTo("#city");
+								$.each(data, function(i,n){
+								$("<option value='"+n.id+"'>"+n.title+"</option>").appendTo("#city");
+								
+							});
+							
+						}else{
+							alert('没有子级了!');
+						}
+					},'json');
+				});
+                   $('#city').change(function(){
+					   if(this.value==-1){
+						  return;
+					   }
+				    $.post('{:url("address/change")}',{pid:this.value},
+					function(data,textStatus){
+						if(data){
+						
+					  $('#area').empty();//清空原有的数据
+					  $("<option value='-1'>选择区域</option>").appendTo("#area");
+							$.each(data, function(i,n){
+								$("<option value='"+n.id+"'>"+n.title+"</option>").appendTo("#area");
+								//$("#ltwo").append('<option value="'+n.region_id+'">'+n.region_name+'</option>');
+							});
+							$('#ltwo').show();
+						}else{
+							alert('没有子级了!');
+						}
+					},'json');
+				});
+   
+	$("select[name='province]").val("{$info.province|default='湖北'}");
+    $("select[name='city]").val("{$info.city|default='武汉'}");
+    $("select[name='area]").val("{$info.area|default='武昌区'}");
+				</script>
+							</div>
+							<div class="div_03">
+								<span class="span_l">详细地址：</span>
+								<input type="text" name="address" class="ipt_r" value="{$address.address|default=''}"/>
+							</div>
+							<div class="div_04">
+								<span class="span_l">手机号码：</span>
+									<input type="text" id="ipt_01" name="mobile" class="fl" value="{$address.mobile|default=''}"/>
+							</div>
+							<div class="div_05">
+								<span class="span_l">电话：</span>
+								<input type="text"  name="phone" value="{$address.phone|default=''}" id="ipt_02" class="fl"/>
+							</div>
+							<div class="div_05">
+								<span class="span_l">邮编：</span>
+								<input type="text"  name="zipcode" value="{$address.zipcode|default=''}" id="ipt_02" class="fl"/>
+							</div>
+							<div class="sz">
+								<input type="checkbox" name="status"/>
+								<span class="span_l">设置为默认收货地址</span>
+							</div>
+							<a onclick="adr_form_update()"  class="save">保存</a>
+						</div><input type="hidden" name="id" value="{$address.id|default=''}">
+                    </form>
+					<div class="table_div">
+						<table class="bought_table f14">
+							<tbody>
+								<tr>
+									<th class="th_01">收货人</th>
+									<th class="th_02">所在地区</th>
+									<th class="th_03">详细地址</th>
+									<th class="th_04">邮编</th>
+									<th class="th_05">电话/手机</th>
+									<th class="th_06">操作</th>
+								</tr>
+							</tbody>
+						</table>
+						<div class="addr_table">
+							{volist name="res.list" id="vo"}
+							<table class="table_list {eq name='vo.status' value='1'}current{/eq} ">
+								<tbody>
+									<tr>
+										<td class="td_01">{$vo.username}</td>
+										<td class="td_02"> {$vo.province} {$vo.city} {$vo.area}</td>
+										<td class="td_03">{$vo.address}</td>
+										<td class="td_04">{$vo.zipcode}</td>
+										<td class="td_05">{$vo.mobile}</td>
+										<td class="td_06">
+											<a href="{:U('edit?id='.$vo['id'])}" class="xg">修改</a>
+											<span>|</span>
+											<a onclick="delAdr({$vo.id})" class="del">删除</a>
+										</td>
+										<td class="td_07">
+											<a onclick="setAdr({$vo.id})">默认地址</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						     {/volist}
+  							     <div class="page">
+								   {$res.page}
+								 </div>
+						</div>
+					</div>
+				</div>	
+			</div>
+			
+		</div>
+
+	</div>
+	<!--/main end-->	
+	<!--footer  start-->
+{include file='public/footer'}
+	     <div class="mask none">
+			<div class="alert_success alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="sucess_msg">操作成功</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+		<div class="mask none">
+			<div class="alert_error alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="error_msg">操作失败</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+		<script>
+			
+			$(".mask .alert_div .alert_close").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			$(".mask .alert_div .alert_btn").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			$(".tjpj").click(function(){
+				opensuccess();
+			})
+			function opensuccess(data){
+			    $(".sucess_msg").text(data.msg);
+				$(".alert_success").parents(".mask").removeClass("none"); 
+			   setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }
+               },1000);
+				
+			}
+			function openerror(data){
+			     $(".error_msg").text(data.msg);
+				$(".alert_error").parents(".mask").removeClass("none");
+			}
+			function adr_form_update(){
+		      var self = $(".adr_form_update");
+			  if($("input[type='checkbox']").is(':checked')){
+			    $("input[type='checkbox']").val(1);
+			  }
+		      $.post(self.attr("action"),self.serialize(),function(data){
+  
+					 if(data){  
+					     opensuccess(data);
+					 }
+					 else{
+					      openerror(data);
+					 }
+              });
+		  
+		}
+		function delAdr(id){
+			 var url="{:url('address/del')}";
+		      $.post(url,{id:id},function(data){
+					 if(data.code){  
+					     opensuccess(data);
+					 }
+					 else{
+					      openerror(data);
+					 }
+              });
+		  
+	 }		
+		function setAdr(ID){
+		      var set_url ="{:U('Address/set')}";
+			  
+		      $.post(set_url,{id:ID},function(data){
+  
+					 if(data.code){  
+					     opensuccess(data);
+					 }
+					 else{
+					     openerror(data)
+					 }
+              });
+		  
+		}	
+		$(function(){		
+			//轮播	
+			var myFn = function(){
+				olKey++;
+				if(olKey >4){
+					olKey = 0;
+				}
+				$('.grzx_main_in .cnxh .tab_div ol li').eq(olKey).addClass('current').siblings().removeClass('current');
+				imgKey++;
+				if(imgKey >4){
+					imgKey =1;
+					$('.grzx_main_in .cnxh .tab_div .con ul').css('left','0px');	
+				}
+				var move = imgKey * -1198;
+				$('.grzx_main_in .cnxh .tab_div .con ul').stop().animate({'left':move +'px'},1000);			
+			}
+			
+					
+			//自动轮播
+			var timer01 = null;
+			timer01 = setInterval(myFn,6000);
+			$('.grzx_main_in .cnxh .tab_div .con').hover(function(e) {
+				clearInterval(timer01);
+			},function(){
+				clearInterval(timer01);	
+				timer01 = setInterval(myFn,6000);
+			});
+			
+			
+			var myLi = $('.grzx_main_in .cnxh .tab_div .con ul li:eq(0),.grzx_main_in .cnxh .tab_div .con ul li:eq(1),.grzx_main_in .cnxh .tab_div .con ul li:eq(2),.grzx_main_in .cnxh .tab_div .con ul li:eq(3),.grzx_main_in .cnxh .tab_div .con ul li:eq(4)').clone(true);
+			var myTag = $(myLi);
+			$('.grzx_main_in .cnxh .tab_div .con ul').append(myTag);
+			
+			var olKey = 0;
+			var imgKey = 0;
+			$('.grzx_main_in .cnxh .tab_div .btn_div .next').click(function(e) {
+				myFn();			
+			});
+			
+			$('.grzx_main_in .cnxh .tab_div .btn_div .prev').click(function(e) {
+				olKey--;
+				if(olKey <0){
+					olKey = 4;	
+				}
+				$('.con ol li').eq(olKey).addClass('current').siblings().removeClass('current');
+				imgKey--;
+				if(imgKey < 0){
+					imgKey = 4;	
+					$('.grzx_main_in .cnxh .tab_div .con ul').css('left','-5990px');
+				}
+				var move = imgKey * -1198;
+				$('.grzx_main_in .cnxh .tab_div .con ul').stop().animate({'left':move + 'px'},1000);
+			});
+			
+			// ol点击
+			$('.grzx_main_in .cnxh .tab_div ol li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var move = $(this).index() * -1198;
+				$('.grzx_main_in .cnxh .tab_div .con ul').stop().animate({'left':move + 'px'},1000);
+				olKey = $(this).index();
+				imgKey = $(this).index();
+			});
+
+			//table_list
+			$('.grzx_main_in .shdz_right_pan .table_div .addr_table .table_list').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+			});
+				
+		})
+	</script>
+</body>
+</html>

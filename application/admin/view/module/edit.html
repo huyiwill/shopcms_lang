@@ -1,0 +1,99 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+<div class="content">
+		<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+		<div class="edit_title">{$meta_title|default=""}</div>
+		<div class="edit_box">
+				<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+				</div>
+				<div class="edit_content">
+					 <form class="group-form"  action="{:url('')}" method="post">
+						   <div class="edit_content_tab">
+
+							       <div class="form-group">
+									    <label>名称<span>(标题)</span></label>
+									    <div class="form-input">
+									         <input type="text" name="title" value="{$info.title|default=""}">
+									    </div>
+								    </div>
+
+                                    <div class="form-group">
+									  <label>链接<span>(链接)</span></label>
+									  <div class="form-input">
+									       <input type="text"  name="url" value="{$info.url|default=""}">
+									  </div>
+								    </div>  
+								  
+								    <div class="form-group">
+								  	   <label>上级节点<span>(所属节点)</span></label>
+									   <div class="form-input">				
+										   <select name="pid" >
+											  <option value="0">顶级模块</option>   
+											  {volist name="list" id="vo"}
+												  <option value="{$vo.id}">{$vo.html|default=""}{$vo.title}</option>
+											   {/volist}
+										   </select>
+									   </div>	 
+								    </div>  
+								  
+								    <div class="form-group">
+									   <label>是否启用<span>(左侧菜单是否显示)</span></label>
+									   <div class="form-input">						
+											<select name="status">
+												<option value="1">是</option>    
+												 <option value="0">否</option>  
+											</select>
+										</div>	 
+								    </div>
+								  
+								    <div class="form-group">
+									   <label>分组<span>(所属分组)</span></label>
+									   <div class="form-input">				
+										   <select name="group_id" >
+											 <option value="0">无</option>   
+											  {volist name="group_list" id="vo"}
+												  <option value="{$vo.id}">{$vo.title|default=""}</option>
+											  {/volist}
+										   </select>
+									   </div>	 
+								    </div>  
+						  </div>
+
+				           <div class="edit_content_tab none"> 
+						 
+						        <div class="form-group">
+									<label>排序<span>(越大越靠前)</span></label>
+									<div class="form-input">
+									      <input type="text" name="sort" value="{$info.sort|default=""}"/>
+									</div>
+							   </div>
+						 
+						  </div>
+
+
+						   <div class="btn_group">
+						       <input type="hidden" name="id" value="{$info.id|default=""}">
+							   <div class="confirm_btn">确认</div>
+							   <div class="cancel_btn">返回</div>
+						  </div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+
+       <script src="__JS__/edit.js"></script>
+
+    <script type="text/javascript">
+    $("select[name='pid']").val("{$info.pid|default='0'}");
+	$("select[name='group_id']").val("{$info.group_id|default='1'}");
+	$("select[name='status']").val("{$info.status|default='1'}");
+    </script>
+   
+	 <!-- 尾部 -->
+	{include file='public/footer'}
+<!-- 尾部 --> 

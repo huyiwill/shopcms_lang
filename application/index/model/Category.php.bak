@@ -1,0 +1,132 @@
+{include file="public/header" /}  
+
+
+<!-- slideshow start here -->
+<!-- slideshow start here -->
+<section id="slideshow-wrapper">
+    
+             <img src="__IMG__/45.jpg" alt="" width="100%" height="408px"/>
+   <span> <a href="http://yershop.com/yershopv3.0.5.zip" class="button medium line" target="_blank">v3.0.5下载</a>
+   <a href="http://demo.yershop.com/" target="_blank"class="button medium line">演示</a></span>
+   
+</section>
+<!-- slideshow end here --> 
+<!-- slideshow end here --> 
+<script>
+function count(){
+
+  var url="{:url('index/counts')}";
+  $.post(url,{num:1},function(result){
+    $(".num").val("");
+  });
+
+</script>
+        <input class="num" type="hidden" value="">
+
+
+<!-- maincontent start here -->
+<section id="content-wrapper">
+    <div class="row">
+      
+        <div class=" columns">
+            <div class="row front-layout2"> <div class="new" style="text-align:center;margin:30px 0"><h3></h3></div> <div class="row">
+            	<div class="four columns mobile-two">
+                	<i alt="" class="img-left icon iconfont icon-computer-2" /></i>
+                    <h5>pc商城<span ></span></h5>
+                    <p>pc端商城<a target="_blank" href="http://cms.yershop.com/"></a></p>
+					
+                </div>
+                <div class="four columns mobile-two">
+                	<i alt="" class="img-left icon iconfont icon-mobile" /></i>
+                    <h5>wap商城</h5>
+                    <p>wap端商城</p>
+                </div>
+                <div class="four columns mobile-two">
+                	<i alt="" class="img-left icon iconfont icon-pingbandiannao" /></i>
+                    <h5>平板商城</h5>
+                    <p>使用最新html5响应式兼容平板浏览商城</p>
+                </div>
+                <div class="four columns mobile-two">
+                	<i alt="" class="img-left icon iconfont icon-weixin" /></i>
+                    <h5>微信商城</h5>
+                    <p>搭建企业独立微信商城
+助力企业快速进入移动电商时代</p>
+                </div>
+                <div class="four columns mobile-two">
+                	<i alt="" class="img-left icon iconfont icon-fuwuchuang" /></i>
+                    <h5>支付宝服务窗商城</h5>
+                    <p>面向亿万支付宝会员的公众平台,帮助商户通过服务窗进行信息推送、交易场景打通、客户管理及精准的数据分析</p>
+                </div>
+                <div class="four columns mobile-two">
+                	<i alt="" class="img-left icon iconfont icon-APP" /></i>
+                    <h5>app端</h5>
+                    <p>在手机上进行购物的平台</p>
+                </div>
+            </div>
+        </div>          
+    </div>
+    
+  
+    
+</section>
+<section id="content-wrapper">
+   <div class="new" style="text-align:center;margin:30px 0"><h3>手机端</h3></div> <div class="row">
+       
+        <div class="twelve columns">
+            <div class="row front-layout2">
+            	<div class="three columns mobile-two">
+                
+                 	<img src="__IMG__/m1.jpg" alt="" class="img-left" />
+					
+                </div>
+                <div class="three columns mobile-two">
+                	
+                   <img src="__IMG__/m2.jpg" alt="" class="img-left" />
+                </div>
+                <div class="three columns mobile-two">
+                
+                  <img src="__IMG__/m3.jpg" alt="" class="img-left" />
+                </div>
+                <div class="three columns mobile-two">
+                	
+                  <img src="__IMG__/m4.jpg" alt="" class="img-left" />
+                </div>
+              <div class="three columns mobile-two">
+                
+                 	<img src="__IMG__/m5.jpg" alt="" class="img-left" />
+					
+                </div>
+                <div class="three columns mobile-two">
+                	
+                   <img src="__IMG__/m6.jpg" alt="" class="img-left" />
+                </div>
+                <div class="three columns mobile-two">
+                
+                  <img src="__IMG__/m7.jpg" alt="" class="img-left" />
+                </div>
+                <div class="three columns mobile-two">
+                	
+                  <img src="__IMG__/m4.jpg" alt="" class="img-left" />
+                </div>
+            </div>
+        </div>          
+    </div>
+   
+    
+
+            
+    </div>
+   
+</section>
+
+
+<div class="new" style="text-align:center;margin:30px 0"><h3>国家软件著作权</h3></div>
+<div class="rows" style="text-align:center;margin:35px 0">
+     
+       <img src="__IMG__/1.jpg" width="200" height="500"> <img src="__IMG__/1.jpg" width="200" height="500">  <span style="width:100px;display:inline-block;height:30px;"></span> <img src="__IMG__/2.jpg" width="200" height="500">
+        </div>
+    </div></section>
+
+{include file="public/footer" /} 
+</body>
+</html>

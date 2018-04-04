@@ -1,0 +1,124 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+<div class="content">
+				<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+					</div>
+					<div class="edit_content">
+						 <form class="group-form"  action="{:url('')}" method="post">
+						<div class="edit_content_tab">
+							<div class="input_title">名称<span>(模块名称)</span></div>
+							<input type="text" name="title" class="input_box" value="{$info.title|default=""}"/>
+							
+							<div class="input_title">上级分类<span>(所属分类)</span></div>
+						 <select name="pid" >
+      <option value="0">顶级分类</option>   
+	  {volist name="list" id="vo"}
+ <option value="{$vo.id}">{$vo.html|default=""}{$vo.title}</option>
+ {/volist}
+</select><div class="input_title">商品模型<span>(绑定商品模型)</span></div>
+ <select name="model_id" class="input_box">
+       
+	  {volist name="typelist" id="vo"}
+ <option value="{$vo.id}">{$vo.html|default=""}{$vo.title}</option>
+  {/volist}  <option value="0">无</option> 
+</select>
+ <div class="input_title">状态<span>(0-禁用，1-正常)</span></div>
+    <input type="text" name="status" class="input_box" value="{$info.status|default='1'}"/>
+		<div class="input_title">首页楼层是否显示<span>(1-不显示2-显示)</span></div>
+										 <select name="type" >
+ 
+<option value="1">不显示</option>
+ <option value="2">显示</option>
+</select>
+							  	<div class="upload_div">
+								<div class="input_title">频道封面图片<span>(图片名称)</span></div>
+								<div class="upload_btn_group">
+									<div class="upload_btn">上传图片</div>
+									<input type="file" class="upload_file" id="uploads"/>
+								</div>
+								<div class="upload_imgs">
+									<input type="hidden" name="cover_id" id="cover_id" value="{$info.cover_id|default=""}"	>
+									<span class="upload_imgs_wrap">
+									  {notempty name="info['cover_id']"}
+							              <div class="upload-pre-item"> <img src="{$info.cover_id|get_cover_path}"/>
+						                </div>{/notempty}
+									
+									</span>
+									
+								</div>
+							</div>
+				
+						<script type="text/javascript">  
+						 	var upload_url = "{:url('uploads/picture')}";	
+  window.onload = function(){  
+  
+    // 选择图片  
+    document.getElementById('cover_id').onchange = function(event){  
+        var img = event.target.files[0];  
+        // 判断是否图片  
+        if(!img){  
+            return ;  
+        }  
+        // 判断图片格式  
+        if(!(img.type.indexOf('image')==0 && img.type && /\.(?:jpg|png|gif)$/.test(img.name)) ){  
+            alert('图片只能是jpg,gif,png');  
+            return ;  
+        }  
+        var reader = new FileReader();  
+        reader.readAsDataURL(img);  
+  
+        reader.onload = function(e){ // reader onload start  
+            // ajax 上传图片  
+            $.post(upload_url, { img: e.target.result},function(ret){  
+                if(ret){  
+                   $("input[name='cover_id']").val(ret.id);
+				       $('.upload_imgs_wrap').html(
+				        		'<img src="' +ret.src + '"/>'
+				       );  
+                }else{  
+                    alert('upload fail');  
+                }  
+            },'json');  
+        } // reader onload end  
+    }  
+  
+  }  
+  </script>	
+						</div>
+				       <div class="edit_content_tab none">
+						   <div class="input_title">排序<span>(越小越靠前)</span></div>
+							<input type="text" name="sort" class="input_box" value="{$info.sort|default=""}"/>
+							<div class="input_title">列数<span>(列表页显示的商品数量)</span></div>
+							<input type="text" name="list_row" class="input_box" value="{$info.list_row|default=""}"/>
+							<div class="input_title">模板<span>(列表页显示的模板)</span></div>
+							<input type="text" name="template_lists" class="input_box" value="{$info.template_lists|default=""}"/>
+							
+						</div>
+						<div class="btn_group">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+
+     
+    <script type="text/javascript">
+      $("select[name='pid']").val("{$info.pid|default='0'}");
+	  $("select[name='model_id']").val("{$info.model_id|default='0'}"); 
+	  $("select[name='type']").val("{$info.type|default='2'}");
+    </script>
+ <script src="__JS__/edit.js"></script>
+<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

@@ -1,0 +1,80 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+<div class="content">
+				<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+					</div>
+					<div class="edit_content">
+						 <form class="group-form"  action="{:url('')}" method="post">
+						      <div class="edit_content_tab">
+
+						            <div class="form-group">
+									     <label>名称<span>(标题)</span></label>
+									     <input type="text" name="title" value="{$info.title|default=""}">
+								     </div>
+
+								     <div class="form-group">
+									     <label>上级分类<span>(所属分类)</span></label>
+									     <select name="pid" >
+										  <option value="0">无</option>   
+										  {volist name="list" id="vo"}
+									        <option value="{$vo.id}">{$vo.title}</option>
+									      {/volist}
+									     </select>
+								    </div>
+
+                                     <div class="form-group">
+									      <label>类型<span>(0-普通分类1-底部分类2-其他)</span></label>
+									      <input type="text"name="type" value="{$info.type|default="1"}"/>
+								     </div>
+									 
+									 <div class="form-group">
+									       <label>状态<span>(0-禁用，1-正常)</span></label>
+									       <input type="text"name="type" value="{$info.type|default="1"}"/>
+								     </div>
+
+						     </div>
+				             <div class="edit_content_tab none">
+
+						            <div class="form-group">
+									      <label>排序<span>(越小越靠前)</span></label>
+									      <input type="text" name="sort" value="{$info.sort|default=""}"/>
+								     </div>
+									 
+									 <div class="form-group">
+									       <label>列数<span>(列表页显示的文章数量)</span></label>
+									       <input type="text" name="list_row" class="input_box" value="{$info.list_row|default=""}"/>
+								     </div>
+									 
+									 <div class="form-group">
+									       <label>模板<span>(列表页显示的模板)</span></label>
+									       <input type="text"name="template_lists" class="input_box" value="{$info.template_lists|default=""}"/>
+								     </div>
+							
+						</div>
+						<div class="btn_group">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+
+     
+    <script type="text/javascript">
+      $("select[name='pid']").val("{$info.pid|default='0'}");
+	  $("select[name='types_id']").val("{$info.types_id|default='0'}");
+    </script>
+ <script src="__JS__/edit.js"></script>
+<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

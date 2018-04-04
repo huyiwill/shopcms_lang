@@ -1,0 +1,101 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+			<div class="content">
+			<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+					</div>
+					<div class="edit_content">
+						<form class="group-form"  action="{:url('')}" method="post">
+							 <div class="edit_content_tab">
+							     
+								 <div class="form-group">
+									  <label>名称<span>(标题)</span></label> 
+									   <div class="form-input">
+									       <input type="text" name="title" value="{$info.title|default=""}">
+								      </div>
+								  </div>
+
+								 <div class="form-group">
+									    <label>图片<span>(封面图片)</span></label> 
+									    <div class="form-input">
+									      <input type="hidden" name="cover_id"  value="{$info.cover_id|default=""}"	>
+									 	  <div class="uploader">
+									        <span class="uploader-files">上传图片</span>
+									        <input type="file" class="uploader_btn" id="cover_id"/>  
+								          </div> 
+									       <div class="uploader_preview">
+									            {notempty name="info['cover_id']"}
+							                      <div class="uploader-pre-item"> <img src="{$info.cover_id|get_cover_path}"/>
+						                         </div>
+										       {/notempty}
+									        </div>
+											 <script type="text/javascript">  
+								             var field="cover_id";
+						     	             	upload(field);
+                                             </script>
+										</div>
+								  </div> 
+								  
+								  <div class="form-group">
+									   <label>价格<span>(价格)</span></label>
+									   <div class="form-input">
+									      <input type="text" name="title" value="{$info.title|default=""}">
+								        </div>
+								  </div>
+								  
+								  <div class="form-group">
+									   <label>市场价<span>(市场价)</span></label> 
+									   <div class="form-input">
+									      <input type="text" name="mprice" value="{$info.mprice|default=""}">
+								        </div>
+								  </div>
+								  
+								  <div class="form-group">
+									 <label>库存<span>(库存)</span></label>
+									 <div class="form-input">
+									    <input type="text" name="num" value="{$info.num|default=""}">
+								      </div>
+								  </div>
+								  
+								  <div class="form-group">
+									  <label>销量<span>(销量)</span></label>
+									  <div class="form-input">
+									    <input type="text"  name="sales" value="{$info.sales|default=""}">
+								       </div>
+								  </div>
+
+				      	
+						</div>
+						<div class="edit_content_tab none">
+						
+						        <div class="form-group">
+									<label>利润<span>(利润)</span></label> 
+									<div class="form-input">
+									    <input type="text" name="profit" value="{$info.profit|default=""}">
+								    </div>
+								 </div>
+                        </div>
+					
+				
+						<div class="btn_group">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+	
+
+ <script src="__JS__/edit.js"></script>
+
+<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

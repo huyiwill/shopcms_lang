@@ -1,0 +1,96 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+<div class="content">
+				<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+					</div>
+					<div class="edit_content">
+						 <form class="group-form"  action="{:url('')}" method="post">
+						      <div class="edit_content_tab">
+
+						           <div class="form-group">
+									     <label>订单号<span>(订单号)</span></label>
+										 <div class="form-input">
+									        <input type="text"  name="out_trade_no" value="{$info.out_trade_no|default=""}">
+								          </div>  
+									 </div> 
+									 
+									 <div class="form-group">
+									      <label>支付状态<span>(0-待支付，1-已支付)</span></label>
+										  <div class="form-input">
+									          <input type="text" name="money" value="{$info.money|default=""}">
+								           </div>
+									 </div>
+
+                                     <div class="form-group">
+									     <label>积分<span>(使用积分)</span></label>
+										 <div class="form-input">
+									      <input type="text" name="score" value="{$info.score|default=""}">
+								        </div> 
+									 </div> 
+									 
+									 <div class="form-group">
+									      <label>总金额<span>(付款总金额)</span></label>
+										  <div class="form-input">
+									           <input type="text" name="total_money" value="{$info.total_money|default=""}"/>
+								           </div>
+									 </div> 
+									 
+									 <div class="form-group">
+										<label>支付完成时间<span>(订单支付成功时间)</span></label>
+										<div class="form-input">
+											<input type="text" name="sort" name="update_time" id="update_time" class="laydate-icon" value="{notempty name='info.update_time'}{$info.update_time|time_format}{/notempty}"/>				
+												<script>
+												laydate({
+												  elem: '#update_time', 
+												  format: 'YYYY-MM-DD hh:mm:ss', 
+												  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+												  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+												});
+												</script>
+							             </div>
+									</div>
+					
+						</div>
+				       <div class="edit_content_tab none">
+						           <div class="form-group">
+									    <label>用户id<span>(用户id )</span></label>
+										<div class="form-input">
+									          <input type="text" name="uid" value="{$info.uid|default=""}"/>
+								        </div>
+								   </div>
+								   
+								   <div class="form-group">
+									    <label>订单模型<span>(account-充值 order-订单)</span></label>
+										<div class="form-input">
+									        <input type="text" name="model" value="{$info.model|default=""}"/>
+										</div>
+								   </div> 
+								   
+								   
+
+						</div>
+						<div class="btn_group">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+  \
+     
+ 
+   <script src="__JS__/edit.js"></script>
+
+<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

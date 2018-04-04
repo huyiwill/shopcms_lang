@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>登录</title>
+        <meta name="title" content="" />
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <meta charset="UTF-8">
+		<link href="__CSS__/login.css" rel="stylesheet" type="text/css"/>
+        
+    </head>
+    <body>
+        <div class="header">
+            <div class="con">
+                <div style="height: 60px; width: 320px;">
+               <a href="{:url('index/index')}"> <h1 class="logo" style="float: left;">
+                </h1></a>
+                <span id = "dl" style=""; >欢迎登陆</span>
+                </div> 
+                <div class="top-login">
+                           <div id="js-login_box" style="">
+                        <form action="" id="js-login_form" method="post">
+                            <div class="cell">
+                                <a href="#"><img src="__IMG__/login_06.png"></a>
+                            </div>
+                            <div class="cell">
+                                <a href="#"><img src="__IMG__/login_09.png"></a>
+                            </div>
+                            <div class="cell">
+                                <a href="#"><img src="__IMG__/login_11.png"></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wrap">
+            <div class="banner-show" id="js_ban_content">
+                <div class="cell bns-01">
+                    <div class="con"></div>
+                </div>
+            </div>
+           
+            <div class="container" style="height: 200px;">
+                 
+                <div class="register-box">
+                  <div class="reg-slogan">
+                        <div id="ydl">用户登陆</div>
+                        <div id="zc"><a href="{:url('User/register')}" style="color: red;text-decoration: none;">立即注册>></a></div>
+                  </div>
+                    <div class="reg-form" id="js-form-mobile"><br>
+<br><form id="register_form"  action="{:U('User/login')}" >  
+                        <div class="cell" style="margin-top: -20px;">
+                            
+                            <input type="text" name="username" id="js-mobile_ipt" class="text" maxlength="11" placeholder="手机号/用户名/邮箱" style="" />
+                        </div>
+                        <style>
+                            input::-webkit-input-placeholder{
+            color:#828280;
+            font-family: '宋体'
+        }
+                        </style>
+                        <div class="cell" >
+                            <input type="password"name="password"   id="js-mobile_pwd_ipt" class="text mm" placeholder="密码" style=" "/>
+                            <input type="text" name="passwd" id="js-mobile_pwd_ipt_txt" class="text" maxlength="20" style="display:none;"/>
+                        </div>
+                        <div style="width: 330px;">
+                       <div style="height: 50px;float: left;">
+                           <input type="checkbox" id="check" style="  width: 15px; height: 15px;" />
+                       </div> 
+                        <div style="height: 50px; float: left;line-height: 15px; padding-left: 10px; color: #707070">
+                             <label for="check">请保存我这次登陆信息</label>     
+                        </div>
+
+                        </div>
+                        <div class="bottom" style="margin-top: 60px;">
+                            <a id="login_btn" style="text-decoration: none;background: #e31939;display: block;width: 100%; height: 50px;color: white;line-height: 50px; font-size: 15px;">立即登陆</a>
+                        </div>
+                        <p style="color: #707070; margin-top: 30px;">第三方登陆</p>
+                         <div class="cell" style="top: 10px;">
+                            <ul>
+                                <li><a href="{:url('qq/index', ['type' => 'qq'])}"><img src="__IMG__/login_270.png"><span>QQ</span></a></li>
+                                <li class="le"><a href="{:url('sina/index', ['type' =>'sina'])}"><img src="__IMG__/login_290.png"><span>微博</span></a></li>
+                                <li class="le"><a href="{:url('Wxlogin/index', ['type' =>'sina'])}"><img src="__IMG__/login_31.png"><span>微信</span></a></li>
+                            </ul>
+                        </div></form>	
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="con">
+                <div class="copy-right">
+                    <div class="cell"> 
+<div class='foot'>
+
+ <a href="#">联系我们</a> |<a href="#">友情链接 | <a href="#">站点地图</a>| <a href="#">手机商城</a>| <a href="#">销售联盟</a> |<a href="#">商城社区 </a>|<a href="#">企业文化</a> | <a href="#">帮助中心 </a>| <a href="#">留言板 ICP备案证书号：黑ICP备16007778号-2</a>
+
+ <p>增值电信业务许可证：黑B2-20170048© 2005-2018 yershop 版权所有，并保留所有权利。 E-mail：1010422715@qq.com</p>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	<script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+		$(function(){
+
+			//tip
+			$('.login_main .login_main_in .con .login_div .mima .jz .icon').click(function(){
+				if($(this).hasClass('current')){
+					$(this).removeClass('current');
+					$("input[name='remember']").val(0);					
+				}else{
+					$(this).addClass('current');
+					$("input[name='remember']").val(1);		
+				}
+			});
+			//input
+		})
+		$("#login_btn").click(function(){
+    		var self = $("#register_form");
+    		$.post(self.attr("action"),self.serialize(),success,"json");
+    		return false;
+
+    		function success(data){
+    			if(data.code){
+    				window.location.href =data.url;
+    			} else {
+				    
+    				  alert(data.msg);
+    				//刷新验证码
+    				//$(".reloadverify").click();
+    			}
+    		}
+    	});
+	</script>
+    </body>
+</html>

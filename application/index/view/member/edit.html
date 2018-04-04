@@ -1,0 +1,193 @@
+<!-- 头部 -->
+		{include file='public/header'/}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="javascript:;" class="index_a">首页</a> ><span>账户信息</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+		{include file='public/left'}
+			<div class="grzl_right_pan fr">
+				<div class="top_tit">
+					<h3 class="f12">个人资料</h3>					
+				</div>
+				<div class="info_div f12">
+				<form action="{:U('update')}"  id="member" method="post">	
+				<div class="con">
+						<p class="tip f15">亲爱的 <span{$UcenterMember.username|default=""}</span>，填写真实的资料，有助于好友找到你哦。</p>
+						<div class="tx">
+							<div class="l_txt fl"><span></span>当前头像：</div>
+							<div class="pic fl"><img class="upload_img" src="{$UcenterMember.cover_id|get_cover_path}"/></div>
+							<span   class="modify" id="cover_id" style="float:left">上传<input type="file" class="upload_file" id="uploads"/></span>
+								<input type="hidden" name="cover_id"  value="{$UcenterMember.cover_id|default=''}"	>
+						    </div>
+										<script type="text/javascript">  
+						                 	var upload_url = "{:url('uploads/picture')}";	
+											  window.onload = function(){  
+
+												document.getElementById('cover_id').onchange = function(event){  
+													var img = event.target.files[0];   
+													if(!img){  
+														return false;  
+													}  
+													if(!(img.type.indexOf('image')==0 && img.type && /\.(?:jpg|png|gif)$/.test(img.name)) ){  
+														alert('图片只能是jpg,gif,png');  
+														return ;  
+													}  
+													var reader = new FileReader();  
+													reader.readAsDataURL(img);  
+											  
+													reader.onload = function(e){  
+														$.post(upload_url, { img: e.target.result},function(ret){  
+															if(ret){  
+															   $("input[name='cover_id']").val(ret.id);
+																   $('.upload_img').attr('src',ret.src);  
+															}else{  
+																alert('upload fail');  
+															}  
+														},'json');  
+													} 
+												}  
+											  
+                               }  
+                          </script>	
+						<div class="nc">
+							<div class="l_txt fl"><span>*</span>昵称：</div>
+							<div class="r_div fl">
+								<input type="text" name="username" value="{$UcenterMember.username|default=""}" />
+								<p class="xz">*昵称填写须知：与买家或卖家品牌冲突的昵称，商城将有可能收回</p>
+							</div>
+						</div>
+						<div class="name">
+							<div class="l_txt fl"><span></span>手机号：</div>
+							<div class="r_div fl">
+								<input type="text" name="mobile" value="{$UcenterMember.mobile|default=""}" />
+							</div>
+						</div>
+						<div class="name">
+							<div class="l_txt fl"><span></span>支付宝账号：</div>
+							<div class="r_div fl">
+								<input type="text" name="alipay" value="{$UcenterMember.alipay|default=""}" />
+							</div>
+						</div>
+
+						<div class="gender">
+							<div class="l_txt fl"><span>*</span>性别：</div>
+							<div class="r_div fl">
+								<div class="male fl"><select name="sex" id="" class="sel fl">
+										    
+								<option value="男">男</option>
+									<option value="女">女</option>
+									<option value="保密">保密</option>
+									</select></div>
+								<div class="female fl"></div>
+							</div>
+						</div>
+						<div class="date">
+							<div class="l_txt fl"><span>*</span>出生年月：</div>
+							<div class="r_div fl">
+								<div class="year fl">
+						         <input type="text" name="birthday" class="laydate-icon time_start" value="{notempty name='UcenterMember.id'}{$UcenterMember.birthday|time_format}{/notempty}"id="start_time"/>
+								</div>
+								<script type="text/javascript" src="__COMMON__/laydate/laydate.js"></script>			
+								<script type="text/javascript">
+									laydate({
+										elem: '#start_time', 
+										 format: 'YYYY-MM-DD hh:mm:ss', 
+									  min: laydate.now(), //设定最小日期为当前日期//目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+									  event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+										
+									});
+									 function submit(obj){
+									   document.income.submit();
+									}
+
+	                            </script>
+								<p class="fl">(出生年份为保密)</p>
+								</br><div class="xz fl">
+									<div class="fl">星座：</div>
+									<select name="star" id="" class="sel fl">
+										   {foreach name="list" item="vo" }  
+								<option value="{$vo}">{$vo}</option>
+								{/foreach}
+									</select>
+								</div>
+							</div>
+						</div>
+								
+						</div>
+							<a  class="save f14">保存</a>
+					</div>
+				
+				</div>
+				<input type="hidden" name="id" value="{$UcenterMember.id|default=""}" />
+				</form>
+			</div>	
+		</div>
+	</div>
+	<!--/main end-->	
+{include file='public/footer'}
+ <script type="text/javascript">
+	$("select[name='star']").val("{$UcenterMember.star|default='0'}");
+	$("select[name='sex']").val("{$UcenterMember.sex|default='保密'}");	
+    </script>
+	  <div class="mask none">
+			<div class="alert_success alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="sucess_msg">操作成功</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+		<div class="mask none">
+			<div class="alert_error alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="error_msg">操作失败</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+<script>
+	
+			$(".save").click(function(){
+    		var self = $("#member");
+    		$.post(self.attr("action"),self.serialize(),success,"json");
+    		return false;
+
+    		function success(data){
+    			if(data.code){
+    				opensuccess(data);
+    			} else {
+				     openerror(data)
+    			}
+    		}
+    	});
+			$(".mask .alert_div .alert_close").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			$(".mask .alert_div .alert_btn").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			
+			function opensuccess(data){
+			    $(".sucess_msg").text(data.msg);
+				$(".alert_success").parents(".mask").removeClass("none"); 
+			   setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }
+               },1000);
+				
+			}
+			function openerror(data){
+			     $(".error_msg").text(data.msg);
+				$(".alert_error").parents(".mask").removeClass("none");
+			}
+		</script>
+</body>
+</html>

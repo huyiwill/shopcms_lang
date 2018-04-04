@@ -1,0 +1,246 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+        <!-- 内容区域 -->
+        <div class="tpl-content-wrapper">
+
+        
+
+            <div class="row-content am-cf">
+
+
+             
+
+                <div class="row">
+
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                        <div class="widget am-cf">
+                            <div class="widget-head am-cf">
+                                <div class="widget-title am-fl">{:isset($info['id'])?'编辑':'新增'}属性</div>
+                                <div class="widget-function am-fr">
+                                    <a href="javascript:;" class="am-cover_id-cog"></a>
+                                </div>
+                            </div>
+                            <div class="widget-body am-fr">
+
+                                <form class="am-form tpl-form-border-form"  action="{:url('')}" method="post">
+                                    <div class="am-form-group">
+                                        <label for="user-name" class="am-u-sm-12 am-form-label am-text-left">标题 <span class="tpl-form-line-small-title">Title</span></label>
+                                        <div class="am-u-sm-12">
+                                            <input type="text" class="tpl-form-input am-margin-top-xs" id="user-name" name="title" value="{$info.title|default=''}">
+                                           
+                                        </div>
+                                    </div>
+
+
+                                 
+          <div class="am-form-group cate">
+                                        <label for="user-phone" class="am-u-sm-12 am-form-label am-text-left">分类 <span class="tpl-form-line-small-title">PID</span></label>
+                                        <div class="am-u-sm-12  am-margin-top-xs">
+                                     
+	
+   
+	<select id="fid" name="fid" data-am-selected="{searchBox: 1}" style="display: none;" onchange="showList(this,1,2);" style="width:200px;float:left"> 
+  <option value="-1">选择一级分类</option>{volist name="list" id="vo"} 
+  <option  value="{$vo.id}" >{$vo.title}</option>  
+   {/volist}
+  </select> 
+
+   <select  id="city" name="sid" data-am-selected="{searchBox: 1}"  style="display: none;" style="width:200px;;float:left" onchange="showList(this,2,3);">
+   <option value="-1">选择二级分类</option>
+   
+
+   </select>
+   
+ <select id="area" name="category id" data-am-selected="{searchBox: 1}" style="display: none;"style="width:200px;;float:left" onchange="showList(this,3,4);">
+  <option value="-1">选择三级分类</option>
+   </select>
+
+                                        </div>
+                                    </div>
+
+      <script>
+	  	function showList(obj,level,sort){
+	      var pid=$(obj).val();
+	      var next=$(".cate select").eq(level);
+	     $.post('{:U("change")}',{pid:pid},function(data,textStatus){
+						if(data){
+							var data = $.parseJSON(data);
+						    $(next).empty();//清空原有的数据
+                            $("<option value='-1'>选择"+sort+"级分类</option>").appendTo(next);
+								$.each(data, function(i,n){
+								$("<option value='"+n.id+"'>"+n.title+"</option>").appendTo(next);
+							});
+							
+						}else{
+							
+						}
+		  });
+		  
+	}
+	
+
+		
+	 
+      
+
+				</script>	
+				   
+								
+								 <div class="am-form-group">
+                                        <label for="user-name" class="am-u-sm-12 am-form-label am-text-left">图片 <span class="tpl-form-line-small-title">Title</span></label>
+                                        <div class="am-u-sm-12">
+                                         <input type="file" id="upload_picture">
+						<input type="hidden" name="cover_id" id="cover_id" value="{$info['cover_id']|default=''}"/>
+						<div class="upload-img-box">
+						{notempty name="info['cover_id']"}
+							<div class="upload-pre-item"><img src="{$info.cover_id|get_cover='path'}"/></div>
+						{/notempty}
+						</div>     
+                                        </div>
+                                    </div>	
+					<script type="text/javascript" src="__PUBLIC__/uploadify/jquery.uploadify.min.js"></script>				
+				
+								
+								<script type="text/javascript">
+					//上传图片
+				    /* 初始化上传插件 */
+					$("#upload_picture").uploadify({
+				        "height"          : 30,
+				        "swf"             : "__PUBLIC__/uploadify/uploadify.swf",
+				        "fileObjName"     : "download",
+				        "buttonText"      : "上传图片",
+				        "uploader"        : "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
+				        "width"           : 120,
+				        'removeTimeout'	  : 100,
+				        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+				        "onUploadSuccess" : uploadPicture,
+				        'onFallback' : function() {
+				            alert('未检测到兼容版本的Flash.');
+				        }
+				    });
+					function uploadPicture(file, data){
+				    	var data = $.parseJSON(data);
+				    	var src = '';
+				        if(data.status){
+				        	$("#cover_id").val(data.id);
+				        	src = data.url || data.path;
+				        	$('.upload-img-box').html(
+				        		'<div class="upload-pre-item"><img src="' + src + '"/></div>'
+				        	);
+				        } else {
+				        	updateAlert(data.info);
+				        	setTimeout(function(){
+				                $('#top-alert').find('button').click();
+				                $(that).removeClass('disabled').prop('disabled',false);
+				            },1500);
+				        }
+				    }
+					</script>		
+									
+
+						 <div class="am-form-group" >
+                                        <label for="user-name" class="am-u-sm-12 am-form-label am-text-left">内容 <span class="tpl-form-line-small-title">Title</span></label>
+                                       
+                                         
+					   <div class="am-u-sm-12" >		
+
+								  <textarea class="am-validate" id="content" name="content" required></textarea>		
+                                     <link rel="stylesheet" href="__PUBLIC__/kindeditor/default/default.css" />
+			<script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+			<script charset="utf-8" src="__PUBLIC__/kindeditor/zh_CN.js"></script>
+			<script type="text/javascript">
+				var editor_content;
+				KindEditor.ready(function(K) {
+					editor_content = K.create('textarea[name="content"]', {
+						allowFileManager : false,
+						themesPath: K.basePath,
+						width: '100%',
+						height: '500',
+						resizeType:1,
+						pasteType : 2,
+						urlType : 'absolute',
+						fileManagerJson : '{:url('fileManagerJson')}',
+						//uploadJson : '{:U('uploadJson')}' }
+						uploadJson : '{:url("Uploads/ke_upimg")}'
+					});
+				});
+
+				$(function(){
+					$('textarea[name="content"]').closest('form').submit(function(){
+						editor_content.sync();
+					});
+				})
+			</script>
+
+									 </div>		      
+                                      
+                                    </div>			
+									 <div class="am-form-group">
+                                        <label for="user-name" class="am-u-sm-12 am-form-label am-text-left">状态<span class="tpl-form-line-small-title">Title</span></label>
+                                        <div class="am-u-sm-12">
+                                            <input type="text" class="tpl-form-input am-margin-top-xs" id="user-name" name="status" value="{$info.status|default='1'}">
+                                           
+                                        </div>
+                                    </div>
+									<div class="am-form-group">
+                                        <label for="user-name" class="am-u-sm-12 am-form-label am-text-left">排序 <span class="tpl-form-line-small-title">Title</span></label>
+                                        <div class="am-u-sm-12">
+                                            <input type="text" class="tpl-form-input am-margin-top-xs" id="user-name" name="sort" value="{$info.sort|default=''}">
+                                           
+                                        </div>
+                                    </div>
+<input type="hidden" name="id" value="{$info.id|default=""}">
+                                    <div class="am-form-group">
+                                        <div class="am-u-sm-12 am-u-sm-push-12">
+                                            <button type="button"  ONCLICK="$('form').submit();"class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+	
+    <!-- 实例化编辑器 -->
+  
+    <script src="__JS__/amazeui.min.js"></script>
+    <script src="__JS__/amazeui.datatables.min.js"></script>
+    <script src="__JS__/dataTables.responsive.min.js"></script>
+    <script src="__JS__/app.js"></script>
+   <script type="text/javascript">
+     $("select[name='fid']").val("{$cate[1]|default='-1'}");
+	 $("select[name='sid']").val("{$cate[0]|default=''}");
+	 $("select[name='types_id']").val("{$info.types_id|default=''}");
+	 $("select[name='category_id']").val("{$info.category_id|default=''}");
+    
+
+	
+ </script>		
+
+		<script type="text/javascript">
+			$(function(){
+				$('textarea[name="content"]').attr('id', 'editor_id_content');
+				var options = {
+					"items"  : "h1,h2,h3,h4,h5,h6,-,link,image,-,bold,italic,code,-,ul,ol,blockquote,hr,-,fullscreen",
+			        "width"  : "100%", //宽度
+			        "height" : "300", //高度
+			        "lang"   : "zh-cn", //语言
+			        "tab"    : "    ", //Tab键插入的字符， 默认为四个空格
+                    "uploader": "{:url('Uploads/upload')}"
+			    };
+			    $('#editor_id_content').thinkeditor(options);
+			})
+		</script>
+ 
+   
+</body>
+
+</html>

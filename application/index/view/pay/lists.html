@@ -1,0 +1,149 @@
+<!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+			<p>您现在的位置：<a href="javascript:;" class="index_a">个人中心</a> ><span>商品评价</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			<div class="main_top">
+				{include file='public/left'}
+				<div class="fr sppj_right_pan">
+					<div class="top_tab">
+					
+					</div>
+					<div class="tab_con">						
+						
+						
+						
+					</div>
+					<div class="tab_con">						
+						<table class="bought_table f12">
+							<tbody>
+								<tr><th class="th_01">时间</th>
+									<th class="th_01">订单号</th>
+								
+									<th class="th_05">金额</th>
+									<th class="th_06">
+										<div class="field_select">
+											<div class="zt"><span class="txt">用户名</span></div>
+											
+										</div>
+									</th>
+									<th class="th_07">状态</th>
+								</tr>
+							</tbody>
+						</table>
+	                  {notempty name="res.list"}
+						{volist name="res.list" id="vo"}
+						<div class="bought_list f12">
+							<table class="del_table">
+								<tbody>
+									<tr>
+									
+											<td class="th_01">{$vo.update_time|date="Y-m-d h:i:s",###}</td>
+					  <td class="th_01">{$vo.out_trade_no}</td>										
+																		
+										<td class="th_05">
+											<p class="total">￥{$vo.total_money|default=""}</p>
+										
+											
+										</td>
+										<td class="th_06">
+											
+										{$vo.uid|get_username}
+				
+										
+										</td>
+										<td class="th_07">
+										 {if condition="$vo['status'] eq 0"}未完成{/if}
+					                     {if condition="$vo['status'] eq 1"}已完成{/if}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>		
+						{/volist}
+						
+						{else/}
+						    <span style="text-align:center;width:100%;display:block;">无数据！</span>
+						{/notempty}
+					
+						<div class="page_div_03 f12">
+							{$res.page}
+						</div>
+						
+						
+					</div>
+
+				</div>	
+			</div>			
+		</div>
+	</div>
+	<!--/main end-->	
+{include file='public/footer'}
+	  <div class="mask none">
+			<div class="alert_success alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="sucess_msg">操作成功</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+		<div class="mask none">
+			<div class="alert_error alert_div">
+				<div class="alert_header">提示</div>
+				<div class="alert_content"><i></i><span class="error_msg">操作失败</span></div>
+				<div class="alert_btn">确定</div>
+				<span class="alert_close"></span>
+			</div>
+		</div>
+<script>
+			
+			$(".mask .alert_div .alert_close").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			$(".mask .alert_div .alert_btn").click(function(){
+			    $(this).parents(".mask").addClass("none");
+			});
+			$(".tjpj").click(function(){
+				  opensuccess();
+			})
+			function opensuccess(data){
+			    $(".sucess_msg").text(data.msg);
+				$(".alert_success").parents(".mask").removeClass("none"); 
+			   setTimeout(function(){
+                        if (data.url) {
+                            location.href=data.url;
+                        }
+               },1000);
+				
+			}
+			function openerror(data){
+			     $(".error_msg").text(data.msg);
+				$(".alert_error").parents(".mask").removeClass("none");
+			}
+	
+		function drawbackCancel(id){
+			var url="{:url('drawback/cancel')}";
+		      $.post(url,{id:id},function(data){
+  
+					 if(data.code){  
+					     opensuccess(data);
+					 }
+					 else{
+					      openerror(data);
+					 }
+              });
+		  
+		}	</script>
+
+	
+
+</body>
+</html>

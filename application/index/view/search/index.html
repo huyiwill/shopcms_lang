@@ -1,0 +1,502 @@
+<!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100 crumb_01">
+		<div class="crumb_in in_width crumb_in_01">
+			<p><span class="icon">当前位置：</span><a href="{:U('index/index')}" class="index_a">首页</a>>
+			
+			<span>{$info.title}</span></p>
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<!--/nav end-->
+	<div class="cate w100">	
+	
+	</div>	
+	
+	<!--goodsmain start-->
+	<div class="gm w100">
+		<div class="gm_in in_width">
+			<div class="gm_in_left">
+				<div class="jxsp">
+					<div class="jxsp_t">浏览排行</div>
+					{volist name="view_list" id="vo"}
+					<div class="jxsp_item">
+						<a href="{:url('goods/detail?id='.$vo['id'])}"><img src="{$vo.cover_id|get_cover='path'}"/></a>
+						<div class="jxsp_title">{$vo.title}</div>
+						<div class="jxsp_price">￥ {$vo.price}</div>
+						<div class="jxsp_evaluate">已有{$vo.comments}人评价</div>
+					</div>
+					{/volist}
+				</div>
+			
+			</div>
+			<div class="gm_in_right">
+					<form id="search_form" action="{:url('')}" method="get">      
+				<!--toolbar-->
+				<div class="gm_r_toolbar">
+					<span class="gm_tools all_rule fl gm_select {if condition="$info['order'] eq 1"}active
+{/if}">
+						<span class="gm_tools_content">综合</span>
+						<i class="arrow"></i>
+					</span>
+					<span class="gm_tools sales_quantity fl gm_select {if condition="$info['order'] eq 2"}active
+{/if}">
+						<span class="gm_tools_content">销量</span>
+						<i class="arrow"></i>
+					</span>
+					<span class="gm_tools new_p fl gm_select {if condition="$info['order'] eq 3"}active
+{/if}">
+						<span class="gm_tools_content">新品</span>
+						<i class="arrow"></i>
+					</span>
+					<span class="gm_tools evaluation fl gm_select {if condition="$info['order'] eq 4"}active
+{/if}">
+						<span class="gm_tools_content">评论</span>
+						<i class="arrow"></i>
+					</span>
+					<span class="gm_tools price fl {if condition="$info['order'] eq 5"}active {$info['range']} 
+{/if} ">
+						<span class="gm_tools_content">价格</span>
+						<i class="arrow1">
+							<i class="arrow-top"></i>
+							<i class="arrow-bottom"></i>
+						</i>
+					</span>
+					<span class="price_arrange">
+						<div class="pc_content">
+							<div class="pc_content_top">
+								<input type="text" name="start_price" value="{$info.start_price|default=''}" placeholder="￥"/>
+								<span>-</span>
+								<input type="text" name="end_price" value="{$info.end_price|default=''}" placeholder="￥"/>
+							</div>
+							<div class="content_bottom">
+								<span class="clear">清空</span>
+								<span class="confirm">确认</span>
+							</div>
+						</div>
+					</span>
+					<span class="free_post {if condition="$info['baoyou'] eq 1"}gm_selected{/if}">商家包邮</span>
+					<span class="in_storage {if condition="$info['has'] eq 1"}gm_selected{/if}">仅显示有货</span> 
+					<div class="page_info">
+						<span class="page_num"><span class="red_font">{$info.page}</span>/{$res.count}</span>
+						<span class="pre {if condition="($info.page elt 1)"}disable{/if} "></span>
+						<span class="next {if condition="$info.page eq $res.count"}disable{/if} "></span>
+					</div>
+				</div>	
+				<input name="range"  value="{$info.range|default=''}" type="hidden">
+				<input name="order"  value="{$info['order']|default=''}" type="hidden">
+		
+				<input name="page"  value="{$info.page|default=''}" type="hidden">
+				<input name="sort"   value="{$info.sort|default=''}"type="hidden">
+				<input name="baoyou"   value="{$info.baoyou|default=''}"type="hidden">
+				<input name="has"   value="{$info.has|default=''}"type="hidden">
+			
+			   </form>
+				<!--goods_list-->
+				<div class="gl_wrapper">
+					{volist name="res.list" id="vo"  key="k" }
+					<div class="gl_item">
+						<a href="{:url('goods/detail?id='.$vo['id'])}"><img class="gl_item_img" src="{$vo.cover_id|get_cover='path'}"/></a>
+						<div class="gl_item_main">
+							<ul>
+								 {notempty name="info['covers']"}
+						 {php}$list=explode(",",$info['covers']);	{/php}
+						 {/notempty} 
+						 {notempty name="list"}
+								{foreach name="list" item="vo" } 
+								<li>
+									<a href="javascript:void(0);">
+										<img src="{$vo|get_cover_path}"/>
+									</a>
+								</li>
+								  {/foreach}
+								  
+								  {/notempty} 
+								  <li>
+									<a href="javascript:void(0);">
+										<img src="{$vo.cover_id|get_cover='path'}"/>
+									</a>
+								</li>
+							</ul>	
+						</div>
+						<div class="gl_item_price">￥{$vo.price}</div>
+						<a class="gl_item_name"> {$vo.title}</a>
+						<div class="gl_item_evaluate">已有{$vo.comments}人评价</div>
+						
+					</div>
+					 {/volist}
+					
+					
+				</div>
+				<div style="clear:both;"></div>
+				<div class="pagination_div">
+					 <div class="page">
+									      {$res.page}
+								 </div>
+					
+				</div>	
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		
+	</div>
+	<!--goodsmain end-->
+	
+		
+	<script>
+		$(function(){
+			bindEvent();
+		});
+		function getIds() {     
+		   //全选遍历
+		    var result=new Array();
+			var option = $("a.checked");
+		    option.each(function(i){
+			     var id=$(this).attr("attr-id");
+				 result.push(id);
+		    });
+			return result.join(",");		
+	  }
+	
+ 		function bindEvent(){
+		  $(".multi_btn_confirm").click(function(){ 
+		   //进行搜索属性拼接，同级属性(OR)用','分割，不同级属性（AND）用'|'分割
+		     var searchString = getIds();
+			 var str=$("input[name='attrs']").val();
+		     if(str!== 0){
+				   $("input[name='attrs']").val(str+','+searchString);
+				}else{
+				  $("input[name='attrs']").val(searchString);
+				 
+				}
+		     if(searchString == '') return false;
+		         $("input[name='attrs']").val(searchString);
+		         $("#search_form").submit();
+		  
+		});
+	
+			//更多事件绑定
+			$(".category_opr_btn.more").click(function(){
+				var parent = $(this).parents(".category_item").first();
+				var ul_sc = parent.find(".category_item_list").first();
+				if($(this).hasClass("active")){
+					$(this).removeClass("active");
+					$(this).text("更多");
+					ul_sc.removeClass("m_h_160");
+				}else{
+					$(this).addClass("active");
+					$(this).text("收起");
+					ul_sc.addClass("m_h_160");
+				}
+				if(parent.hasClass("show_all")){
+					parent.removeClass("show_all");
+				}else{
+					parent.addClass("show_all");
+				}
+			});
+			//多选事件绑定
+			$(".category_opr_btn.mul_sel").click(function(){
+				var parent= $(this).parents(".category_item");
+				var ul_sc = parent.find(".category_item_list").first();
+				if(!parent.hasClass("show_all")){
+					parent.addClass("show_all");
+				}
+				ul_sc.addClass("m_h_160");
+				parent.find(".category_item_list").addClass("multi_check");
+				parent.find(".category_opr").addClass("none");
+				parent.find(".multi_check_info").removeClass("none");
+			});
+			//更多选项展开折叠
+			$("#categoryMore .cm_wrap").click(function(){
+				if($(this).hasClass("opened")){
+					$(this).removeClass("opened");
+					$(".cate_in .category_item:gt(3)").addClass("none");
+					$(this).html("更多选项（"+ $(this).attr("data-more") +"）<i></i>");
+				}else{
+					$(this).addClass("opened");
+					$(".cate_in .category_item").removeClass("none");
+					$(this).html("收起<i></i>");
+				}
+			});
+			//综合、销量、新品、评论事件绑定
+			$(".gm_tools.gm_select").click(function(e){
+				if(!$(this).hasClass("active")){
+					$(this).addClass("active").siblings(".gm_tools.gm_select").removeClass("active");
+					$(".gm_tools.price").removeClass("active").removeClass("down").removeClass("up");
+				}
+				var order=$(this).index()+1;
+				$("input[name='order']").val(order); 
+				$("#search_form").submit();
+			});
+			//价格排序
+			$(".gm_tools.price").click(function(){
+				if(!$(this).hasClass("active")){
+					$(this).addClass("active").removeClass("down").addClass("up");
+					$(this).siblings(".gm_tools.gm_select").removeClass("active");
+					$("input[name='range']").val("up");
+				}else{
+					if($(this).hasClass("up")){
+						$(this).addClass("down").removeClass("up");
+						$("input[name='range']").val("down");
+					}else{
+						$(this).removeClass("down").addClass("up");
+						$("input[name='range']").val("up");
+					}
+				}
+				$("input[name='order']").val(5);
+				$("#search_form").submit();
+			});
+			//翻页事件
+			$(".page_info .pre").click(function(){
+				if($(this).hasClass("disable")){
+					return false;
+				}else{
+					var page=$(".red_font").text();
+					$("input[name='page']").val(parseInt(page)-1);
+			        $("#search_form").submit();
+				}
+			});
+				//翻页事件
+			$(".page_info .next").click(function(){
+				if($(this).hasClass("disable")){
+					return false;
+				}else{
+				    var page=$(".red_font").text();
+					$("input[name='page']").val(parseInt(page)+1);
+			        $("#search_form").submit();
+				}
+			});
+			//仅显示有货和商家包邮多选按钮
+			$(".free_post").click(function(){
+				if($(this).hasClass("gm_selected")){
+					$(this).removeClass("gm_selected");
+					$("input[name='baoyou']").val(0);
+				}else{
+					$(this).addClass("gm_selected");
+					$("input[name='baoyou']").val(1);
+				}
+				$("#search_form").submit();
+			});
+			//仅显示有货和商家包邮多选按钮
+			$(".in_storage").click(function(){
+				if($(this).hasClass("gm_selected")){
+					$(this).removeClass("gm_selected");
+					$("input[name='has']").val(0);
+				}else{
+					$(this).addClass("gm_selected");
+					$("input[name='has']").val(1);
+				}
+				$("#search_form").submit();
+			});
+			//清空按钮
+			$(".price_arrange .clear").click(function(){
+				$(this).parents(".pc_content").find(".pc_content_top input[type='text']").val("");
+			});
+			//确认按钮
+			$(".content_bottom .confirm").click(function(){
+				$("#search_form").submit();
+			});
+			//底部翻页
+			$(".pagination_content_div a.page_num").click(function(){
+				if(!$(this).hasClass("cur_page")){
+					$(this).addClass("cur_page").siblings(".pagination_content_div a.page_num").removeClass("cur_page");
+				}
+			});
+		}
+		//链接跳转
+		function mutilCheckClick(obj){
+			var $this = $(obj);
+			if($this.hasClass("checked")){
+				$this.removeClass("checked");
+			}else{
+				$this.addClass("checked");
+				var id=$(obj).attr("attr-id");
+				var searchString=$(".attrs").val();
+				if(searchString.length!== 0){
+				    var arr=searchString.split(",");
+					//js字符串判断是否在数组 
+					if(arr.toString().indexOf(id) > -1) {
+                        
+                     }else{
+					    $("input[name='attrs']").val(searchString+','+id);
+					 }
+				}else{
+				  $("input[name='attrs']").val(id);
+				}
+			}
+			if(!$this.parents(".category_item_list").hasClass("multi_check")){
+				$("#search_form").submit();
+			}
+			
+			var siblings = $this.parents(".category_item_list").find("ul li a.checked");
+			var parent = $this.parents(".category_item").find(".multi_btn_confirm");
+			if(siblings.length > 0){
+				parent.removeClass("none");
+			}else{
+				parent.addClass("none");
+			}
+			
+		}
+		//分页
+       $(".page a").click(function(e) {
+             e.preventDefault(); // 阻止默认事件
+             e.stopPropagation(); // 阻止冒泡
+			var Regx = /page\=(\d)/g; 
+			var url=$(this).attr("href");
+           	var str= url.match(Regx);	
+			var str=str.toString();
+			var page=str.substring(5);
+			$("input[name='page']").val(page);
+			$("#search_form").submit();
+       });		
+		function cancelMutilCheck(obj){
+			var parent= $(obj).parents(".category_item").first();
+			var ul_sc = parent.find(".category_item_list").first();
+			if(parent.hasClass("show_all")){
+				parent.removeClass("show_all");
+			}
+			ul_sc.removeClass("m_h_160");
+			parent.find(".category_item_list").removeClass("multi_check");
+			parent.find(".category_opr").removeClass("none");
+			parent.find(".multi_check_info").addClass("none");
+		}
+	</script>	
+	<!--/main end-->	
+{include file='public/footer'}
+
+	<!--弹窗  start-->
+	<div class="spxq_tc" style="display:none">
+		<p class="scu f14">成功添加到购物车</p>
+		<p class="price f12">购物车共有<span class="tNum">1</span>种商品 总金额为：<span class="tSum">¥32400.00</span></p>
+		<div class="btns f12">
+			<a href="{:U('cart/index')}" class="ck fl">查看购物车</a>
+			<a href="javascript:;" class="go fl">继续购物</a>
+		</div>
+		<a href="javascript:;" class="close f16">X</a>
+	</div>
+	<!--弹窗  end-->
+	<script type="text/javascript">
+		$(function(){
+			//展开更多信息
+			$('.spxq_main .spxq_main_in .top_div .lft_pic .b_div .compare i').click(function(){
+				if($(this).hasClass('sel')){
+					$(this).removeClass('sel');					
+				}else{
+					$(this).addClass('sel');		
+				}
+			});
+			//规格
+			$('.spxq_main .spxq_main_in .top_div .pro_info .guige .sel_ul li').click(function(){
+				$(this).addClass('current').siblings().removeClass('current');
+			});
+			//材质
+			$('.spxq_main .spxq_main_in .top_div .pro_info .caizhi .sel_ul li').click(function(){
+				$(this).addClass('current').siblings().removeClass('current');
+			});
+			//加减
+			$('.spxq_main .spxq_main_in .top_div .pro_info .num_input .ipt_l #num_ipt').val(1);
+			$('.spxq_main .spxq_main_in .top_div .pro_info .num_input .ipt_l .btn .jian').click(function(){	
+				var cur_num = $(this).parent('.btn').siblings('#num_ipt').val();
+				if(cur_num <= 0){
+					$(this).parent('.btn').siblings('#num_ipt').val(0);
+				}else{
+					cur_num--;
+					$(this).parent('.btn').siblings('#num_ipt').val(cur_num);
+				}	
+			})
+			$('.spxq_main .spxq_main_in .top_div .pro_info .num_input .ipt_l .btn .jia').click(function(){
+				var cur_num = $(this).parent('.btn').siblings('#num_ipt').val();
+				if(cur_num >= 99){
+					$(this).parent('.btn').siblings('#num_ipt').val(99);
+				}else{
+					cur_num++;
+					$(this).parent('.btn').siblings('#num_ipt').val(cur_num);
+				}
+			})
+			//商品分类 
+			$('.spxq_main .spxq_main_in .details .lft_pan .spfl .tab_ul li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var this_index = $(this).index();
+				$(this).closest('.tab_ul').siblings('.tab_div').find('.list_div').eq(this_index).addClass('current');
+				$(this).closest('.tab_ul').siblings('.tab_div').find('.list_div').eq(this_index).siblings('.list_div').removeClass('current');
+			});
+			//商品排行 
+			$('.spxq_main .spxq_main_in .details .lft_pan .spph .tab_ul li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var this_index = $(this).index();
+				$(this).closest('.tab_ul').siblings('.tab_div').find('.list_div').eq(this_index).addClass('current');
+				$(this).closest('.tab_ul').siblings('.tab_div').find('.list_div').eq(this_index).siblings('.list_div').removeClass('current');
+			});
+			
+			//右侧tab1
+			$('.spxq_main .spxq_main_in .details .rgt_pan .rgt_pan_con').eq(0).show()
+			$('.spxq_main .spxq_main_in .details .rgt_pan .tit ul li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var index = $(this).index();
+				$('.spxq_main .spxq_main_in .details .rgt_pan .rgt_pan_con').eq(index).show().siblings('.spxq_main .spxq_main_in .details .rgt_pan .rgt_pan_con').hide();
+			});
+			//sel_div
+			$('.spxq_main .spxq_main_in .details .rgt_pan .rgt_pan_con.sppj_con .spms .div_r .sel_div').click(function(){
+				if($(this).hasClass('cl')){
+					$(this).removeClass('cl');					
+				}else{
+					$(this).addClass('cl');		
+				}
+			});
+			//tit_sel .ul_l li
+			$('.spxq_main .spxq_main_in .details .rgt_pan .rgt_pan_con.sppj_con .pj_list .tit_sel .ul_l li input').click(function(){				
+				if($(this).attr('checked') == 'checked'){
+					$(this).attr('checked','checked');
+					$(this).parent('li').siblings('li').children('input').removeAttr("checked");
+				}else{
+					
+					$(this).removeAttr("checked");
+					$(this).parent('li').siblings('li').children('input').removeAttr("checked");
+				}
+			});
+			//
+			$('.spxq_main .spxq_main_in .details .rgt_pan .rgt_pan_con.sppj_con .pj_list .tit_sel .div_r .xl').click(function(){
+				if($(this).hasClass('sel')){
+					$(this).removeClass('sel');					
+				}else{
+					$(this).addClass('sel');		
+				}
+			});
+			//page
+			$('.spxq_main .spxq_main_in .details .rgt_pan .rgt_pan_con.sppj_con .pj_list .list_del .page_div .con .page_ul li').click(function(){
+				$(this).addClass('current').siblings().removeClass('current');
+			});
+			
+			//page2
+			$('.spxq_main .spxq_main_in .details .rgt_pan .rgt_pan_con.xsjl_con .zx_list .xx_list .page_div_03 ul li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');			
+			});
+			
+			//商品分类 
+			$('.spxq_main .spxq_main_in .details .rgt_pan .rgt_pan_con.gmzx_con .zx_del .zx_tab ul li').click(function(e) {
+				$(this).addClass('current').siblings().removeClass('current');
+				var this_index = $(this).index();
+				$(this).closest('.zx_tab').siblings('.zx_list').eq(this_index).addClass('current');
+				$(this).closest('.zx_tab').siblings('.zx_list').eq(this_index).siblings('.zx_list').removeClass('current');
+			    var n=this_index;
+				consult(1,n);
+			});
+			
+			//弹窗 
+			$('.spxq_tc .close').click(function(e) {
+				$('.spxq_tc').hide();
+			});
+			//弹窗 
+			$('.spxq_tc .go').click(function(e) {
+				$('.spxq_tc').hide();
+			});
+			
+		})
+	
+		     
+   </script> </div>
+</body>
+</html>

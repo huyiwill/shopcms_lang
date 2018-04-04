@@ -1,0 +1,58 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+			<div class="content">
+			<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+					</div>
+					<div class="edit_content">
+							 <form class="group-form"  action="{:url('addToGroup')}" method="post">
+							 <div class="edit_content_tab">
+						    <div class="input_title">名称<span>(标题)</span></div>
+							   {volist name="auth_groups" id="vo"}
+                <label class="checkbox">
+                    <input class="auth_groups" type="checkbox" name="group[]" value="{$vo.id}">{$vo.title}
+                </label>
+            {/volist}
+							<div class="input_title">描述<span>(用户功能描述)</span></div>
+						  <input type="text" id="user-weibo" class="input_box" name="description" value="{$info.description|default=""}">
+						
+				      
+								
+						</div>
+						<div class="edit_content_tab none">
+							<div class="input_title">状态<span>(0-禁用，1-正常)</span></div>
+    <input type="text" name="status" class="input_box" value="{$info.status|default=""}"/>
+		
+						</div>
+						<div class="btn_group">
+						     <input type="hidden" name="uid" value="{:input('uid')}">
+                    <input type="hidden" name="batch" value="true">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div></form> 
+					</div>
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript">
+    $(function(){
+        var group = [{$user_groups}];
+        $('.auth_groups').each(function(){
+            if( $.inArray( parseInt(this.value,10),group )>-1 ){
+                $(this).prop('checked',true);
+            }
+        });
+    });
+  
+</script>
+<script src="__JS__/edit.js"></script>
+
+	<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

@@ -1,0 +1,57 @@
+
+ <!-- ajax分页商品评论区模板 -->
+
+
+	    
+    <script type="text/javascript">
+		                           var goodsid="{$info.goodsid}";
+									  //分页
+       $(".page a").click(function(event) {
+            event.preventDefault();
+            event.stopPropagation(); // 阻止冒泡
+			var Regx = /page\=(\d)/g; 
+			var url=$(this).attr("href");
+		
+           	var str= url.match(Regx);	
+			var str=str.toString();
+			var page=str.substring(5);
+			comment(page);
+       });	
+       function comment(p){    //user函数名 一定要和action中的第三个参数一致上面有
+                  var url="{:url('goods/comment')}"; 
+									   if($("input[name='is_over']").is(':checked')) {
+                                         var is_over=1;
+                                       }
+									   if($("input[name='is_picture']").is(':checked')) {
+                                         var is_picture=1;
+                                       }
+									   if($("input[name='not_empty']").is(':checked')) {
+                                         var not_empty=1;
+                                       }
+ $.post(url, {page:p,goodsid:goodsid,is_over:is_over,is_picture:is_picture,not_empty:not_empty,type:1}, function(data){  //用get方法发送信息到UserAction中的user方法
+                                          $("#comments").html(data);; //user一定要和tpl中的一致
+                });
+                                     }
+           
+                                </script>
+
+		{volist name="comment.list" id="vo"}
+									<li class="list_li" attr="{$vo.id}">
+										<div class="div_l fl">
+											<p class="txt_01">{$vo.message|default=""}</p>
+											<ul class="pic">
+												{volist name="vo['pictures']" id="vo1" }
+							                   <li> <img  src="{$vo1|get_cover='path'}" width="40" height="40"/></li>
+						                   {/volist}
+												
+											</ul>
+											<p class="time">{$vo.create_time|date='Y-m-d H:i',###}</p>
+											<p class="jieshi">{$vo.reply|default=""}</p>
+										</div>
+										<div class="div_r fr">{$vo.uid|get_username}（匿名）</div>
+									</li>
+									{/volist}
+									
+									 <div class="comment">
+									     {$comment.page}
+								 </div>

@@ -1,0 +1,189 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+
+<div class="content none">
+				<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+					</div>
+					<div class="edit_content">
+					   <form class="group-form"  action="{:url('writeGroup')}" method="post">
+						<div class="edit_content_tab">
+						   {volist name="list" id="vo"}
+								 <p><input class="auth_rules rules_all ids row-selected" type="checkbox" name="rules[]" value="{$vo.id}">{$vo.title}</p>
+			
+                 {volist name="vo['child']" id="vo1"}
+                   
+				                    <p style="padding:0 30px"><input class="ids row-selected" type="checkbox" name="rules[]" value="{$vo1.id}">{$vo1.title} </p>
+				
+				            {volist name="vo1['child']" id="vo2"}
+                   
+				                   <span {eq name="i" value="1"}style="padding:0 5px 0 60px"{/eq}> <input class="ids row-selected" type="checkbox" name="rules[]" value="{$vo2.id}">{$vo2.title}
+				                   </span> 
+				
+				                      {/volist}
+				                 {/volist}
+                                          
+											
+									
+                                    
+
+                                 	{/volist}
+					  	 </div>
+				         <div class="edit_content_tab none">
+						   
+						 </div>
+						 <div class="btn_group">
+						    <input type="hidden" name="id" value="{$this_group.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+
+      <script type="text/javascript">
+    $("select[name='pid']").val("{$info.pid|default=''}");
+	 $("select[name='group_id']").val("{$info.group_id|default=''}");
+	
+    </script>
+    <script type="text/javascript" charset="utf-8">
+    
+        var rules = [{$this_group.rules}];
+        $('.ids').each(function(){
+            if( $.inArray( parseInt(this.value,10),rules )>-1 ){
+                $(this).prop('checked',true);
+            }
+            if(this.value==''){
+                $(this).closest('span').remove();
+            }
+        });
+
+        //全选节点
+        $('.rules_all').on('change',function(){
+            $(this).closest('dl').find('dd').find('input').prop('checked',this.checked);
+        });
+        $('.rules_row').on('change',function(){
+            $(this).closest('.rule_check').find('.child_row').find('input').prop('checked',this.checked);
+        });
+
+        $('.checkbox').each(function(){
+            $(this).qtip({
+                content: {
+                    text: $(this).attr('title'),
+                    title: $(this).text()
+                },
+                position: {
+                    my: 'bottom center',
+                    at: 'top center',
+                    target: $(this)
+                },
+                style: {
+                    classes: 'qtip-dark',
+                    tip: {
+                        corner: true,
+                        mimic: false,
+                        width: 10,
+                        height: 10
+                    }
+                }
+            });
+        });
+
+        $('select[name=group]').change(function(){
+			location.href = this.value;
+        });
+     
+    
+</script>
+ 
+   	<script>
+			
+			$(function(){
+				initPage();
+				window.onresize=function(){
+					initPage();
+				}
+				bindEvent();
+			});
+			
+			function initPage(){
+				var contentWidth = $(window).width() -261;
+				$(".content").width(contentWidth);
+				$(".nav_tree").css("min-height",($(window).height() - 86) + 'px');
+				$(".content").css("min-height",($(window).height() - 86) + 'px');
+				$(".nav_tree").attr("min-height",$(window).height() - 86);
+				$(".content").attr("min-height",$(window).height() - 86);
+				
+				$(".edit_box").css("width",($(window).width() - 271) + 'px');
+				$(".content").removeClass("none");
+				var currentRightHeight = $(".content").height();
+				var currentNavHeight = $(".nav_tree").height();
+				if(currentRightHeight < currentNavHeight){
+					if($(".tips_msg:hidden").length > 0){
+						$(".edit_box").css("height",$(".content").height() + (currentNavHeight - currentRightHeight));
+					}else{
+						$(".edit_box").css("height",$(".edit_box").height() + (currentNavHeight - currentRightHeight));
+					}
+				}else{
+					$(".nav_tree").css("min-height",$(".nav_tree").height() + (currentRightHeight - currentNavHeight));
+				}
+			}
+			
+			function bindEvent(){
+				$(".p_menue").on('click',function(){
+					if($(this).parent(".menue").hasClass("down")){
+						$(this).parent(".menue").removeClass("down").addClass("up");
+					}else{
+						$(this).parent(".menue").removeClass("up").addClass("down");
+					}
+					calculateHeight();
+				});
+				$(".c_menue_item").on("click",function(){
+					if(!$(this).hasClass("checked")){
+						$(".nav_tree_list .c_menue_item").removeClass("checked");
+						$(this).addClass("checked");
+					}
+				})
+					$(".close_tips").click(function(){
+					$(".tips_msg").hide();
+					calculateHeight();
+				});
+				$(".tab_option").click(function(){
+					if(!$(this).hasClass("on")){
+						var index = $(".tab_option").index($(this));
+						$($(".edit_content_tab").get(index)).removeClass("none").siblings(".edit_content_tab").addClass("none");
+						$(this).addClass("on").siblings().removeClass("on");
+					}
+					calculateHeight();
+				});
+			}
+			
+			function calculateHeight(){
+				var currentRightHeight = $(".content").height();
+				var currentNavHeight = $(".nav_tree").height();
+				if(currentRightHeight < currentNavHeight){
+					if($(".tips_msg:hidden").length > 0){
+						$(".edit_box").css("height",$(".content").height() + (currentNavHeight - currentRightHeight));
+					}else{
+						$(".edit_box").css("height",$(".edit_box").height() + (currentNavHeight - currentRightHeight));
+					}
+				}else{
+					if(currentNavHeight > $(".nav_tree").attr("min-height")){
+						$(".edit_box").css("height",$(".edit_box").height() + (currentNavHeight - currentRightHeight));
+					}else{
+						$(".edit_box").css("height",$(".edit_box").height() + ( $(".nav_tree").attr("min-height") - currentRightHeight));
+					}
+				}
+			}
+			
+		</script>
+	 <!-- 头部 -->
+	{include file='public/footer'}
+<!-- 头部 --> 

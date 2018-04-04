@@ -1,0 +1,168 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 -->  
+
+  <script type="text/javascript" src="__COMMON__/jquery.colorpicker.js"></script>		
+			<div class="content">
+			<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					
+					<div class="edit_tab">
+				{foreach name="groups" item="vo"}
+			      <div class="tab_option {eq name='type' value='$key'}on{/eq}"><a href="{:U('?group='.$key)}">{$vo}配置</a></div>
+		     	{/foreach}
+					</div>
+					<div class="edit_content">
+							 <form class="group-form"  action="{:url('')}" method="post">
+						   	     <div class="edit_content_tab">
+									 {volist name="list" id="config"} 
+										{switch name="config.type"}
+											{case value="text"}
+											    <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+													 <div class="form-input">
+									                     <input type="text" name="{$config.name}" value="{$config.value}">
+													  </div>
+								                 </div>
+											
+											{/case}	
+											{case value="string"}
+											    <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+													 <div class="form-input">
+									                     <input type="text" name="{$config.name}" value="{$config.value}">
+													 </div>
+								                 </div>
+											
+											{/case}	
+											{case value="textarea"}
+											   <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+													 <div class="form-input">
+									                    <textarea name="{$config.name}"/>{$config.value}</textarea>
+													 </div>
+								                 </div>
+											
+											{/case}	
+										   {case value="radio"}
+										         <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+													 <div class="form-input">
+									                   <input type="radio" name="{$config.name}" value="{$config.value}"/>
+													 </div>
+								                 </div>
+											{/case}	
+											 {case value="select"}
+											    <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+													 <div class="form-input">
+									                    <select name="{$config.name}">
+													        {volist name=":parse_config_attr($config['extra'])" id="vo"}
+													        <option value="{$key}" {eq name="config.value" value="$key"}selected{/eq}>{$vo}</option>
+												             {/volist}
+												        </select>
+													 </div>
+								                 </div>
+											{/case}	
+										    {case value="color"}
+											     <div class="form-group">
+									                 <label>{$config.title}<span>({$config.remark})</span></label>
+													 	<div class="form-input">
+									                        <input type="text" name="{$config.name}" value="{$config.value}" id="{$config.name}" style="color:{$config.value}"/>
+													  </div>
+								                  </div>
+												  <script>
+													$("#{$config.name}").colorpicker({
+														fillcolor:true,
+														success:function(o,color){
+															$(o).css("color",color);
+														}
+													});
+												 </script>
+											{/case}	
+										   {case value="picture"}
+										          <div class="form-group">
+														<label>图片<span>(图片名称)</span></label> 
+														<div id="{$config.name}" class="container">
+															<div id="file_{$config.name}">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+															<input type="hidden" name="{$config.name}"  value="{$config.value}">
+															
+															<a id="select_{$config.name}" href="javascript:void(0);" class='btn'>选择文件</a>
+															<a id="post_{$config.name}" href="javascript:void(0);" class='btn'>开始上传</a>
+														</div>
+				
+													   <div class="uploader_preview">
+															 {notempty name="config.value"}  
+																  <div class="upload-pre-item"> 
+																	<img class="{$config.name}" src="{$config.value|get_path}"/>
+																	</div>
+															  {/notempty}
+														</div>
+
+														<script type="text/javascript">  
+															var field="{$config.name}";
+															upload(field);
+														</script>	
+                                                  </div>
+									       {/case}
+										   {case value="video"}
+											    <div class="form-group">
+												      <label>{$config.title}<span>({$config.remark})</span></label>
+												     <input type="hidden" name="{$config.name}"  value="{$config.value|default=''}">
+													 <div id="{$config.name}" class="container">
+														<div id="file_{$config.name}">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+														<input type="hidden" name="{$config.name}"  value="{$config.value|default=''}">
+														<input type="text" name="file_path"  class="ipt" value="{$config.value|get_path}">
+														<a id="select_{$config.name}" href="javascript:void(0);" class='btn_upload'>选择文件</a>
+														<a id="post_{$config.name}" href="javascript:void(0);" class='btn_upload'>开始上传</a>
+													 </div>
+							
+													<video src="{$config.value|get_cover_path}" controls="controls">
+															  您的浏览器不支持 video 标签。
+													</video>	
+												    <script type="text/javascript">  
+													var field="{$config.name}";
+													uploadVideo(field);
+												   </script> 	
+											  </div>
+							               {/case}
+										   {case value="file"}
+											    <div class="form-group">
+												     <label>{$config.title}<span>({$vo.remark})</span></label> 
+												     <input type="hidden" name="{$vo.name}"  value="{$config.value|default=''}">
+													 <div id="{$vo.name}" class="container">
+														<div id="file_{$vo.name}">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+														<input type="hidden" name="{$vo.name}"  value="{$config.value|default=''}">
+														<input type="text" name="file_path"  class="ipt" value="{$config.value|get_path}">
+														<a id="select_{$vo.name}" href="javascript:void(0);" class='btn_upload'>选择文件</a>
+														<a id="post_{$vo.name}" href="javascript:void(0);" class='btn_upload'>开始上传</a>
+													 </div>
+							
+														
+												    <script type="text/javascript">  
+													var field="{$vo.name}";
+													upload(field);
+												   </script> 	
+											  </div>
+							                {/case}
+									    {/switch}
+									{/volist}	
+						</div>
+						<div class="edit_content_tab none">
+							
+						</div>
+						<div class="btn_group">
+						    <input type="hidden" name="id" value="{$info.id|default=""}">
+							<div class="confirm_btn">确认</div>
+							<div class="cancel_btn">返回</div>
+						</div></form> 
+					</div>
+				</div>
+			</div>
+		</div>
+	<script>$("video").trigger('play');</script>
+  
+ <!-- 头部 -->
+	{include file='public/footer'}
+<!-- 头部 --> 

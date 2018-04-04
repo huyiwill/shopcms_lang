@@ -1,0 +1,60 @@
+<!-- 头部 -->
+	{include file='public/header'/}
+<!-- 头部 --> 
+	<!--crumb start-->
+	<div class="crumb w100">
+		<div class="crumb_in in_width">
+		
+		</div>
+	</div>
+	<!--/crumb end-->	
+	<!--main start-->
+	<div class="main w100 grzx_main">
+		<div class="main_in in_width grzx_main_in">
+			<div class="main_top">
+					<div class="left_list fl">
+					
+				
+						
+						<div class="module1">
+						
+								<span class="title">文章分类</span>
+							
+							<ul class="fold_ul">
+								 {volist name="footer" id="vo"} 
+								<li><a href="{:U('help/index?id='.$vo['id'])}">{$vo.title}</a></li>
+								 {/volist}
+							</ul>
+						</div>
+						
+						<div class="module2">
+					<span class="title">最新文章</span>
+							
+							<ul class="fold_ul">
+								 {volist name="list" id="vo"} 
+								<li><a href="{:U('help/detail?id='.$vo1['id'])}">{$vo.title}</a></li>
+								 {/volist} 
+							</ul>
+						</div>
+					
+				</div>
+				<div class="help_right_pan fl">
+	             <h4>{$info.title}</h4>
+					<ul class="nch-article-list">
+                {volist name="res.list" id="vo"  key="k" }<li><a href="{:U('help/detail?id='.$vo['id'])}">{$vo.title}</a><span>2015-12-04 23:18</span></li>
+               {/volist}
+              </ul>
+			  {$res.page}
+				</div>	
+			</div>
+			
+		</div>
+
+	</div>
+	<!--/main end-->	
+	<!--footer  start-->
+{include file='public/footer'}
+
+	
+</body>
+</html>

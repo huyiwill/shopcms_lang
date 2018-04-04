@@ -1,0 +1,126 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+	
+	   <div class="content">
+
+	        <div class="order_wrap">
+			
+				  <div class="order_status">订单状态：	   
+									{if condition="$info.status eq 0"}待付款{/if}
+									{if condition="$info.status eq 1"}待发货{/if}
+									{if condition="$info.status eq 2"}已发货{/if}
+									{if condition="$info.status eq 3"}已确认{/if}
+									{if condition="$info.status eq 4"}申请取消中{/if}
+									{if condition="$info.status eq 5"}取消订单被拒绝{/if}
+									{if condition="$info.status eq 6"}订单已取消{/if}
+				</div>
+
+				<div class="jd_div">
+					<ul class="jd_ul">
+						<li  {if condition="$info.status egt 0"}class="current"{/if}>
+							<div class="con f12">
+								<div class="num f24">√</div>
+								<p><span>已提交订单</span></br>{$info.create_time|time_format}</p>
+							</div>
+						</li>
+						<li {if condition="$info.status egt 1"}class="current"{/if}>
+							<div class="con f12 ">
+								<div class="num f24">√</div>
+								<p><span>支付订单</span></br>{$info.update_time|time_format}</p>
+							</div>
+						</li>
+						<li {if condition="$info.status egt 2"}class="current"{/if}>
+							<div class="con f12">
+								<div class="num f24">√</div>
+								<p><span>发货</span></br>{$info.send_time|time_format}</p>
+							</div>
+						</li>
+						<li {if condition="$info.status egt 3"}class="current"{/if}>
+							<div class="con f12">
+								<div class="num f24">√<span></span></div>
+								<p><span>确认</span></br>{$info.confirm_time|time_format}</p>
+							</div>
+						</li>
+					</ul>
+				</div>	
+				        <div class="edit_tab">
+						<div class="tab on">订单信息</div>
+						<div class="tab">收货信息</div>
+						<div class="tab">物流信息</div>
+					</div>
+				<div class="order-info"> 
+				     <h4>买家信息</h4>
+				      <p> <span class="mr120">买家信息：{$info.uid|get_username}</span><span class="mr120">买家UID：{$info.uid|default=''}</span><p>
+					   <p>下单时间：{$info.update_time|time_format}<p>
+				     <h4>订单信息</h4>
+				      <p>订单号：{$info.order_sn|default=''}<p>
+                      <p><span class="mr120">订单金额：￥{$info.total_money}</span><span class="mr120">支付方式：
+					                {if condition="$info['paytype'] eq 0"}未支付{/if}
+					                {if condition="$info['paytype'] eq 1"}余额支付{/if}
+									{if condition="$info['paytype'] eq 2"}微信支付{/if}
+									{if condition="$info['paytype'] eq 3"}支付宝wap付款{/if}
+									{if condition="$info['paytype'] eq 4"}支付宝在线支付{/if}
+									{if condition="$info['paytype'] eq 5"}货到付款{/if}
+									</span><p>
+                     <p> 留言：{$info.message}<p>
+					
+				</div>
+				<div class="order-info none"> 
+					 <h4>收货信息</h4>
+				      <p> 收货人姓名：{$info.username|default=''}<p>
+                      <p><span class="mr120">联系方式：{$info.mobile|default=''}</span><p>
+                      <p> 地址：{$info.address|default=''}<p>
+					 
+				</div>
+				<div class="order-info none"> 
+					 
+					  <h4>物流信息</h4>
+				      <p> 快递名称：{$info.express|default=''}<p>
+                      <p> 快递单号：{$info.express_code|default=''}<p>
+				</div>
+	           <div class="order_list">
+					<table>
+					    <tr>
+							<th>图片</th>                                
+							<th>商品名称</th>
+							<th>规格</th>
+							<th>单价</th>
+							<th>数量</th>
+							<th>总计</th>
+				       </tr>
+				       {volist name="list" id="vo"}
+                            <tr>
+								<td><img src="{$vo.goods_id|get_goods_cover}" class="thumb"> </td>
+								<td class="tit">{$vo.goods_id|get_goods='title'}</td>
+								<td >{$vo.specifications|default=""}</td>
+								<td class="price">{$vo.price}</td>
+								<td>{$vo.num}</td>
+								<td class="price">
+								{$vo.total}            
+								</td>
+                           </tr>
+					    {/volist}
+					</table>
+					<p>商品总金额<span class="fr price">￥{$info.total|default=''}</span></p>
+					<p>运费<span class="fr price">￥{$info.ship_price|default=''}</span></p>
+					<p>积分抵消<span class="fr price">￥{$info.score_money|default=''}</span></p>
+					<p>商品总金额<span class="fr price">￥{$info.total_money|default=''}</span></p>
+				</div>
+            
+            </div>
+		</div>
+	   <script src="__JS__/style.js"></script> 
+       <script>
+	          $(".tab").click(function(){
+			            $(this).addClass("on").siblings().removeClass("on");
+						var index = $(this).index();
+						$(".order-info").hide();
+						$(".order-info").eq(index).show();
+					
+					
+			}); 
+		</script>
+	<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 

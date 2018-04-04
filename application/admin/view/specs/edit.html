@@ -1,0 +1,74 @@
+ <!-- 头部 -->
+	{include file='public/header'}
+<!-- 头部 --> 
+			<div class="content">
+			<div class="tips_msg none"><span class="tips">保存成功</span><span class="close_tips"></span></div>
+				<div class="edit_title">{$meta_title|default=""}</div>
+				<div class="edit_box">
+					<div class="edit_tab">
+						<div class="tab_option on">基础</div>
+						<div class="tab_option">高级</div>
+					</div>
+					<div class="edit_content">
+					    <form class="group-form"  action="{:url('')}" method="post">
+							<div class="edit_content_tab">
+
+									<div class="form-group">
+										<label>名称<span>(标题)</span></label>
+										<div class="form-input">
+										    <input type="text" name="title" value="{$info.title|default=""}">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label>商品模型<span>(商品类型)</span></label>
+										<div class="form-input">
+										     <select name="model_id"class="input_box">
+											 {volist name="typelist" id="vo"}
+											 <option value="{$vo.id}">{$vo.title}</option>
+											{/volist}
+										      <option value="0">无</option>  
+										   </select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label>配置值<span>(属性配置值)</span></label>
+										<div class="form-input">
+										      <textarea name="value" >{$info.value|default=""}</textarea>
+										 </div>
+									</div>
+					  
+							</div>
+
+							<div class="edit_content_tab none">
+
+									<div class="form-group">
+										<label>排序<span>(越小越靠前)</span></label>
+										<div class="form-input">
+										     <input type="text" name="sort"  value="{$info.sort|default=""}">
+										</div>
+									</div>
+						   </div>
+						
+							<div class="btn_group">
+								<input type="hidden" name="id" value="{$info.id|default=""}">
+								<div class="confirm_btn">确认</div>
+								<div class="cancel_btn">返回</div>
+							</div>
+						</form> 
+					</div>
+				</div>
+			</div>
+		</div>
+   <script type="text/javascript">
+     $("select[name='pid']").val("{$info.pid|default=''}");
+	 $("select[name='model_id']").val("{$info.model_id|default='0'}");
+	 $("select[name='type']").val("{$info.type|default=''}");
+    </script>	
+
+ <script src="__JS__/edit.js"></script>
+
+<!-- 尾部 -->
+	{include file='public/footer'}
+    <!-- 尾部 --> 
